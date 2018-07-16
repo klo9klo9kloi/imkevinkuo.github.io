@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title>Kevin Kuo</title>
+		<meta charset="utf-8" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+	</head>
+	
+	<body class="academics">
+	
+		<div class="topNav">
+		<ul><!--
+			--><li><a href="index.html">Home</a></li><!--
+			--><li class="active"><a>Academics</a></li><!--
+			--><li><a href="projects.html">Projects</a></li><!--
+			--><li><a href="culture.html">Culture</a></li><!--
+			--><li><a href="hobbies.html">Extra</a></li>
+		</ul>
+		</div>
+		
+		<div class="header down"><p>Click on a school for info about research</p></div>
+		
+		<div class="row">
+		
+			<div class="column">
+				<div class="down" style="--delay: 0.1s" onclick="openDesc(event, 'aimar')">
+					<img src="images/testudo.jpg" alt="" />
+				</div>
+				
+				<div class="down" style="--delay: 0.2s"><p><b>University of Maryland, College Park</b></p></div>
+				<div class="down" style="--delay: 0.3s"><p>I'm currently studying Computer Science and Mathematics at UMD. I'm part of the Gemstone Honors College and Taiwanese-American Student Association.</p></div>
+				
+			</div>
+			
+			<div class="column" id="tj">
+				<div class="down" style="--delay: 0.1s" onclick="openDesc(event, 'gait')">
+					<img src="images/tjhsst.jpg" alt="" />
+				</div>
+				
+				<div class="down" style="--delay: 0.2s"><p><b>Thomas Jefferson Science and Technology</b></p></div>
+				<div class="down" style="--delay: 0.3s"><p>TJHSST is a STEM-focused high school in Alexandria, Virginia. Outside of class, I mainly ran on the track team and played in the school orchestra.</p></div>
+			</div>
+			
+		</div>
+		
+		
+		<div class="row content" id="aimar">
+			<div class="column right" style="--delay: 0s">
+				<img src="images/aimar.jpg" alt="" />
+			</div>
+			
+			<div class="column right" style="--delay: 0.3s">
+				<p>Gemstone Honors College: <b>Team AIMAR</b></p>
+				<p>Team AIMAR (Artifically Intelligent Medical Assistant Robot) is an undergraduate research team at the University of Maryland, College Park. Our goal is to combine techniques from machine learning, bioinformatics, and engineering to create a robot that aids in the diagnosis of human illnesses.</p>
+			</div>
+		</div>
+		
+		<div class="row content" id="gait">
+			<div class="column right" style="--delay: 0s">
+				<img src="images/gait.jpg" alt="" />
+			</div>
+			
+			<div class="column right" style="--delay: 0.3s">
+				<p>TJHSST Computer Systems Lab: <b>Gait Recognition</b></p>
+				<p>Information on Human Gait Recognition coming soon! </p>
+			</div>
+		</div>
+		
+		<script src="assets/js/main.js"></script>
+	</body>
+</html>
