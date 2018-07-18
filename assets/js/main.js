@@ -1,10 +1,14 @@
 var current = 0;
+var descs = [["Kevin Kuo"],
+			["Academics", "University of Maryland, College Park", "Team AIMAR", "Thomas Jefferson High School", "Gait Recognition"],
+			["Projects", "Github", "Elementals"],
+			["Miscellaneous", "Track and Field", "Taiwan", "Music", "League of Legends"]];
 $(function() {
 	$.scrollify({
 		section : ".section",
 		easing: "easeOutExpo",
 		scrollSpeed: 1200,
-		updateHash: false,
+		updateHash: true,
 		scrollbars: false,
 		before: function(i, panels) {
 			current = i;
@@ -42,14 +46,17 @@ $(function() {
 	});
 });
 function activate(s) {
-	$(".section").eq(s).find('*').addClass("active nohover");
-	setTimeout(function() {
-		$(".section").eq(s).find('*').removeClass("nohover");
-	}, 1000);
+	if (s > 0) {
+		showContent(s, -1);
+		$(".section").eq(s).find('*').addClass("active nohover");
+		setTimeout(function() {
+			$(".section").eq(s).find('*').removeClass("nohover");
+		}, 1100);
+		$(".section").eq(s).find('h1').text(descs[s][0]);
+	}
 }
 function deactivate(s) {
 	$(".section").eq(s).find('*').removeClass("active");
-	$(".section").eq(s).find('h1').text($(".section").eq(s).find('.row.imgs').attr("desc"));
 }
 function shadeBG() {
 	var s = $(this).scrollTop();
@@ -58,7 +65,7 @@ function shadeBG() {
 	var red = [244, 164, 164];
 	var blu = [128, 191, 255];
 	var grn = [64, 191, 128];
-	var rgb = [0, 0, 0];
+	var rgb = [64, 191, 128];
 	if (s/sSize <= 1) {
 		var r = (s/sSize); // r: ratio. will range from 0 to 1
 		for (var i = 0; i < 3; i++) {
@@ -79,17 +86,42 @@ function shadeBG() {
 	}
 	$("body").css('background-color', 'rgb(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ')');
 }
-/* maybe store id as attribute and use ids as indices for array in js */
+function showContent(sec, id) {
+	disableVideo();
+	$(".section").eq(sec).find('.content').each(function(i) {
+		if (i == id) {
+			$(this).removeClass("hidden");
+		}
+		else {
+			$(this).addClass("hidden");
+		}
+	});
+}
+function disableVideo() {
+	$('#track')[0].contentWindow.postMessage('{"event":"command","func":"' + 'stopVideo' + '","args":""}', '*');
+}
 $(document).ready(function () {
 	$(".row.imgs").mouseleave(function() {
 		if ($(this).hasClass("active")) {
-			$(".section").eq(current).find('h1').text($(this).attr("desc"));
+			var sec = $(this).attr("mySection");
+			var id = $(this).attr("myID");
+			$(".section").eq(sec).find('h1').text(descs[sec][id]);
 		}
 	});
 	
 	$(".imgbox").mouseenter(function() {
 		if (!$(this).hasClass("nohover")) {
-			$(".section").eq(current).find('h1').text($(this).attr("desc"));
+			var sec = $(this).attr("mySection");
+			var id = $(this).attr("myID");
+			$(".section").eq(sec).find('h1').text(descs[sec][id]);
+		}
+	});
+	
+	$(".imgbox").click(function() {
+		if (!$(this).hasClass("nohover")) {
+			var sec = $(this).attr("mySection");
+			var id = $(this).attr("myID") - 1;
+			showContent(sec, id);
 		}
 	});
 	
@@ -99,16 +131,6 @@ $(document).ready(function () {
 		});
 	}
 });
-$(window).on('load', function() {
-	setTimeout(function() {
-		$.scrollify.instantMove(0);
-	});
-});
 $(document).scroll(function() {
 	shadeBG();
 });
-/*
-$( window ).resize(function() {
-	$.scrollify.move(0);
-});
-*/

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 	<html>
 	<head>
-		<link href="https://fonts.googleapis.com/css?family=Markazi+Text" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
 		<link rel="stylesheet" type="text/css" href="assets/css/main.css">
 		<script src="assets/js/jquery-3.3.1.js"></script>
 		<script src="assets/js/jquery.scrollify.js"></script>
@@ -12,57 +12,63 @@
 		<div id="home" class="section">
 		
 			<div class="banner active" id="banner0">
-				<div class="bannercontent">
-					<div class="bannertxt active">
-						<h1>Kevin Kuo</h1>
-					</div>
-				</div>
+				<h1>Kevin Kuo</h1>
 			</div>
 			<div class="row imgs" desc="Kevin Kuo"></div>
-			<div style="height: auto; width: 60vw%; overflow: hidden; margin: 0vh 20vw 0vh 20vw;">
+			<div style="animation: fadeInDown 2s; height: auto; width: 60vw%; overflow: hidden; margin: 0vh 20vw 0vh 20vw;">
 				<p align="center">I'm from Arlington/Falls Church, Virginia and currently attending the University of Maryland, College Park.</p>
 			</div>
-			<div class="scroll"></div>
-			<div class="scroll"></div>
+			<div class="scroll" style="animation: fadeInDown 1s;"></div>
+			<div class="scroll" style="animation: fadeInDown 1s;"></div>
 		</div>
 		
 		<div id="academics" class="section">
 		
 			<div class="banner" id="banner1">
-				<div class="bannercontent">
-					<div class="bannertxt">
-						<h1>Academics</h1>
-					</div>
-				</div>
+				<h1>Academics</h1>
 			</div>
 			
-			<div class="row imgs" desc="Academics">
-				<span class="imgbox" desc="University of Maryland, College Park"><img src="images/umd.jpg"></span>
-				<span class="imgbox" desc="Team AIMAR"><img src="images/aimar.jpg"></span>
-				<span class="imgbox" desc="Thomas Jefferson High School"><img src="images/tjhsst.jpg"></span>
-				<span class="imgbox" desc="Gait Recognition"><img src="images/gait.jpg"></span>
+			<div class="row imgs" mySection=1 myID=0>
+				<span class="imgbox" mySection=1 myid=1><img src="images/umd.jpg"></span>
+				<span class="imgbox" mySection=1 myid=2><img src="images/aimar.jpg"></span>
+				<span class="imgbox" mySection=1 myid=3><img src="images/tjhsst.jpg"></span>
+				<span class="imgbox" mySection=1 myid=4><img src="images/gait.jpg"></span>
 			</div>
 			
-			<div class="row content" id="content1"><p>I'm majoring in Computer Science and Mathematics at UMD. I'm part of the Gemstone Honors College and Taiwanese-American Student Association.</p></div>
+			<div class="content hidden">
+			<div class="row single"><p>I'm majoring in Computer Science and Mathematics at UMD. I'm a member of the Gemstone Honors College and TASA (Taiwanese-American Student Association).</p></div>
+			</div>
 			
-			<div class="row content" id="content1"><p>Team AIMAR (Artificially Intelligent Medical Assistant Robot) aims to combine techiniques from robotics, artificial intelligence, and bioinformatics to create a robot able to diagnose various illnesses and conditions.</p></div>
+			<div class="content hidden">
+			<div class="row single"><p>Team AIMAR (Artificially Intelligent Medical Assistant Robot) is an undergraduate Gemstone research team. Our goal is to combine techiniques from robotics, artificial intelligence, and bioinformatics to create a robot able to diagnose various illnesses and conditions.</p></div>
+			</div>
 			
-			<div class="row content" id="content1"><p>I'm majoring in Computer Science and Mathematics at UMD. I'm part of the Gemstone Honors College and Taiwanese-American Student Association.</p></div>
+			<div class="content hidden">
+			<div class="row single"><p>TJHSST (Thomas Jefferson High School for Science and Technology) is a magnet high school in Alexandria, Virginia. Outside of class, I ran on the track team and played violin for Symphonic and Pit Orchestra.</p></div>
+			</div>
+			
+			<div class="content hidden">
+			<div class="row single"><p>This is my Computer Systems <a href="https://github.com/imkevinkuo/human-gait">senior research project</a>. It extracts data from videos of humans walking on treadmills.</p></div>
+			</div>
+		
 		</div>
 		
 		<div id="projects" class="section">
 			
 			<div class="banner" id="banner2">
-				<div class="bannercontent">
-					<div class="bannertxt">
-						<h1>Projects</h1>
-					</div>
-				</div>
+				<h1>Projects</h1>
 			</div>
 			
-			<div class="row imgs" desc="Projects">
-				<span class="imgbox" desc="Github"><img src="images/github.jpg"></span>
-				<span class="imgbox" desc="idk"><img src="images/chess.jpg"></span>
+			<div class="row imgs"  mySection=2 myid=0>
+				<span class="imgbox" mySection=2 myid=1><img src="images/chess.jpg"></span>
+				<span class="imgbox" mySection=2 myid=2><img src=""></span>
+			</div>
+			<div class="content hidden">
+			<div class="row single"><p>My <a href="https://github.com/imkevinkuo">Github</a> contains projects from high school Artificial Intelligence and Parallel Computing courses, as well as solutions to CodeSignal and foo.bar challenges.</p></div>
+			</div>
+			
+			<div class="content hidden">
+			<div class="row single"><p><a href="elementals.html">Elementals</a> is a server-side Minecraft plugin that adds additional particle effects, abilities, and interactions to the game.</p></div>
 			</div>
 			
 		</div>
@@ -70,18 +76,38 @@
 		<div id="misc" class="section">
 		
 			<div class="banner" id="banner3">
-				<div class="bannercontent">
-					<div class="bannertxt">
-						<h1>Miscellaneous</h1>
-					</div>
-				</div>
+				<h1>Miscellaneous</h1>
 			</div>
 			
-			<div class="row imgs" desc="Miscellaneous">
-				<span class="imgbox" desc="Track and Field"><img src="images/trackrace.jpg"></span>
-				<span class="imgbox" desc="Taiwan"><img src="images/tamkangkoi.jpg"></span>
-				<span class="imgbox" desc="Music"><img src="images/pit.jpg"></span>
-				<span class="imgbox" desc="League of Legends"><img src="images/ekko.jpg"></span>
+			<div class="row imgs" mySection=3 myid=0>
+				<span class="imgbox" mySection=3 myid=1><img src="images/trackrace.jpg"></span>
+				<span class="imgbox" mySection=3 myid=2><img src="images/tamkangkoi.jpg"></span>
+				<span class="imgbox" mySection=3 myid=3><img src="images/pit.jpg"></span>
+				<span class="imgbox" mySection=3 myid=4><img src="images/ekko.jpg"></span>
+			</div>
+			
+			<div class="content hidden">
+			<div class="row double">
+			<p>I ran sprints for my high school's track team. Here's a video of one of my 300m races:</p>
+			<iframe id="track" width="560" height="300" src="http://www.youtube.com/embed/6IYaZdJGlFk?enablejsapi=1&version=3&playerapiid=ytplayer" frameborder="0" allowfullscreen></iframe>
+			</div>
+			</div>
+			
+			<div class="content hidden">
+			<div class="row single"><p>I'm a second generation Taiwanese-American.</p></div>
+			</div>
+			
+			<div class="content hidden">
+			<div class="row single"><p>I've been playing violin for 9 years. I've also transcribed a few pieces of music on <a href="https://musescore.com/user/113601/scores/5156343">Musescore</a>.</p></div>
+			</div>
+			
+			<div class="content hidden">
+			<div class="row single">
+			<p>League of Legends is a MOBA-genre PC game. Here's a few articles by me and coaching I sometimes offer.</p></div>
+			<div class="row triple">
+			<p>Article: <a href="ekko.html">The Rise and Fall of Tank Ekko</a></p>
+			<p>Analysis: <a href="jarvan.html">Jarvan IV Itemization for Top Lane</a></p>
+			<p>League Coaching: <a href="https://www.leaguecoaching.gg/coach.php?id=94583">SaltMining</a></p></div>
 			</div>
 		</div>
     </body>
