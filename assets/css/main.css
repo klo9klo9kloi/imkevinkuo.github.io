@@ -130,7 +130,7 @@ body {
 /* IMAGE BOXES */
 .row {
 	display: flex;
-	padding: 4vh 2vw 4vh 2vw;
+	padding: 3vh 2vw 3vh 2vw;
 	justify-content: center;
 }
 .imgbox {
