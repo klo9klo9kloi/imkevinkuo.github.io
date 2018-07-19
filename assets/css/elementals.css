@@ -145,9 +145,6 @@ body {
 	
 	cursor: pointer;
 	user-select: none;
-	
-	animation: fadeOut 0.5s;
-	animation-fill-mode: forwards;
 }
 .imgbox.active {
 	animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -196,8 +193,11 @@ body {
 .double > * {
 	flex-basis: 33.33%;
 }
-.triple > * {
-	flex-basis: 22.22%;
+.triple > .side {
+	flex-basis: 33.33%;
+}
+.triple > .center {
+	flex-basis: 33.33%;
 }
 .hidden {
 	display: none;
