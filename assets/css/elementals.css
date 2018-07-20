@@ -5,8 +5,8 @@ p, h1 {
 }
 p {
 	font-size: 1.5em;
-	margin: 2vh 0vw 2vh 0vw;
 	text-align: left;
+	text-indent: 1.5em;
 }
 h1 {
 	text-align: center;
@@ -16,11 +16,23 @@ body {
 	padding: 0;
 	margin: 0;
 	background-color: rgb(0, 0, 0);
+	overflow: hidden;
+}
+.hidden {
+	display: none;
+}
+.line { 
+    margin: 0vh 0vw 2vh 0vw;
+    height: 1px;
+    background: black;
+    background: -webkit-gradient(linear, 0 0, 100% 0, from(black), to(black), color-stop(50%, white));
 }
 .classicon {
-	margin: 0vh 2vw 0vh 2vw;
+	margin: 0vh 3vh 0vh 3vh;
 	height: 6vh;
 	width: 6vh;
+	cursor: pointer;
+	user-select: none;
 }
 .classicon img {
 	vertical-align: middle;
@@ -29,25 +41,34 @@ body {
 	transition: transform 0.3s;
 }
 .classicon:hover img {
-	transform: scale(2);
+	transform: scale(1.6);
 }
-.model {
+.model img {
 	float: right;
 	height: 40vh;
+	margin-bottom: 6vh;
 }
-.box {
-	border: 1px white solid;
+.skill {
+	margin: 2vh 2vh 2vh 2vh;
+}
+.skill img {
+	height: 12vh;
+}
+.box > .row {
+	margin-top: 2vh;
+	align-items: stretch;
 }
 .row {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	overflow: hidden;
 }
 .content {
 	animation: fadeInDown 0.5s;
 }
 .double > * {
-	flex-basis: 50%;
+	flex-basis: 45%;
 }
 .hidden {
 	display: none;
