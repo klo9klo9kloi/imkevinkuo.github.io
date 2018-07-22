@@ -31,27 +31,74 @@ body {
 	display: flex;
 	justify-content: center;
 }
+/* Elementals Title */
+.row:not(.double) h1 {
+	margin-top: 0.5em;
+	height: 1.5em;
+	width: 6em;
+	align-items: center;
+	animation: fadeInDown 0.5s;
+}
+/* Class icons */
 .classicon {
 	margin: 0 2em;
 	height: 3.5em;
 	width: 3.5em;
 	cursor: pointer;
 	user-select: none;
+	
+	animation: fadeInUp 1s;
+	visibility: hidden;
+	animation-fill-mode: forwards;
+}
+@keyframes fadeInUp {
+	0% {
+		opacity: 0;
+		transform: translateY(8em);
+	}
+	40% {
+		transform: translateY(-2em);
+	}
+	100% {
+		visibility: visible;
+		opacity: 1;
+	}
 }
 .classicon img {
 	vertical-align: middle;
-	height: 100%;
-	width: 100%;
+	height: 3.5em;
+	width: 3.5em;
 	transition: transform 0.3s;
 }
 .classicon:hover img {
 	transform: scale(1.6);
 }
+/* Line */
 .line { 
     margin: 0 0 2em 0;
     height: 1px;
     background: black;
     background: -webkit-gradient(linear, 0 0, 100% 0, from(black), to(black), color-stop(50%, white));
+	animation: horizIn 0.3s;
+	animation-delay: 0.5s;
+	animation-fill-mode: forwards;
+	visibility: hidden;
+}
+@keyframes horizIn {
+	0% {
+		visibility: visible;
+		width: 0;
+	}
+	100% {
+		visibility: visible;
+		width: 100%;
+	}
+}
+#start {
+	opacity: 0;
+	animation: fadeInDown 0.5s;
+	animation-delay: 1.5s;
+	animation-fill-mode: forwards;
 }
 /* CONTENT CONTAINS DESCBOX AND SKILLBOX */
 .double > * {
@@ -65,9 +112,13 @@ body {
 .skillbox {
 	width: 26em;
 	padding: 1em 0em 1em 2em;
-	background-color: grey;
+	background-color: rgba(102, 102, 102, 0.8);
 }
 /* DESCBOX CONTAINS TEXT AND MODEL */
+.descbox.active {
+	animation: revealDown 2s;
+	animation-fill-mode: forwards;
+}
 .descbox > .row {
 	margin-top: 2em;
 	align-items: stretch;
@@ -79,21 +130,28 @@ body {
 	margin-bottom: 6em;
 	user-select: none;
 }
-.descbox.active {
-	animation: revealDown 2s;
-	animation-fill-mode: forwards;
-}
 /* SKILLBOX CONTAINS 4 ROWS, ROW CONTAINS 4 SKILLICONS */
+.skillbox.active {
+	animation: fadeIn 1s;
+}
 .skillbox > .row {
 	margin: 1em 0 1em 0;
 	border-radius: 1em;
 	width: 24em;
-	background: rgba(100, 0, 0, 0.4);
+	background-color: rgba(100, 0, 0, 0.4);
 }
 .skillbox > .row.active {
 	animation: fadeInDown 0.5s;
 	animation-fill-mode: forwards;
 	visibility: hidden;
+}
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
 }
 @keyframes fadeInDown {
 	0% {
@@ -111,6 +169,7 @@ body {
 	height: 4em;
 	margin: 0.8em 1em 0.8em 1em;
 	user-select: none;
+	cursor: pointer;
 }
 .skill img {
 	height: 100%;
@@ -162,7 +221,7 @@ iframe {
 }
 /* Modal Content/Box */
 .modal-content {
-    background-color: grey;
+    background-color: rgba(102,102,102,0.8);
     margin: 15% auto; /* 15% from the top and centered */
     padding: 1.8em;
     border: 1px solid #888;
@@ -180,14 +239,14 @@ iframe {
 .close {
 	position: fixed;
     color: #aaa;
-	right: 20px;
+	right: 1.2em;
     font-size: 28px;
     font-weight: bold;
+	user-select: none;
 }
 .close:hover,
 .close:focus {
     color: black;
-    text-decoration: none;
     cursor: pointer;
 }
 
