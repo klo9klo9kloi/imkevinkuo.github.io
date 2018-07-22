@@ -1,4 +1,4 @@
-p, h1 {
+p, h1, h2 {
 	color: white;
 	margin: 0;
 	font-family: 'Merienda', cursive;
@@ -6,69 +6,225 @@ p, h1 {
 p {
 	font-size: 1.5em;
 	text-align: left;
-	text-indent: 1.5em;
+}
+span p {
+	font-size: 1.2em;
+	font-family: 'MinecraftiaRegular';
+	background-color: rgba(0,0,0,0.6);
+	padding: 0.2em 0.5em;
 }
 h1 {
 	text-align: center;
 	font-size: 2.5em;
 }
+h2 {
+	font-size: 2em;
+}
 body {
 	padding: 0;
 	margin: 0;
-	background-color: rgb(0, 0, 0);
-	overflow: hidden;
+	background-color: black;
+	overflow-y: scroll;
 }
-.hidden {
-	display: none;
-}
-.line { 
-    margin: 0vh 0vw 2vh 0vw;
-    height: 1px;
-    background: black;
-    background: -webkit-gradient(linear, 0 0, 100% 0, from(black), to(black), color-stop(50%, white));
+/* HEADER STUFF */
+.row {
+	display: flex;
+	justify-content: center;
 }
 .classicon {
-	margin: 0vh 3vh 0vh 3vh;
-	height: 6vh;
-	width: 6vh;
+	margin: 0 2em;
+	height: 3.5em;
+	width: 3.5em;
 	cursor: pointer;
 	user-select: none;
 }
 .classicon img {
 	vertical-align: middle;
-	height: 6vh;
-	width: 6vh;
+	height: 100%;
+	width: 100%;
 	transition: transform 0.3s;
 }
 .classicon:hover img {
 	transform: scale(1.6);
 }
-.model img {
-	float: right;
-	height: 40vh;
-	margin-bottom: 6vh;
+.line { 
+    margin: 0 0 2em 0;
+    height: 1px;
+    background: black;
+    background: -webkit-gradient(linear, 0 0, 100% 0, from(black), to(black), color-stop(50%, white));
 }
-.skill {
-	margin: 2vh 2vh 2vh 2vh;
-}
-.skill img {
-	height: 12vh;
-}
-.box > .row {
-	margin-top: 2vh;
-	align-items: stretch;
-}
-.row {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	overflow: hidden;
-}
-.content {
-	animation: fadeInDown 0.5s;
-}
+/* CONTENT CONTAINS DESCBOX AND SKILLBOX */
 .double > * {
 	flex-basis: 45%;
+	overflow: hidden;
+}
+.descbox, .skillbox {
+	margin-left: 2em;
+	border-radius: 1em;
+}
+.skillbox {
+	width: 26em;
+	padding: 1em 0em 1em 2em;
+	background-color: grey;
+}
+/* DESCBOX CONTAINS TEXT AND MODEL */
+.descbox > .row {
+	margin-top: 2em;
+	align-items: stretch;
+	flex-wrap: nowrap;
+}
+.model img {
+	float: right;
+	height: 22em;
+	margin-bottom: 6em;
+	user-select: none;
+}
+.descbox.active {
+	animation: revealDown 2s;
+	animation-fill-mode: forwards;
+}
+/* SKILLBOX CONTAINS 4 ROWS, ROW CONTAINS 4 SKILLICONS */
+.skillbox > .row {
+	margin: 1em 0 1em 0;
+	border-radius: 1em;
+	width: 24em;
+	background: rgba(100, 0, 0, 0.4);
+}
+.skillbox > .row.active {
+	animation: fadeInDown 0.5s;
+	animation-fill-mode: forwards;
+	visibility: hidden;
+}
+@keyframes fadeInDown {
+	0% {
+		visibility: visible;
+		opacity: 0;
+		transform: translateY(-2em);
+	}
+	100% {
+		visibility: visible;
+		opacity: 1;
+	}
+}
+/* Can't animate skill, causes problems with zindex */
+.skill {
+	height: 4em;
+	margin: 0.8em 1em 0.8em 1em;
+	user-select: none;
+}
+.skill img {
+	height: 100%;
+}
+.skill:hover img {
+	-webkit-filter: drop-shadow(1px 1px 0 white) drop-shadow(-1px -1px 0 white);
+	filter: drop-shadow(1px 1px 0 white) drop-shadow(-1px -1px 0 white);
+}
+.skill span {
+	display: none;
+}
+.skill:hover span {
+	display: block;
+	position: fixed;
+	overflow: hidden;
+}
+
+/* SKILL POP UP MODULE - MODAL HAS A IFRAME AND A SKILLDESC > H2 AND P */
+iframe {
+	margin: 0;
+}
+.skillvideo {
+	border: 1px solid white;
+	margin-top: 2em;
+}
+.skilldesc {
+	margin: 3vh 3vw;
+}
+.skilldesc p {
+	text-align: left;
+	margin-top: 1em;
+}
+.modal {
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: hidden;
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+	animation: fadeOut 0.4s;
+	animation-fill-mode: forwards;
+}
+.modal.active {
+	display: block;
+	animation: none;
+}
+/* Modal Content/Box */
+.modal-content {
+    background-color: grey;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 1.8em;
+    border: 1px solid #888;
+	animation: modalIn 1.2s;
+	animation-fill-mode: forwards;
+	display: flex;
+	overflow: hidden;
+	border-radius: 0.5em;
+	
+	width: 80%;
+	height: 50%;
+	transform: translateY(-20%);
+}
+/* CLOSE BTN */
+.close {
+	position: fixed;
+    color: #aaa;
+	right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+@keyframes fadeOut {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
+}
+@keyframes modalIn {
+	0% {
+		width: 0%;
+		height: 0%;
+		transform: translateY(0);
+	}
+	
+	50% {
+		width: 80%;
+		height: 0%;
+		transform: translateY(0);
+	}
+
+	100% {
+		width: 80%;
+		height: 50%;
+		transform: translateY(-20%);
+	}
+}
+@keyframes revealDown {
+	0% {
+		height: 0em;
+	}
+	100% {
+		height: 36em;
+	}
 }
 .hidden {
 	display: none;
