@@ -79,6 +79,12 @@ body {
 		background-color: rgb(0, 0, 0);
 	}
 }
+#sun {
+	box-shadow: 0 0 8em 2em white;
+}
+#moon {
+	box-shadow: 0 0 8em 1px white;
+}
 /* HEADER STUFF */
 .row {
 	display: flex;
@@ -166,6 +172,8 @@ body {
 .descbox, .skillbox {
 	margin-left: 2em;
 	border-radius: 1em;
+}
+.descbox {
 	overflow: hidden;
 }
 .skillbox {

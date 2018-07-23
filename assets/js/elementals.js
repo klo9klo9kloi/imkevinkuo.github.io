@@ -190,18 +190,12 @@ $(document).ready(function () {
 			NIGHT_MODE = 1 - NIGHT_MODE;
 			if (NIGHT_MODE == 1) {
 				setTimeout(function() {
-					$(".star img").css("box-shadow", "0px 0px 8em 2em #fff");
-				}, 1000);
-				setTimeout(function() {
 					$(".line").css("background", "-webkit-gradient(linear, 0 0, 100% 0, from(rgb(139, 189, 255)), to(rgb(139, 189, 255)), color-stop(50%, white))");
 				}, 500);
 				$("body").removeClass("night");
 				$("body").addClass("day");
 			}
 			else {
-				setTimeout(function() {
-					$(".star img").css("box-shadow", "none");
-				}, 1000);
 				setTimeout(function() {
 					$(".line").css("background", "-webkit-gradient(linear, 0 0, 100% 0, from(black), to(black), color-stop(50%, white))");
 				}, 500);
