@@ -266,10 +266,12 @@ iframe {
 	margin: 0;
 }
 .skillvideo {
+	flex: 0 0 640px;
 	border: 1px solid white;
 	margin-top: 2rem;
 }
 .skilldesc {
+	flex: 0 0 320px;
 	margin: 3vh 3vw;
 }
 .skilldesc p {
@@ -295,19 +297,23 @@ iframe {
 }
 /* Modal Content/Box */
 .modal-content {
+	/* Appearance */
     background-color: rgba(102,102,102,0.8);
-    margin: 15% auto; /* 15% from the top and centered */
-    padding: 1.8rem;
+	width: 80%;
+	height: auto;
+	max-height: 75vh;
+	margin: 40vh auto; /* 15% from the top and centered */
+    padding: 1rem 2rem 2rem 2rem; /* Slightly less on top for the X */
     border: 1px solid #888;
+	border-radius: 0.5rem;
+	overflow: hidden;
+    /*Animation */
 	animation: modalIn 1.2s;
 	animation-fill-mode: forwards;
+	transform: translateY(-20vh);
+	/* Contents */	
 	display: flex;
-	overflow: hidden;
-	border-radius: 0.5rem;
-	
-	width: 80%;
-	height: 50%;
-	transform: translateY(-20%);
+	flex-wrap: wrap;
 }
 /* CLOSE BTN */
 .close {
@@ -335,20 +341,20 @@ iframe {
 @keyframes modalIn {
 	0% {
 		width: 0%;
-		height: 0%;
+		max-height: 0%;
 		transform: translateY(0);
 	}
 	
 	50% {
 		width: 80%;
-		height: 0%;
+		max-height: 0%;
 		transform: translateY(0);
 	}
 
 	100% {
 		width: 80%;
-		height: 50%;
-		transform: translateY(-20%);
+		max-height: 600px;
+		transform: translateY(-20vh);
 	}
 }
 @keyframes revealDown {
