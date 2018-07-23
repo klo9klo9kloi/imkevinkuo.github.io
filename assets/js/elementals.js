@@ -1,3 +1,4 @@
+var NIGHT_MODE = 0;
 var skillvideo;
 var skilldesc;
 var SRC_SUFFIX = "showinfo=0&enablejsapi=1&version=3&playerapiid=ytplayer";
@@ -24,7 +25,7 @@ var SKILL_NAMES = ["Spearhead", "Sideswipe", "Axeheave", "Bladereap",
 				   "Healing Totem", "Cloaking Totem", "Sating Totem", "Blood Totem",
 				   
 				   "Caustic Bomb", "Corrupting Bomb", "Splitting Bomb", "Shrouding Bomb",
-				   "Wither Barrage", "Seeker Skull", "Skull Triad", "Wither Storm",
+				   "Wither Barrage", "Wither Seeker", "Wither Rebirth", "Wither Storm",
 				   "Ghost Grip", "Eldritch Eye", "Black Blast", "Darkspark",
 				   "Shadow Switch", "Shadow Trap", "Shadow Snare", "Shadow Shroud",
 				   
@@ -113,21 +114,51 @@ var SKILL_DESCS = ["Thrust forward, dealing damage and Slowing all enemies in a 
 				   "Places a totem that regenerates hunger of nearby players.", 
 				   "Places a totem that grants Strength to nearby players.",
 				   
-				   "Caustic Bomb", "Corrupting Bomb", "Splitting Bomb", "Shrouding Bomb",
-				   "Wither Barrage", "Seeker Skull", "Skull Triad", "Wither Storm",
-				   "Ghost Grip", "Eldritch Eye", "Black Blast", "Darkspark",
-				   "Shadow Switch", "Shadow Trap", "Shadow Snare", "Shadow Shroud",
+				   "Throws a bomb that Poisons and Slows nearby enemies upon exploding.", 
+				   "Throws a bomb that leaves behind a cloud of Poisonous gas.", 
+				   "Throws a bomb that splits into three more explosive TNT blocks.", 
+				   "Throws a bomb that creates a zone of darkness. The zone Blinds enemies and grants you Speed.",
 				   
-				   "Haste", "Augment", "Recovery", "Redemption",
-				   "Smite", "Judgement", "Arclight", "Soulflare",
-				   "Ice Spray", "Freezing Water", "Suspension", "Glacial Guard",
-				   "Holy Fire", "Purifying Fire", "Inferno", "Divine Fire"];
+				   "Shoots 3 explosive Wither Skulls in succession. Skulls have a chance to apply Wither to an enemy.", 
+				   "Shoots a Wither Skull that locks on to the nearest target.", 
+				   "Summons three Wither Skulls that orbit around your cast location. After 10 seconds, if the Skulls are still alive, all enemies in the zone are Withered and you gain Regeneration.", 
+				   "Rains down 2 Wither Skulls from above for each nearby enemy, up to a maximum of 10.",
+				   
+				   "Slows the first enemy your crosshair is pointing at.", 
+				   "Fires a burst of darkness that inflicts Blind and Wither to enemies caught in it.", 
+				   "Fires a burst of darkness that explodes at the first target hit, inflicting Blind and Wither to all nearby enemies.", 
+				   "Fires several bursts of darkness around you, causing enemies to Wither and Levitate.",
+				   
+				   "Switches locations with the first target in your crosshair. Maximum range of 20 blocks.", 
+				   "Drops a trap at your feet. When an enemy steps near the trap, it Poisons everyone nearby.", 
+				   "Drops a trap at your feet. When an enemy steps near the trap, it Slows everyone nearby, then teleports you to the trap location.",
+				   "Drops a trap at your feet. When an enemy steps near the trap, it Blinds everyone nearby, then teleports you to the trap location.",
+				   
+				   "Gain a burst of Speed.", 
+				   "Briefly Slow down, then gain a burst of Strength.", 
+				   "Briefly apply Blindness, then gain a burst of Regeneration.", 
+				   "For the next 6 seconds, you will revive upon death and throw back all enemies.",
+				   
+				   "Rain down a bolt of light on a single target.", 
+				   "Damage and throw all nearby airborne objects to the ground.", 
+				   "Fires a bolt of lightning that chains to nearby enemies.", 
+				   "Conjure an aura of light that explodes in random directions around you.",
+				   
+				   "Shoot two snowball barrages that Slow down enemies.", 
+				   "Shoot a line of ice that briefly freezes enemies.", 
+				   "Immobilizes enemies in a sphere of water while dealing damage over time.", 
+				   "Conjure a shield of ice that absorbs melee, explosive, and fire damage.",
+				   
+				   "Shoots two fireball barrages that Burn enemies.", 
+				   "Cleanse yourself of  all negative potion effects and ignite everyone around you.", 
+				   "Conjure a dome of flame that forces away those who touch it.", 
+				   "Conjure a shield of fire that burns attackers and nearby projectiles."];
 var BACK_COLORS = [[243, 156, 18],
 					[120, 66, 18],
 					[250, 215, 160],
 					[174, 182, 191],
 					[96, 96, 96],
-					[208, 211, 212]];
+					[229, 231, 233]];
 var ROW_COLORS = [[204,204,204],
 			  [217, 136, 128],
 			  [52, 73, 94],
@@ -135,6 +166,50 @@ var ROW_COLORS = [[204,204,204],
 			  [203, 67, 53],
 			  [244, 208, 63]];
 $(document).ready(function () {
+	$(".star").click(function() {
+		if (!$(this).find("img").hasClass("out")) {
+			/* Manage icon graphic */
+			$(this).find("img").each(function() {
+				var img = $(this);
+				if (img.hasClass("active")) {
+					img.addClass("out");
+					img.removeClass("active");
+					setTimeout(function() {
+						img.removeClass("out");
+						img.addClass("hidden");
+					}, 900);
+				}
+				else {
+					setTimeout(function() {
+						img.removeClass("hidden");
+						img.addClass("active");
+					}, 900);
+				}
+			});
+			/* Manage background, maybe change text color? still visible */
+			NIGHT_MODE = 1 - NIGHT_MODE;
+			if (NIGHT_MODE == 1) {
+				setTimeout(function() {
+					$(".star img").css("box-shadow", "0px 0px 8em 2em #fff");
+				}, 1000);
+				setTimeout(function() {
+					$(".line").css("background", "-webkit-gradient(linear, 0 0, 100% 0, from(rgb(139, 189, 255)), to(rgb(139, 189, 255)), color-stop(50%, white))");
+				}, 500);
+				$("body").removeClass("night");
+				$("body").addClass("day");
+			}
+			else {
+				setTimeout(function() {
+					$(".star img").css("box-shadow", "none");
+				}, 1000);
+				setTimeout(function() {
+					$(".line").css("background", "-webkit-gradient(linear, 0 0, 100% 0, from(black), to(black), color-stop(50%, white))");
+				}, 500);
+				$("body").removeClass("day");
+				$("body").addClass("night");
+			}
+		}
+	});
 	/* click effect */
 	$(".classicon > img, .skill > img").mouseup(function(){
         $(this).css("opacity", 1);
@@ -149,7 +224,7 @@ $(document).ready(function () {
 	/* Class icons */
 	$(".classicon").each(function(index) {
 		$(this).attr("myID", index+1);
-		$(this).css("animation-delay", 1+index*0.1 + "s");
+		$(this).css("animation-delay", 2+index*0.1 + "s");
 	});
 	$(".classicon").click(function() {
 		showContent($(this).attr("myID"));
