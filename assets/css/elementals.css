@@ -239,23 +239,23 @@ body {
 	}
 }
 /* Can't animate skill, causes problems with zindex */
-.skill {
+.skillicon {
 	height: 4rem;
 	margin: 0.8rem 1rem 0.8rem 1rem;
 	user-select: none;
 	cursor: pointer;
 }
-.skill img {
+.skillicon img {
 	height: 100%;
 }
-.skill:hover img {
+.skillicon:hover img {
 	-webkit-filter: drop-shadow(1px 1px 0 white) drop-shadow(-1px -1px 0 white);
 	filter: drop-shadow(1px 1px 0 white) drop-shadow(-1px -1px 0 white);
 }
-.skill span {
+.skillicon span {
 	display: none;
 }
-.skill:hover span {
+.skillicon:hover span {
 	display: block;
 	position: fixed;
 	overflow: hidden;

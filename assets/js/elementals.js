@@ -205,13 +205,13 @@ $(document).ready(function () {
 		}
 	});
 	/* click effect */
-	$(".classicon > img, .skill > img").mouseup(function(){
+	$(".classicon > img, .skillicon > img").mouseup(function(){
         $(this).css("opacity", 1);
     });
-    $(".classicon > img, .skill > img").mousedown(function(){
+    $(".classicon > img, .skillicon > img").mousedown(function(){
         $(this).css("opacity", 0.7);
     });
-	$(".classicon > img, .skill > img").mouseleave(function(){
+	$(".classicon > img, .skillicon > img").mouseleave(function(){
         $(this).css("opacity", 1);
     });
 	
@@ -239,13 +239,13 @@ $(document).ready(function () {
 		}
 	});
 	/* Skill icons */
-	$(".skill").each(function(index) {
+	$(".skillicon").each(function(index) {
 		$(this).attr("myID", index);
 		$(this).append("<span><p>" + SKILL_NAMES[index] + "</p></span>");
 	});
 	
 	/* Tooltips */
-	var tooltips = document.querySelectorAll('.skill span');
+	var tooltips = document.querySelectorAll('.skillicon span');
 
 	window.onmousemove = function(event) {
 		var x = (event.clientX + 16) + 'px',
@@ -266,7 +266,7 @@ $(document).ready(function () {
 			hideModal(modal);
 		}
 	};
-	$(".skill").click(function() {
+	$(".skillicon").click(function() {
 		displayModal(modal, $(this).attr("myID"));
 	});
 	/* Initialize modal content */
