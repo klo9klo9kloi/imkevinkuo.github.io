@@ -1,24 +1,27 @@
+html {
+	font-size: 1em;
+}
 p, h1, h2 {
 	color: white;
 	margin: 0;
 	font-family: 'Merienda', cursive;
 }
 p {
-	font-size: 1.5em;
+	font-size: 1.5rem;
 	text-align: left;
 }
 span p {
-	font-size: 1.2em;
+	font-size: 1.2rem;
 	font-family: 'MinecraftiaRegular';
 	background-color: rgba(0,0,0,0.6);
-	padding: 0.2em 0.5em;
+	padding: 0.2rem 0.5rem;
 }
 h1 {
 	text-align: center;
-	font-size: 2.5em;
+	font-size: 2.5rem;
 }
 h2 {
-	font-size: 2em;
+	font-size: 2rem;
 }
 body {
 	padding: 0;
@@ -37,17 +40,17 @@ body {
 /* DAY/NIGHT */
 .star {
 	position: absolute;
-	left: 0em;
-	top: 0em;
+	left: 0rem;
+	top: 0rem;
 	margin: 0;
 	padding: 0;
 	cursor: pointer;
 }
 .star img {
-	margin: 3em;
+	margin: 3rem;
 	padding: 0;
-	height: 3em;
-	width: 3em;
+	height: 3rem;
+	width: 3rem;
 	animation: fadeInDown 1s;
 	box-shadow: none;
 }
@@ -60,7 +63,7 @@ body {
 	}
 	100% {
 		opacity: 0;
-		transform: translateY(6em);
+		transform: translateY(6rem);
 	}
 }
 @keyframes toDay {
@@ -80,10 +83,10 @@ body {
 	}
 }
 #sun {
-	box-shadow: 0 0 8em 2em white;
+	box-shadow: 0 0 8rem 2rem white;
 }
 #moon {
-	box-shadow: 0 0 8em 1px white;
+	box-shadow: 0 0 8rem 1px white;
 }
 /* HEADER STUFF */
 .row {
@@ -92,9 +95,7 @@ body {
 }
 /* Elementals Title */
 .row:not(.double) h1 {
-	margin-top: 0.5em;
-	height: 1.5em;
-	width: 6em;
+	margin-top: 0.5rem;
 	align-items: center;
 	visibility: hidden;
 	animation: fadeInDown 0.5s;
@@ -103,9 +104,9 @@ body {
 }
 /* Class icons */
 .classicon {
-	margin: 0 2em;
-	height: 3.5em;
-	width: 3.5em;
+	margin: 1rem 2rem;
+	height: 3.5rem;
+	width: 3.5rem;
 	cursor: pointer;
 	user-select: none;
 	
@@ -116,10 +117,10 @@ body {
 @keyframes fadeInUp {
 	0% {
 		opacity: 0;
-		transform: translateY(8em);
+		transform: translateY(8rem);
 	}
 	40% {
-		transform: translateY(-2em);
+		transform: translateY(-2rem);
 	}
 	100% {
 		visibility: visible;
@@ -128,16 +129,15 @@ body {
 }
 .classicon img {
 	vertical-align: middle;
-	height: 3.5em;
-	width: 3.5em;
+	height: 3.5rem;
+	width: 3.5rem;
 	transition: transform 0.3s;
 }
 .classicon:hover img {
 	transform: scale(1.6);
 }
 /* Line */
-.line { 
-    margin: 0 0 2em 0;
+.line {
     height: 1px;
     background: black;
     background: -webkit-gradient(linear, 0 0, 100% 0, from(black), to(black), color-stop(50%, white));
@@ -163,23 +163,30 @@ body {
 	animation-fill-mode: forwards;
 }
 /* CONTENT CONTAINS DESCBOX AND SKILLBOX */
-.double > * {
-	flex-basis: 45%;
-}
 .row.double {
-	height: 40em;
+	height: 30rem;
+	flex-wrap: wrap;
+}
+.double > * {
+	height: 100%;
+	margin: 2rem 2rem;
 }
 .descbox, .skillbox {
-	margin-left: 2em;
-	border-radius: 1em;
+	flex-shrink: 0;
 }
 .descbox {
+	flex-basis: 40rem;
 	overflow: hidden;
 }
 .skillbox {
-	width: 26em;
-	padding: 1em 0em 1em 2em;
+	flex-basis: auto;
+	height: 100%;
 	background-color: rgba(102, 102, 102, 0.8);
+	border-radius: 1rem;
+	
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 /* DESCBOX CONTAINS TEXT AND MODEL */
 .descbox.active {
@@ -187,14 +194,14 @@ body {
 	animation-fill-mode: forwards;
 }
 .descbox > .row {
-	margin-top: 2em;
+	margin-top: 2rem;
 	align-items: stretch;
 	flex-wrap: nowrap;
 }
 .model img {
 	float: right;
-	height: 22em;
-	margin-bottom: 6em;
+	height: 22rem;
+	margin-bottom: 6rem;
 	user-select: none;
 }
 /* SKILLBOX CONTAINS 4 ROWS, ROW CONTAINS 4 SKILLICONS */
@@ -202,9 +209,8 @@ body {
 	animation: fadeIn 1s;
 }
 .skillbox > .row {
-	margin: 1em 0 1em 0;
-	border-radius: 1em;
-	width: 24em;
+	margin: 1rem;
+	border-radius: 1rem;
 	background-color: rgba(100, 0, 0, 0.4);
 }
 .skillbox > .row.active {
@@ -224,7 +230,7 @@ body {
 	0% {
 		visibility: visible;
 		opacity: 0;
-		transform: translateY(-2em);
+		transform: translateY(-2rem);
 	}
 	100% {
 		visibility: visible;
@@ -233,8 +239,8 @@ body {
 }
 /* Can't animate skill, causes problems with zindex */
 .skill {
-	height: 4em;
-	margin: 0.8em 1em 0.8em 1em;
+	height: 4rem;
+	margin: 0.8rem 1rem 0.8rem 1rem;
 	user-select: none;
 	cursor: pointer;
 }
@@ -260,14 +266,14 @@ iframe {
 }
 .skillvideo {
 	border: 1px solid white;
-	margin-top: 2em;
+	margin-top: 2rem;
 }
 .skilldesc {
 	margin: 3vh 3vw;
 }
 .skilldesc p {
 	text-align: left;
-	margin-top: 1em;
+	margin-top: 1rem;
 }
 .modal {
     position: fixed; /* Stay in place */
@@ -290,13 +296,13 @@ iframe {
 .modal-content {
     background-color: rgba(102,102,102,0.8);
     margin: 15% auto; /* 15% from the top and centered */
-    padding: 1.8em;
+    padding: 1.8rem;
     border: 1px solid #888;
 	animation: modalIn 1.2s;
 	animation-fill-mode: forwards;
 	display: flex;
 	overflow: hidden;
-	border-radius: 0.5em;
+	border-radius: 0.5rem;
 	
 	width: 80%;
 	height: 50%;
@@ -306,7 +312,7 @@ iframe {
 .close {
 	position: fixed;
     color: #aaa;
-	right: 1.2em;
+	right: 1.2rem;
     font-size: 28px;
     font-weight: bold;
 	user-select: none;
