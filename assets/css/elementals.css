@@ -301,14 +301,14 @@ iframe {
     background-color: rgba(102,102,102,0.8);
 	width: 80%;
 	height: auto;
-	max-height: 600px;
+	max-height: 100%;
 	margin: 40vh auto; /* 15% from the top and centered */
     padding: 1rem 2rem 2rem 2rem; /* Slightly less on top for the X */
     border: 1px solid #888;
 	border-radius: 0.5rem;
 	overflow: hidden;
     /*Animation */
-	animation: modalIn 1.2s;
+	animation: modalIn 1.5s;
 	transform: translateY(-20vh);
 	/* Contents */	
 	display: flex;
@@ -352,7 +352,7 @@ iframe {
 
 	100% {
 		width: 80%;
-		max-height: 100%;
+		max-height: 70vh;
 		transform: translateY(-20vh);
 	}
 }
