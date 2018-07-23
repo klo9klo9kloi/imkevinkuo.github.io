@@ -159,11 +159,14 @@ body {
 /* CONTENT CONTAINS DESCBOX AND SKILLBOX */
 .double > * {
 	flex-basis: 45%;
-	overflow: hidden;
+}
+.row.double {
+	height: 40em;
 }
 .descbox, .skillbox {
 	margin-left: 2em;
 	border-radius: 1em;
+	overflow: hidden;
 }
 .skillbox {
 	width: 26em;
@@ -335,10 +338,10 @@ iframe {
 }
 @keyframes revealDown {
 	0% {
-		height: 0em;
+		height: 0;
 	}
 	100% {
-		height: 36em;
+		height: 100%;
 	}
 }
 .hidden {
