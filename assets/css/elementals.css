@@ -164,7 +164,7 @@ body {
 }
 /* CONTENT CONTAINS DESCBOX AND SKILLBOX */
 .row.double {
-	height: 30rem;
+	height: 32rem;
 	flex-wrap: wrap;
 }
 .double > * {
@@ -174,21 +174,11 @@ body {
 .descbox, .skillbox {
 	flex-shrink: 0;
 }
+/* DESCBOX CONTAINS TEXT AND MODEL */
 .descbox {
 	flex-basis: 40rem;
 	overflow: hidden;
 }
-.skillbox {
-	flex-basis: auto;
-	height: 100%;
-	background-color: rgba(102, 102, 102, 0.8);
-	border-radius: 1rem;
-	
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-}
-/* DESCBOX CONTAINS TEXT AND MODEL */
 .descbox.active {
 	animation: revealDown 2s;
 	animation-fill-mode: forwards;
@@ -205,11 +195,22 @@ body {
 	user-select: none;
 }
 /* SKILLBOX CONTAINS 4 ROWS, ROW CONTAINS 4 SKILLICONS */
+.skillbox {
+	flex-basis: auto;
+	height: 100%;
+	background-color: rgba(102, 102, 102, 0.8);
+	border-radius: 1rem;
+	
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
 .skillbox.active {
 	animation: fadeIn 1s;
 }
 .skillbox > .row {
-	margin: 1rem;
+	margin: 1rem 1.5rem;
 	border-radius: 1rem;
 	background-color: rgba(100, 0, 0, 0.4);
 }
