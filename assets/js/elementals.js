@@ -153,18 +153,19 @@ var SKILL_DESCS = ["Thrust forward, dealing damage and Slowing all enemies in a 
 				   "Cleanse yourself of  all negative potion effects and ignite everyone around you.", 
 				   "Conjure a dome of flame that forces away those who touch it.", 
 				   "Conjure a shield of fire that burns attackers and nearby projectiles."];
-var BACK_COLORS = [[243, 156, 18],
-					[120, 66, 18],
-					[250, 215, 160],
-					[174, 182, 191],
-					[96, 96, 96],
-					[229, 231, 233]];
-var ROW_COLORS = [[204,204,204],
-			  [217, 136, 128],
-			  [52, 73, 94],
-			  [34, 153, 84],
-			  [203, 67, 53],
-			  [244, 208, 63]];
+/* Skillbox colors */
+var BACK_COLORS = [[100, 70, 66],
+				   [120, 37, 35],
+				   [200, 175, 128],
+				   [174, 182, 191],
+				   [60, 60, 60],
+				   [244, 208, 63]];
+var ROW_COLORS = [[200, 184, 150],
+			      [130, 130, 130],
+				  [52, 73, 94],
+				  [34, 153, 84],
+				  [100, 37, 35	],
+				  [230, 230, 230]];
 $(document).ready(function () {
 	$(".star").click(function() {
 		if (!$(this).find("img").hasClass("out")) {
@@ -191,14 +192,16 @@ $(document).ready(function () {
 			if (NIGHT_MODE == 1) {
 				setTimeout(function() {
 					$(".line").css("background", "-webkit-gradient(linear, 0 0, 100% 0, from(rgb(139, 189, 255)), to(rgb(139, 189, 255)), color-stop(50%, white))");
-				}, 500);
+					$("h1, .descbox p").css("color", "black");
+				}, 0);
 				$("body").removeClass("night");
 				$("body").addClass("day");
 			}
 			else {
 				setTimeout(function() {
 					$(".line").css("background", "-webkit-gradient(linear, 0 0, 100% 0, from(black), to(black), color-stop(50%, white))");
-				}, 500);
+					$("h1, .descbox p").css("color", "white");
+				}, 0);
 				$("body").removeClass("day");
 				$("body").addClass("night");
 			}
@@ -230,9 +233,9 @@ $(document).ready(function () {
 			var bc = BACK_COLORS[s-1];
 			var rc = ROW_COLORS[s-1];
 			$(this).find(".skillbox").each(function(i) {
-				$(this).css("background-color", 'rgba(' + bc[0] + ',' + bc[1] + ',' + bc[2] + ', 0.8)');
+				$(this).css("background-color", 'rgb(' + bc[0] + ',' + bc[1] + ',' + bc[2] + ')');
 				$(this).find(".row").each(function(j) {
-					$(this).css("background-color", 'rgba(' + rc[0] + ',' + rc[1] + ',' + rc[2] + ', 0.5)');
+					$(this).css("background-color", 'rgb(' + rc[0] + ',' + rc[1] + ',' + rc[2] + ')');
 					$(this).css("animation-delay", 0.1*j + "s");
 				});
 			});
