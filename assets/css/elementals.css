@@ -29,6 +29,9 @@ body {
 	overflow-y: scroll;
 	background-color: rgb(0, 0, 0);
 }
+img { 
+	user-select: none;
+}
 /* HEADER STUFF */
 .row {
 	display: flex;
@@ -49,7 +52,6 @@ body {
 	height: 3.5rem;
 	width: 3.5rem;
 	cursor: pointer;
-	user-select: none;
 	
 	animation: fadeInUp 1s;
 	visibility: hidden;
@@ -97,13 +99,13 @@ body {
 		width: 100%;
 	}
 }
+/* CONTENT CONTAINS DESCBOX AND SKILLBOX */
 #start {
 	opacity: 0;
 	animation: fadeInDown 0.5s;
 	animation-delay: 3s;
 	animation-fill-mode: forwards;
 }
-/* CONTENT CONTAINS DESCBOX AND SKILLBOX */
 .row.double {
 	height: auto;
 	flex-wrap: wrap;
@@ -139,7 +141,6 @@ body {
 	float: right;
 	height: 22rem;
 	margin-bottom: 6rem;
-	user-select: none;
 }
 @keyframes revealDown {
 	0% {
@@ -174,30 +175,9 @@ body {
 	animation-fill-mode: forwards;
 	visibility: hidden;
 }
-@keyframes fadeIn {
-	0% {
-		opacity: 0;
-	}
-	100% {
-		opacity: 1;
-	}
-}
-@keyframes fadeInDown {
-	0% {
-		visibility: visible;
-		opacity: 0;
-		transform: translateY(-2rem);
-	}
-	100% {
-		visibility: visible;
-		opacity: 1;
-	}
-}
-/* Can't animate skill, causes problems with zindex */
 .skillicon {
 	height: 4rem;
 	margin: 0.8rem 1rem 0.8rem 1rem;
-	user-select: none;
 	cursor: pointer;
 }
 .skillicon img {
@@ -211,6 +191,7 @@ body {
 	display: none;
 }
 .skillicon:hover span {
+	user-select: none;
 	display: block;
 	position: fixed;
 	overflow: hidden;
@@ -284,14 +265,6 @@ iframe {
     cursor: pointer;
 }
 
-@keyframes fadeOut {
-	from {
-		opacity: 1;
-	}
-	to {
-		opacity: 0;
-	}
-}
 @keyframes modalIn {
 	0% {
 		width: 0%;
@@ -330,10 +303,15 @@ iframe {
 	height: 3rem;
 	width: 3rem;
 	animation: fadeInDown 1s;
-	box-shadow: none;
 }
 .star img.out {
 	animation: fadeOutDown 1s;
+}
+#moon {
+	box-shadow: 0rem 0rem 9rem 0.5rem white;
+}
+#sun {
+	box-shadow: 0rem 0rem 9rem 3rem white;
 }
 .day {
 	background-color: rgb(139, 189, 255);
@@ -342,15 +320,6 @@ iframe {
 .night {
 	background-color: rgb(0, 0, 0);
 	animation: toNight 2s;
-}
-@keyframes fadeOutDown {
-	0% {
-		opacity: 1;
-	}
-	100% {
-		opacity: 0;
-		transform: translateY(6rem);
-	}
 }
 @keyframes toDay {
 	0% {
@@ -366,5 +335,43 @@ iframe {
 	}
 	100% {
 		background-color: rgb(0, 0, 0);
+	}
+}
+
+/* GENERAL ANIMATIONS */
+@keyframes fadeIn {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+@keyframes fadeOut {
+	from {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+	}
+}
+@keyframes fadeInDown {
+	0% {
+		visibility: visible;
+		opacity: 0;
+		transform: translateY(-2rem);
+	}
+	100% {
+		visibility: visible;
+		opacity: 1;
+	}
+}
+@keyframes fadeOutDown {
+	0% {
+		opacity: 1;
+	}
+	100% {
+		opacity: 0;
+		transform: translateY(6rem);
 	}
 }
