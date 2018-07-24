@@ -17,7 +17,9 @@ body {
 	margin: 0;
 	background-color: rgb(160, 160, 160);
 }
-
+html {
+	font-size: 1em;
+}
 /* ARROWS */
 .scroll {
 	position: relative;
@@ -67,76 +69,43 @@ body {
 /* TOP BANNER */
 .banner {
 	margin: 0vh 0vw 0vh 0vw;
+	height: 8rem;
 	display: flex;
 	align-items: center;
-	height: 16vh;
 	animation: fadeOut 1s;
-	overflow: visible;
+}
+.banner.active {
+	opacity: 1;
+	animation: fadeIn 2s;
 }
 .banner > h1 {
 	width: 100%;
-	margin: 2vh 8vw 2vh 8vw;
 	text-align: center;
-}
-.bannertxt.active {
-	animation: fadeInDown 1s;
-	animation-fill-mode: forwards;
 }
 #banner0 {
 	background-color: rgba(102, 102, 102, 1);
 }
-#banner0.active {
-	animation: bgFadeIn0 2s;
-	animation-fill-mode: forwards;
-}
-@keyframes bgFadeIn0 {
-	from {background-color: rgba(102, 102, 102, 0);}
-	to {background-color: rgba(102, 102, 102, 1);}
-}
 #banner1 {
 	background-color: rgba(236, 95, 95, 1);
-}
-#banner1.active {
-	animation: bgFadeIn1 2s;
-	animation-fill-mode: forwards;
-}
-@keyframes bgFadeIn1 {
-	from {background-color: rgba(236, 95, 95, 0);}
-	to {background-color: rgba(236, 95, 95, 1);}
 }
 #banner2 {
 	background-color: rgba(51, 153, 255, 1);
 }
-#banner2.active {
-	animation: bgFadeIn2 2s;
-	animation-fill-mode: forwards;
-}
-@keyframes bgFadeIn2 {
-	from {background-color: rgba(51, 153, 255, 0);}
-	to {background-color: rgba(51, 153, 255, 1);}
-}
 #banner3 {
 	background-color: rgba(51, 153, 116, 1);
-}
-#banner3.active {
-	animation: bgFadeIn3 2s;
-	animation-fill-mode: forwards;
-}
-@keyframes bgFadeIn3 {
-	from {background-color: rgba(51, 153, 102, 0);}
-	to {background-color: rgba(51, 153, 102, 1);}
 }
 
 /* IMAGE BOXES */
 .row {
 	display: flex;
-	padding: 3vh 2vw 3vh 2vw;
+	padding: 2rem 1rem;
 	justify-content: center;
+	flex-wrap: wrap;
 }
 .imgbox {
-	width: 21vh;
-	height: 21vh;
-	margin: 2vh 2vw 2vh 2vw;
+	width: 10rem;
+	height: 10rem;
+	margin: 1rem;
 	border: 2px solid black;
 	
 	overflow: hidden;
@@ -145,9 +114,6 @@ body {
 	
 	cursor: pointer;
 	user-select: none;
-	
-	animation: fadeOut 0.5s;
-	animation-fill-mode: forwards;
 }
 .imgbox.active {
 	animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -155,16 +121,16 @@ body {
 }
 .imgbox > img {
 	height: 100%;
-	width: 43vh;
+	width: 20rem;
 	transform: translateX(-25.58%);
 	transition: transform 0.4s;
 }
 .imgbox:not(.nohover):hover {
-	width: 43vh;
+	width: 20rem;
 	opacity: 1;
 }
 .imgbox:not(.nohover):hover > img {
-	transform: translateX(0);
+	transform: translateX(0%);
 }
 #academics .imgbox {
 	box-shadow: 4px 4px 2px rgb(165, 67, 67);
@@ -179,10 +145,12 @@ body {
 	from {
 		width: 0;
 		height: 0;
+		border: 0px solid black;
 	}
 	to {
-		width: 21vh;
-		height: 21vh;
+		width: 10rem;
+		height: 10rem;
+		border: 2px solid black;
 	}
 }
 

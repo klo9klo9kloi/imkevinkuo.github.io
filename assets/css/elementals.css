@@ -103,11 +103,10 @@ img {
 #start {
 	opacity: 0;
 	animation: fadeInDown 0.5s;
-	animation-delay: 3s;
+	animation-delay: 1.5s;
 	animation-fill-mode: forwards;
 }
 .row.double {
-	height: auto;
 	flex-wrap: wrap;
 }
 .double > * {
@@ -244,7 +243,7 @@ iframe {
 	border-radius: 0.5rem;
 	overflow: hidden;
     /*Animation */
-	animation: modalIn 1.5s;
+	animation: modalIn 1s;
 	transform: translateY(-20vh);
 	/* Contents */	
 	display: flex;

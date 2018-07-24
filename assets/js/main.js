@@ -1,7 +1,7 @@
 var current = 0;
 var descs = [["Kevin Kuo"],
-			["Academics", "University of Maryland, College Park", "Team AIMAR", "Thomas Jefferson High School", "Gait Recognition"],
-			["Projects", "Github", "Elementals"],
+			["Academics", "University of Maryland, College Park", "Team AIMAR", "Thomas Jefferson High School"],
+			["Projects", "Gait Recognition", "Elementals", "Github"],
 			["Miscellaneous", "Track and Field", "Taiwan", "Music", "League of Legends"]];
 $(function() {
 	$.scrollify({
@@ -10,6 +10,10 @@ $(function() {
 		scrollSpeed: 1200,
 		updateHash: true,
 		scrollbars: false,
+		afterResize: function() {
+			$.scrollify.update();
+			$.scrollify.instantMove(current);
+		},
 		before: function(i, panels) {
 			current = i;
 			for (var s = 0; s < 4; s++) {
@@ -87,7 +91,6 @@ function shadeBG() {
 	$("body").css('background-color', 'rgb(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ')');
 }
 function showContent(sec, id) {
-	disableVideo();
 	$(".section").eq(sec).find('.content').each(function(i) {
 		if (i == id) {
 			$(this).removeClass("hidden");
@@ -96,9 +99,6 @@ function showContent(sec, id) {
 			$(this).addClass("hidden");
 		}
 	});
-}
-function disableVideo() {
-	$('#track')[0].contentWindow.postMessage('{"event":"command","func":"' + 'stopVideo' + '","args":""}', '*');
 }
 $(document).ready(function () {
 	$(".row.imgs").mouseleave(function() {
@@ -127,7 +127,7 @@ $(document).ready(function () {
 	
 	for (var s = 0; s < 4; s++) {
 		$(".section").eq(s).find('.row .imgbox').each(function(index) {
-			$(this).css("animation-delay", index*0.075 + "s");
+			$(this).css("animation-delay", 0.2 + index*0.2 + "s");
 		});
 	}
 });

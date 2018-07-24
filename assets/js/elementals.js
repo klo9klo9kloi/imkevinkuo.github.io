@@ -221,7 +221,7 @@ $(document).ready(function () {
 	/* Class icons */
 	$(".classicon").each(function(index) {
 		$(this).attr("myID", index+1);
-		$(this).css("animation-delay", 2+index*0.1 + "s");
+		$(this).css("animation-delay", 1+index*0.1 + "s");
 	});
 	$(".classicon").click(function() {
 		showContent($(this).attr("myID"));
@@ -302,4 +302,8 @@ function hideModal(modal) {
 	setTimeout(function() {
 		modal.classList.add("hidden");
 	}, 400);
+}
+/* swap it up */
+function disableVideo() {
+	$('#track')[0].contentWindow.postMessage('{"event":"command","func":"' + 'stopVideo' + '","args":""}', '*');
 }
