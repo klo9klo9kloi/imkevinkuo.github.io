@@ -52,10 +52,13 @@ $(function() {
 function activate(s) {
 	if (s > 0) {
 		showContent(s, -1);
-		$(".section").eq(s).find('*').addClass("active nohover");
+		$(".section").eq(s).find('*').each(function(index) {
+			$(this).addClass("active");
+		});
+		$(".section").eq(s).find('.imgbox').addClass("nohover");
 		setTimeout(function() {
-			$(".section").eq(s).find('*').removeClass("nohover");
-		}, 1100);
+			$(".section").eq(s).find('.imgbox').removeClass("nohover");
+		}, 1600);
 		$(".section").eq(s).find('h1').text(descs[s][0]);
 	}
 }

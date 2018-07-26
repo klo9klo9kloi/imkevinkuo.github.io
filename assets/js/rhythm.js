@@ -7,6 +7,7 @@ var metronome;
 $(document).ready(function () {
 	$("#bpm").click(startBPM);
 	$("#notate").click(startNotation);
+	$("#test").click(test);
 });
 
 function startBPM() {
@@ -73,4 +74,14 @@ function startNotation() {
 			$("#infobox").text("Please set BPM first.");
 		}
 	}
+}
+
+function test() {
+	$.ajax({
+		url: "http://imkevinkuo.github.io/assets/py/rhythm.py",
+		success: function(response) {
+			console.log(response);
+			// here you do whatever you want with the response variable
+		}
+	});
 }
