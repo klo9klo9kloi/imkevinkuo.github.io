@@ -1,6 +1,10 @@
 html {
 	font-size: 1em;
 }
+p, h1 {
+	font-family: 'Slabo 27px', serif;
+	font-size: 2rem;
+}
 .box {
 	width: 20rem;
 	height: 8rem;

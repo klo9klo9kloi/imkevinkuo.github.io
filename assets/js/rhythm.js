@@ -5,7 +5,7 @@ var interval = 0;
 var beat = 0;
 var beating = 0;
 var metronome;
-var NOTE_TYPES = [4, 3, 2, 1.5, 1, 0.75, 0.5, 0.25, 0.125, 0.33, 0.66];
+var NOTE_TYPES = [4, 3, 2, 1.5, 1, 0.75, 0.5, 0.25, 0.33, 0.66];
 
 $(document).ready(function () {
 	$("#bpm").click(startBPM);
