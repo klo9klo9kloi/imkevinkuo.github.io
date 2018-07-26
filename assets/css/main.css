@@ -26,6 +26,7 @@ html {
 	font-size: 1.3em;
 	display: block;
 	height: 10px;
+	animation: fadeInDown 1s;
 }
 .scroll:after {
 	content: '';

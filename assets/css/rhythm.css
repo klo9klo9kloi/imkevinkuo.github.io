@@ -1,0 +1,10 @@
+html {
+	font-size: 1em;
+}
+.box {
+	width: 20rem;
+	height: 8rem;
+	background-color: cyan;
+	margin: 1rem;
+	cursor: pointer;
+}
