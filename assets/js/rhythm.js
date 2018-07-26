@@ -1,21 +1,24 @@
 var taps = []
 var recording = 0;
 var bpm = 0;
+var interval = 0;
 var beat = 0;
+var beating = 0;
 var metronome;
+var NOTE_TYPES = [4, 3, 2, 1.5, 1, 0.75, 0.5, 0.25, 0.125, 0.33, 0.66];
 
 $(document).ready(function () {
 	$("#bpm").click(startBPM);
 	$("#notate").click(startNotation);
-	$("#test").click(test);
 });
 
 function startBPM() {
 	if (recording == 0) {
 		recording = 1;
+		stopBeat();
 		$("#infobox").text("BPM Tracking will start on your first spacebar tap.");
 		$("#bpm").text("Click here once you are done");
-		$("#bpm").click(stopRecording);
+		$("#bpm").unbind("click").click(stopRecording);
 		// Should switch to implemention of queue
 		var lastTap = 0;
 		var intervalSum = 0; // intervalSum/totalTaps = averageInterval
@@ -26,6 +29,7 @@ function startBPM() {
 				if (totalTaps > 1) {
 					intervalSum += event.timeStamp - lastTap;
 					bpm = Math.round(60000/(intervalSum/totalTaps));
+					interval = Math.round(60000/bpm);
 					$("#infobox").text(bpm); // 60000ms in 1 minute
 				}
 				lastTap = event.timeStamp;
@@ -38,33 +42,53 @@ function stopRecording() {
 	if (recording == 1) {
 		recording = 0;
 		$(window).unbind("keypress");
+		displayBeat();
+		$("#bpm").text("BPM saved. Click to re-record.");
+		$("#bpm").unbind("click").click(startBPM);
 	}
 }
 
 function displayBeat() {
-	$("#infobox").text((beat++)%4 + 1);
+	if (bpm > 0 && beating == 0) {
+		beat = 0;
+		beating = 1;
+		$("#beat").unbind("click").click(stopBeat);
+		$("#beat").text("stop counting beats");
+		metronome = setInterval(function() {
+			$("#counter").text((beat++)%4 + 1);
+		}, interval);
+	}
+}
+
+function stopBeat() {
+	if (beating == 1) {
+		beating = 0;
+		$("#beat").unbind("click").click(displayBeat);
+		$("#beat").text("show beats again");
+		clearInterval(metronome);
+	}
 }
 
 function startNotation() {
 	if (recording == 0) {
 		if (bpm > 0) {
-			var interval = Math.round(60000/bpm);
 			recording = 1;
-			beat = 0;
 			taps = [];
 			$("#infobox").text("Rhythm Notation will start on your first spacebar tap.");
 			$(window).keypress(function( event ) {
 				if (event.which == 32) { // Spacebar
 					if (taps.length == 0) {
-						metronome = setInterval(function() {
-							displayBeat();
-						}, interval);
+						$("#infobox").text("dun ");
 						setTimeout(function(){
-							stopRecording();
-							$("#infobox").text("Notes logged, sending to backend.");
-							clearInterval(metronome);
+							recording = 0;
+							$(window).unbind("keypress");
+							$("#infobox").text("Notes logged, parsing.");
 							console.log(taps);
+							parseTaps();
 						}, interval*32); // 
+					}
+					else {
+						$("#infobox").text("dun ".repeat(taps.length + 1));
 					}
 					taps.push(event.timeStamp);
 				}
@@ -76,27 +100,56 @@ function startNotation() {
 	}
 }
 
-function test() {
-	$.ajax({
-		url: "https://imkevinkuo.github.io/assets/py/rhythm.py",
-		success: function(response) {
-			console.log(response);
-			// here you do whatever you want with the response variable
+function parseTaps() {
+	var notes = [];
+	var delays = [];
+	for (var i = 1; i < taps.length; i++) {
+		delays.push(taps[i] - taps[i-1]);
+	}
+	for (var i = 0; i < taps.length; i++) {
+		notes.push(closestNote(delays, i, interval, 0));
+	}
+	console.log(notes);
+}
+
+function findMin(array) {
+	if (array.length > 0) {
+		minIndex = 0;
+		minimum = array[0];
+		for (var i = 1; i < array.length; i++) {
+			if (array[i] < minimum) {
+				minIndex = i;
+				minimum = array[i];
+			}
 		}
-	});
-	$.ajax({
-		type:'get',
-		url:<YOUR SERVERSIDE PAGE URL>,
-		cache:false,
-		data:<if any arguments>,
-		async:asynchronous,
-		dataType:json, //if you want json
-		success: function(data) {
-			<put your custom validation here using the response from data structure >
-		},
-		error: function(request, status, error) {
-			<put your custom code here to handle the call failure>
+		return [minIndex, minimum];
+	}
+	return [-1, -1];
+}
+
+function closestNote(delays, i, interval, tupleCheck) {
+	var time = delays[i];
+	var ratio = time/interval;
+	var differences = NOTE_TYPES.slice();
+	for (var i = 0; i < differences.length; i++) {
+		differences[i] = Math.abs(differences[i] - ratio);
+	}
+	
+	m = findMin(differences);
+	var minIndex = m[0];
+	var minimum = m[1];
+	if (NOTE_TYPES[minIndex] == 0.33 || NOTE_TYPES[minIndex] == 0.66) {
+		if (tupleCheck == 0 && i < delays.length) {
+			var second = closestNote(delays, i+1, interval, 1);
+			var third = closestNote(delays, i+2, interval, 1);
+			if (minimum != second && minimum != third) {
+				minIndex = findMin(differences.slice(0, -2));
+			}
+			else {
+				delays[i+1] = delays[i];
+                delays[i+2] = delays[i];
+			}
 		}
-	});
-});
+	}
+	return NOTE_TYPES[minIndex];
 }
