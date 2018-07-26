@@ -84,4 +84,19 @@ function test() {
 			// here you do whatever you want with the response variable
 		}
 	});
+	$.ajax({
+		type:'get',
+		url:<YOUR SERVERSIDE PAGE URL>,
+		cache:false,
+		data:<if any arguments>,
+		async:asynchronous,
+		dataType:json, //if you want json
+		success: function(data) {
+			<put your custom validation here using the response from data structure >
+		},
+		error: function(request, status, error) {
+			<put your custom code here to handle the call failure>
+		}
+	});
+});
 }
