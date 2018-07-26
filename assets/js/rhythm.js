@@ -78,7 +78,7 @@ function startNotation() {
 
 function test() {
 	$.ajax({
-		url: "http://imkevinkuo.github.io/assets/py/rhythm.py",
+		url: "https://imkevinkuo.github.io/assets/py/rhythm.py",
 		success: function(response) {
 			console.log(response);
 			// here you do whatever you want with the response variable
