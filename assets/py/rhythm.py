@@ -6,5 +6,4 @@
 def notate(interval, taps):
     newTaps = []
 
-print(2);
-return 1;
+print(2)
