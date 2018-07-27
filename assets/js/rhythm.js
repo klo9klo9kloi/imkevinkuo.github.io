@@ -1,16 +1,19 @@
-var taps = []
-var recording = 0;
+var recordingBPM = 0;
+var recordingNotes = 0;
+
 var bpm = 0;
 var interval = 0;
-var beat = 0;
-var beating = 0;
-var metronome;
 var keydown = 0;
-var NOTE_TYPES = [4, 3, 2, 1.5, 1, 0.75, 0.5, 0.25, 0.33, 0.66];
+
+var taps = [];
+var NOTE_TYPES = [4, 3, 2.5, 2, 1.5, 1, 0.75, 0.5, 0.25, 0.33, 0.66];
+var NOTE_NAMES = ["whole", "dottedhalf", "halfneighth", "half", "dottedquarter", "quarter", "dottedeighth", "eighth", "sixteenth", "2etriplet", "2qtriplet"];
+
+var task;
 
 $(document).ready(function () {
-	$("#bpm").click(startBPM);
-	$("#notate").click(startNotation);
+	$("#bpm").click(bpmButton);
+	$("#notate").click(notesButton);
 	$(window).keyup(function(event) {
 		keydown = 0;
 	})
@@ -21,13 +24,21 @@ function createRipple() {
 		ripple.remove();
 	}, 2500); 
 }
-function startBPM() {
-	if (recording == 0) {
-		recording = 1;
-		stopBeat();
+function bpmButton() {
+	if (recordingNotes == 1) {
+		$("#bpm").text("Finish notating before resetting BPM.");
+	}
+	else if (recordingBPM == 1) {
+		recordingBPM = 0;
+		$(window).unbind("keydown");
+		$("#bpm").html("BPM: " + bpm + "<br>Click to record new BPM.");
+		$("#beat").css("animation-play-state", "running");
+		$("#beat").css("animation-duration", interval + "ms");
+	}
+	else if (recordingBPM == 0) {
+		recordingBPM = 1;
+		$("#beat").css("animation-play-state", "paused");
 		$("#bpm").text("Tap spacebar to the beat.");
-		$("#bpm").unbind("click").click(stopRecording);
-		// Should switch to implemention of queue
 		var lastTap = 0;
 		var intervalSum = 0; // intervalSum/totalTaps = averageInterval
 		var totalTaps = 0;
@@ -36,12 +47,15 @@ function startBPM() {
 				keydown = 1;
 				if (event.which == 32) { // Spacebar
 					createRipple();
-					totalTaps += 1;
-					if (totalTaps > 1) {
+					if (lastTap > 0) {
+						totalTaps += 1;
 						intervalSum += event.timeStamp - lastTap;
+					}
+					if (totalTaps > 1) {
 						bpm = Math.round(60000/(intervalSum/totalTaps));
 						interval = Math.round(60000/bpm);
 						$("#bpm").html("BPM: " + bpm + "<br>Click to lock BPM."); // 60000ms in 1 minute
+						$("#notate").html("2. Tap rhythm");
 					}
 					lastTap = event.timeStamp;
 				}
@@ -50,49 +64,31 @@ function startBPM() {
 	}
 }
 
-function stopRecording() {
-	if (recording == 1) {
-		recording = 0;
+function notesButton(e) {
+	if (recordingBPM == 1) {
+		$("#notate").html("Finish setting BPM first.");
+	}
+	else if (recordingNotes == 1) {
+		clearTimeout(task);
+		recordingNotes = 0;
 		$(window).unbind("keydown");
-		displayBeat();
-		$("#bpm").html("BPM: " + bpm + "<br>Click to record new BPM.");
-		$("#bpm").unbind("click").click(startBPM);
+		$("#notate").html("Done! <br>Click to record new rhythm.");
+		
+		taps.push(e.timeStamp);
+		parseTaps();
 	}
-}
-
-function displayBeat() {
-	if (bpm > 0 && beating == 0) {
-		beat = 0;
-		beating = 1;
-		metronome = setInterval(function() {
-			$("#beat").text((beat++)%4 + 1);
-		}, interval);
-	}
-}
-
-function stopBeat() {
-	if (beating == 1) {
-		beating = 0;
-		clearInterval(metronome);
-	}
-}
-
-function startNotation() {
-	if (recording == 0) {
+	else if (recordingNotes == 0) {
 		if (bpm > 0) {
-			recording = 1;
+			recordingNotes = 1;
 			taps = [];
 			$("#notate").text("Tap spacebar to begin notating.");
 			$(window).keydown(function( event ) {
 				if (event.which == 32) { // Spacebar
 					createRipple();
 					if (taps.length == 0) {
-						$("#notate").text("Notating for 8 measures...");
-						setTimeout(function(){
-							recording = 0;
-							$(window).unbind("keydown");
-							$("#notate").html("Done! Data in console.<br>Click to record new rhythm.");
-							parseTaps();
+						$("#notate").html("Notating for 8 measures...<br>Click to stop early.");
+						task = setTimeout(function(){
+							stopNotating();
 						}, interval*32);
 					}
 					taps.push(event.timeStamp);
@@ -109,16 +105,30 @@ function startNotation() {
 }
 
 function parseTaps() {
-	console.log(taps);
+	//console.log(taps);
 	var notes = [];
 	var delays = [];
+	console.log(taps);
 	for (var i = 1; i < taps.length; i++) {
 		delays.push(taps[i] - taps[i-1]);
 	}
-	for (var i = 0; i < taps.length; i++) {
-		notes.push(closestNote(delays, i, interval, 0));
+	console.log(delays);
+	for (var i = 0; i < delays.length; i++) {
+		notes.push(closestNote(delays, i, interval, 10));
 	}
-	console.log(notes);
+	for (var i = 0; i < notes.length; i++) {
+		if (notes[i] == 0.33 || notes[i] == 0.66) {
+			if (notes[i] != notes[i+1] && notes[i] != notes[i+2]) {
+				notes[i] = closestNote(delays, i, interval, 8);
+			}
+			else {
+				notes[i+1] = notes[i];
+				notes[i+2] = notes[i];
+			}
+			i += 2;
+		}
+	}
+	drawNotes(notes);
 }
 
 function findMin(array) {
@@ -136,28 +146,22 @@ function findMin(array) {
 	return [-1, -1];
 }
 
-function closestNote(delays, i, interval, tupleCheck) {
+function closestNote(delays, i, interval, endIndex) {
 	var time = delays[i];
 	var ratio = time/interval;
-	var differences = NOTE_TYPES.slice();
+	var differences = NOTE_TYPES.slice(0, endIndex);
 	for (var i = 0; i < differences.length; i++) {
 		differences[i] = Math.abs(differences[i] - ratio);
 	}
-
 	var minIndex = findMin(differences);
 	var minNote = NOTE_TYPES[minIndex];
-	if (minNote == 0.33 || minNote == 0.66) {
-		if (tupleCheck == 0 && i < delays.length) {
-			var second = closestNote(delays, i+1, interval, 1);
-			var third = closestNote(delays, i+2, interval, 1);
-			if (minNote != second && minNote != third) {
-				minIndex = findMin(differences.slice(0, -2));
-			}
-			else {
-				delays[i+1] = delays[i];
-                delays[i+2] = delays[i];
-			}
-		}
-	}
 	return NOTE_TYPES[minIndex];
+}
+
+function drawNotes(notes) {
+	$('#staff').html("");
+	for (var n = 0; n < notes.length; n++) {
+		var note = $("<div class='note'>" + notes[n] + "</div>").appendTo("#staff");
+		note.css("width", notes[n]*4 + "rem");
+	}
 }

@@ -1,15 +1,24 @@
 html {
 	font-size: 1em;
 }
-p, h1, .box {
+p, h1, .box, .note {
 	font-family: 'Slabo 27px', serif;
 	font-size: 2rem;
 	text-align: center;
+}
+.note {
+	font-size: 1rem;
 }
 .row {
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	overflow: visible;
+}
+#staff {
+	flex-wrap: wrap;
+	width: 40rem;
+	margin: 0 auto;
 }
 .box {
 	display: flex;
@@ -21,6 +30,21 @@ p, h1, .box {
 	background-color: salmon;
 	margin: 1rem;
 	cursor: pointer;
+}
+#beat {
+	width: 4rem;
+	height: 8rem;
+	animation: fade 1s infinite;
+	animation-play-state: paused;
+}
+@keyframes fade {
+	0% {
+		opacity: 0.5;
+	}
+	100% {
+		opacity: 1;
+	}
+	
 }
 .ripple {
   width: 0.1em;
@@ -40,4 +64,19 @@ p, h1, .box {
   100% {
     box-shadow: 0 0 0 50em rgba(150, 202, 255, 0);
   }
+}
+
+.note {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 2rem;
+	width: 4rem;
+	margin: 0.2rem;
+	background-color: teal;
+	border-radius: 0.5rem;
+	transition: opacity 0.2s;
+}
+.note:hover {
+	opacity: 0.5;
 }
