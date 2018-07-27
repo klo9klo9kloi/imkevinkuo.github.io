@@ -64,18 +64,20 @@ function bpmButton() {
 	}
 }
 
+function stopNotating() {
+	recordingNotes = 0;
+	$(window).unbind("keydown");
+	$("#notate").html("Done! <br>Click to record new rhythm.");
+	parseTaps();
+}
 function notesButton(e) {
 	if (recordingBPM == 1) {
 		$("#notate").html("Finish setting BPM first.");
 	}
 	else if (recordingNotes == 1) {
 		clearTimeout(task);
-		recordingNotes = 0;
-		$(window).unbind("keydown");
-		$("#notate").html("Done! <br>Click to record new rhythm.");
-		
 		taps.push(e.timeStamp);
-		parseTaps();
+		stopNotating();
 	}
 	else if (recordingNotes == 0) {
 		if (bpm > 0) {
@@ -89,6 +91,7 @@ function notesButton(e) {
 						$("#notate").html("Notating for 8 measures...<br>Click to stop early.");
 						task = setTimeout(function(){
 							stopNotating();
+							taps.push(event.timeStamp + interval*32);
 						}, interval*32);
 					}
 					taps.push(event.timeStamp);
