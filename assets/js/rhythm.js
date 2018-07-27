@@ -11,13 +11,17 @@ $(document).ready(function () {
 	$("#bpm").click(startBPM);
 	$("#notate").click(startNotation);
 });
-
+function createRipple() {
+	var ripple = $("<div class='ripple'></div>").appendTo("body");
+	setTimeout(function(){
+		ripple.remove();
+	}, 3500); 
+}
 function startBPM() {
 	if (recording == 0) {
 		recording = 1;
 		stopBeat();
-		$("#infobox").text("BPM Tracking will start on your first spacebar tap.");
-		$("#bpm").text("Click here once you are done");
+		$("#bpm").text("Tap spacebar to the beat.");
 		$("#bpm").unbind("click").click(stopRecording);
 		// Should switch to implemention of queue
 		var lastTap = 0;
@@ -25,12 +29,13 @@ function startBPM() {
 		var totalTaps = 0;
 		$(window).keypress(function( event ) {
 			if (event.which == 32) { // Spacebar
+				createRipple();
 				totalTaps += 1;
 				if (totalTaps > 1) {
 					intervalSum += event.timeStamp - lastTap;
 					bpm = Math.round(60000/(intervalSum/totalTaps));
 					interval = Math.round(60000/bpm);
-					$("#infobox").text(bpm); // 60000ms in 1 minute
+					$("#bpm").html("BPM: " + bpm + "<br>Click to lock BPM."); // 60000ms in 1 minute
 				}
 				lastTap = event.timeStamp;
 			}
@@ -43,7 +48,7 @@ function stopRecording() {
 		recording = 0;
 		$(window).unbind("keypress");
 		displayBeat();
-		$("#bpm").text("BPM saved. Click to re-record.");
+		$("#bpm").html("BPM: " + bpm + "<br>Click to record new BPM.");
 		$("#bpm").unbind("click").click(startBPM);
 	}
 }
@@ -52,10 +57,8 @@ function displayBeat() {
 	if (bpm > 0 && beating == 0) {
 		beat = 0;
 		beating = 1;
-		$("#beat").unbind("click").click(stopBeat);
-		$("#beat").text("stop counting beats");
 		metronome = setInterval(function() {
-			$("#counter").text((beat++)%4 + 1);
+			$("#beat").text((beat++)%4 + 1);
 		}, interval);
 	}
 }
@@ -63,8 +66,6 @@ function displayBeat() {
 function stopBeat() {
 	if (beating == 1) {
 		beating = 0;
-		$("#beat").unbind("click").click(displayBeat);
-		$("#beat").text("show beats again");
 		clearInterval(metronome);
 	}
 }
@@ -74,33 +75,34 @@ function startNotation() {
 		if (bpm > 0) {
 			recording = 1;
 			taps = [];
-			$("#infobox").text("Rhythm Notation will start on your first spacebar tap.");
+			$("#notate").text("Tap spacebar to begin notating.");
 			$(window).keypress(function( event ) {
 				if (event.which == 32) { // Spacebar
+					createRipple();
 					if (taps.length == 0) {
-						$("#infobox").text("dun ");
+						$("#notate").text("Notating for 8 measures...");
 						setTimeout(function(){
 							recording = 0;
 							$(window).unbind("keypress");
-							$("#infobox").text("Notes logged, parsing.");
-							console.log(taps);
+							$("#notate").html("Done! Data in console.<br>Click to record new rhythm.");
 							parseTaps();
-						}, interval*32); // 
-					}
-					else {
-						$("#infobox").text("dun ".repeat(taps.length + 1));
+						}, interval*32);
 					}
 					taps.push(event.timeStamp);
 				}
 			});
 		}
 		else {
-			$("#infobox").text("Please set BPM first.");
+			$("#notate").text("Please set BPM first.");
+			setTimeout(function(){
+				$("#notate").text("2. Tap rhythm");
+			}, 1000);
 		}
 	}
 }
 
 function parseTaps() {
+	console.log(taps);
 	var notes = [];
 	var delays = [];
 	for (var i = 1; i < taps.length; i++) {
@@ -122,7 +124,7 @@ function findMin(array) {
 				minimum = array[i];
 			}
 		}
-		return [minIndex, minimum];
+		return minIndex;
 	}
 	return [-1, -1];
 }
@@ -134,15 +136,14 @@ function closestNote(delays, i, interval, tupleCheck) {
 	for (var i = 0; i < differences.length; i++) {
 		differences[i] = Math.abs(differences[i] - ratio);
 	}
-	
-	m = findMin(differences);
-	var minIndex = m[0];
-	var minimum = m[1];
-	if (NOTE_TYPES[minIndex] == 0.33 || NOTE_TYPES[minIndex] == 0.66) {
+
+	var minIndex = findMin(differences);
+	var minNote = NOTE_TYPES[minIndex];
+	if (minNote == 0.33 || minNote == 0.66) {
 		if (tupleCheck == 0 && i < delays.length) {
 			var second = closestNote(delays, i+1, interval, 1);
 			var third = closestNote(delays, i+2, interval, 1);
-			if (minimum != second && minimum != third) {
+			if (minNote != second && minNote != third) {
 				minIndex = findMin(differences.slice(0, -2));
 			}
 			else {
