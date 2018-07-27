@@ -38,7 +38,7 @@ function bpmButton() {
 	else if (recordingBPM == 0) {
 		recordingBPM = 1;
 		$("#beat").css("animation-play-state", "paused");
-		$("#bpm").text("Tap spacebar to the beat.");
+		$("#bpm").text("Tap spacebar to the beat of your music.");
 		var lastTap = 0;
 		var intervalSum = 0; // intervalSum/totalTaps = averageInterval
 		var totalTaps = 0;
@@ -83,7 +83,7 @@ function notesButton(e) {
 		if (bpm > 0) {
 			recordingNotes = 1;
 			taps = [];
-			$("#notate").text("Tap spacebar to begin notating.");
+			$("#notate").text("Tap the rhythm you want notated.");
 			$(window).keydown(function( event ) {
 				if (event.which == 32) { // Spacebar
 					createRipple();
