@@ -3,7 +3,6 @@ var recordingNotes = 0;
 
 var bpm = 0;
 var interval = 0;
-var keydown = 0;
 
 var taps = [];
 var NOTE_TYPES = [4, 3, 2.5, 2, 1.5, 1, 0.75, 0.5, 0.25, 0.33, 0.66];
@@ -15,9 +14,6 @@ var task;
 $(document).ready(function () {
 	$("#bpm").click(bpmButton);
 	$("#notate").click(notesButton);
-	$(window).keyup(function(event) {
-		keydown = 0;
-	})
 	/* Open and close modal */
 	$("#help").click(function() {
 		displayModal();
@@ -63,22 +59,19 @@ function bpmButton() {
 		var intervalSum = 0; // intervalSum/totalTaps = averageInterval
 		var totalTaps = 0;
 		$(window).on("keydown touchstart", function( event ) {
-			if (keydown == 0) {
-				keydown = 1;
-				if (event.which == 32) { // Spacebar
-					createRipple();
-					if (lastTap > 0) {
-						totalTaps += 1;
-						intervalSum += event.timeStamp - lastTap;
-					}
-					if (totalTaps > 1) {
-						bpm = Math.round(60000/(intervalSum/totalTaps));
-						interval = Math.round(60000/bpm);
-						$("#bpm").html("BPM: " + bpm + "<br>Click to lock BPM."); // 60000ms in 1 minute
-						$("#notate").html("2. Tap rhythm");
-					}
-					lastTap = event.timeStamp;
+			if (event.which == 32 || event.type == "touchstart") { // Spacebar
+				createRipple();
+				if (lastTap > 0) {
+					totalTaps += 1;
+					intervalSum += event.timeStamp - lastTap;
 				}
+				if (totalTaps > 1) {
+					bpm = Math.round(60000/(intervalSum/totalTaps));
+					interval = Math.round(60000/bpm);
+					$("#bpm").html("BPM: " + bpm + "<br>Click to lock BPM."); // 60000ms in 1 minute
+					$("#notate").html("2. Tap rhythm");
+				}
+				lastTap = event.timeStamp;
 			}
 		});
 	}
@@ -105,7 +98,7 @@ function notesButton(e) {
 			taps = [];
 			$("#notate").text("Tap the rhythm you want notated.");
 			$(window).on("keydown touchstart", function( event ) {
-				if (event.which == 32) { // Spacebar
+				if (event.which == 32 || event.type == "touchstart") { // Spacebar
 					createRipple();
 					if (taps.length == 0) {
 						$("#notate").html("Notating for 8 measures...<br>Click to stop early.");
