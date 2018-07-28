@@ -3,6 +3,7 @@ var recordingNotes = 0;
 
 var bpm = 0;
 var interval = 0;
+var beating;
 
 var taps = [];
 var NOTE_TYPES = [4, 3, 2.5, 2, 1.5, 1, 0.75, 0.5, 0.25, 0.33, 0.66];
@@ -13,6 +14,7 @@ var task;
 
 $(document).ready(function () {
 	$("#bpm").click(bpmButton);
+	$("#beat").click(resetBeat);
 	$("#notate").click(notesButton);
 	/* Open and close modal */
 	$("#help").click(function() {
@@ -22,6 +24,21 @@ $(document).ready(function () {
 		hideModal();
 	};
 });
+function resetBeat() {
+	if (recordingBPM == 0 && recordingNotes == 0 && interval > 0) {
+		$("#beat").css("animation-name", "none");
+		$("#beat").outerHeight();
+		$("#beat").css("animation-name", "fade");
+		startBeat();
+	}
+}
+function startBeat() {
+	clearInterval(beating);
+	beating = setInterval(function() {
+		var audio = new Audio('assets/tick.mp3');
+		audio.play();
+	}, interval);
+}
 function hideModal() {
 	if ($(".modal").css("opacity") == "1") {
 		$(".modal").removeClass("active");
@@ -45,14 +62,18 @@ function bpmButton() {
 		$("#bpm").text("Finish notating before resetting BPM.");
 	}
 	else if (recordingBPM == 1) {
-		recordingBPM = 0;
-		$(window).off("keydown touchstart");
-		$("#bpm").html("BPM: " + bpm + "<br>Click to record new BPM.");
-		$("#beat").css("animation-play-state", "running");
-		$("#beat").css("animation-duration", interval + "ms");
+		if (interval > 0) {
+			recordingBPM = 0;
+			$(window).off("keydown touchstart");
+			$("#bpm").html("BPM: " + bpm + "<br>Click to record new BPM.");
+			$("#beat").css("animation-play-state", "running");
+			$("#beat").css("animation-duration", interval + "ms");
+			startBeat();
+		}
 	}
 	else if (recordingBPM == 0) {
 		recordingBPM = 1;
+		clearInterval(beating);
 		$("#beat").css("animation-play-state", "paused");
 		$("#bpm").text("Tap spacebar to the beat of your music.");
 		var lastTap = 0;

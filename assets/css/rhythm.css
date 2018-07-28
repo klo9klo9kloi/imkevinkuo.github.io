@@ -103,7 +103,12 @@ table {
 .note:hover {
 	opacity: 0.8;
 }
-
+.modal:before {
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+  height: 100%;
+}
 .modal {
     position: fixed; /* Stay in place */
     z-index: 1; /* Sit on top */
@@ -112,6 +117,7 @@ table {
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: hidden;
+	text-align: center;
     background-color: rgb(0,0,0); /* Fallback color */
     background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 	animation: fadeOut 0.4s;
@@ -125,15 +131,16 @@ table {
 /* Modal Content/Box */
 .modalContent {
 	/* Appearance */
+	display: inline-block;
+	vertical-align: middle;
     background-color: white;
 	width: 80%;
 	height: auto;
-	max-height: 100%;
-	margin: 10% auto; /* 15% from the top and centered */
-    padding: 1rem 2rem 2rem 2rem; /* Slightly less on top for the X */
+	margin: 0 auto; /* 15% from the top and centered */
+    padding: 1rem; /* Slightly less on top for the X */
     border: 1px solid #888;
 	border-radius: 0.5rem;
-	overflow: hidden;
+	overflow: visible;
 }
 @keyframes fadeIn {
 	0% {
