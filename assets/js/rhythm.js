@@ -11,13 +11,33 @@ var NOTE_NAMES = ["whole", "dottedhalf", "halfneighth", "half", "dottedquarter",
 
 var task;
 
+
 $(document).ready(function () {
 	$("#bpm").click(bpmButton);
 	$("#notate").click(notesButton);
 	$(window).keyup(function(event) {
 		keydown = 0;
 	})
+	/* Open and close modal */
+	$("#help").click(function() {
+		displayModal();
+	});
+	window.onclick = function(event) {
+		hideModal();
+	};
 });
+function hideModal() {
+	if ($(".modal").css("opacity") == "1") {
+		$(".modal").removeClass("active");
+		setTimeout(function() {
+			$(".modal").addClass("hidden");
+		}, 400);
+	}
+}
+function displayModal() {
+	$(".modal").removeClass("hidden");
+	$(".modal").addClass("active");
+}
 function createRipple() {
 	var ripple = $("<div class='ripple'></div>").appendTo("body");
 	setTimeout(function(){
@@ -165,6 +185,6 @@ function drawNotes(notes) {
 	$('#staff').html("");
 	for (var n = 0; n < notes.length; n++) {
 		var note = $("<div class='note'>" + notes[n] + "</div>").appendTo("#staff");
-		note.css("width", notes[n]*4 + "rem");
+		note.css("width", notes[n]*6 + "rem");
 	}
 }
