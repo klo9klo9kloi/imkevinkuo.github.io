@@ -50,7 +50,7 @@ function bpmButton() {
 	}
 	else if (recordingBPM == 1) {
 		recordingBPM = 0;
-		$(window).unbind("keydown");
+		$(window).off("keydown touchstart");
 		$("#bpm").html("BPM: " + bpm + "<br>Click to record new BPM.");
 		$("#beat").css("animation-play-state", "running");
 		$("#beat").css("animation-duration", interval + "ms");
@@ -62,7 +62,7 @@ function bpmButton() {
 		var lastTap = 0;
 		var intervalSum = 0; // intervalSum/totalTaps = averageInterval
 		var totalTaps = 0;
-		$(window).keydown(function( event ) {
+		$(window).on("keydown touchstart", function( event ) {
 			if (keydown == 0) {
 				keydown = 1;
 				if (event.which == 32) { // Spacebar
@@ -86,7 +86,7 @@ function bpmButton() {
 
 function stopNotating() {
 	recordingNotes = 0;
-	$(window).unbind("keydown");
+	$(window).off("keydown touchstart");
 	$("#notate").html("Done! <br>Click to record new rhythm.");
 	parseTaps();
 }
@@ -104,7 +104,7 @@ function notesButton(e) {
 			recordingNotes = 1;
 			taps = [];
 			$("#notate").text("Tap the rhythm you want notated.");
-			$(window).keydown(function( event ) {
+			$(window).on("keydown touchstart", function( event ) {
 				if (event.which == 32) { // Spacebar
 					createRipple();
 					if (taps.length == 0) {
