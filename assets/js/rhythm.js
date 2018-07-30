@@ -55,7 +55,7 @@ function createRipple() {
 	var ripple = $("<div class='ripple'></div>").appendTo("body");
 	setTimeout(function(){
 		ripple.remove();
-	}, 2500); 
+	}, 2000); 
 }
 function bpmButton() {
 	if (recordingNotes == 1) {

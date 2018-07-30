@@ -72,8 +72,9 @@ table {
 .ripple {
   width: 0.1em;
   height: 0.1em;
+  border-radius: 12rem;
   border-radius: 50%;
-  animation: ripple 3s ease-out;
+  animation: ripple 2s ease-out;
   position: fixed;
   top: 50vh;
   left: 50vw;
