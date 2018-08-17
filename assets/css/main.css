@@ -101,7 +101,7 @@ html {
 	display: flex;
 	padding: 2rem 1rem;
 	justify-content: center;
-	flex-wrap: wrap;
+	flex-wrap: none;
 }
 .imgbox {
 	width: 10rem;
@@ -115,6 +115,7 @@ html {
 	
 	cursor: pointer;
 	user-select: none;
+	flex: 0 0 auto;
 }
 .imgbox.active {
 	animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
