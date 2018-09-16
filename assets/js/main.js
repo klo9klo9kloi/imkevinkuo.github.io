@@ -1,7 +1,7 @@
 var current = 0;
 var descs = [["Kevin Kuo"],
 			["Academics", "University of Maryland, College Park", "Team AIMAR", "Thomas Jefferson High School"],
-			["Projects", "Github", "Gait Recognition", "Elementals", "Cadence", "kirilloid-oasis"],
+			["Projects", "AI/Parallel Computing", "Gait Recognition", "Elementals", "Cadence", "kirilloid-oasis"],
 			["Miscellaneous", "Track and Field", "Taiwan", "Music", "League of Legends"]];
 $(function() {
 	$.scrollify({
@@ -105,27 +105,30 @@ function showContent(sec, id) {
 	});
 }
 $(document).ready(function () {
-	$(".row.imgs").mouseleave(function() {
-		if ($(this).hasClass("active")) {
-			var sec = $(this).attr("mySection");
-			var id = $(this).attr("myID");
-			$(".section").eq(sec).find('h1').text(descs[sec][id]);
-		}
+	$(".imgbox").mouseleave(function() {
+		var sec = $(this).attr("mySection");
+		var id = $(this).attr("myID");
+		$(".section").eq(sec).find('h1').text(descs[sec][0]);
 	});
 	
 	$(".imgbox").mouseenter(function() {
-		if (!$(this).hasClass("nohover")) {
-			var sec = $(this).attr("mySection");
-			var id = $(this).attr("myID");
-			$(".section").eq(sec).find('h1').text(descs[sec][id]);
-		}
+		var sec = $(this).attr("mySection");
+		var id = $(this).attr("myID");
+		$(".section").eq(sec).find('h1').text(descs[sec][id]);
 	});
 	
-	$(".imgbox").click(function() {
+	$(".imgbox").mousedown(function() {
 		if (!$(this).hasClass("nohover")) {
 			var sec = $(this).attr("mySection");
 			var id = $(this).attr("myID") - 1;
 			showContent(sec, id);
+			$(this).css("opacity", 0.7);
+		}
+	});
+	
+	$(".imgbox").mouseup(function() {
+		if (!$(this).hasClass("nohover")) {
+			$(this).css("opacity", '');
 		}
 	});
 	
