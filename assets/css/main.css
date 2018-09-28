@@ -98,12 +98,13 @@ html {
 
 /* IMAGE BOXES */
 .row {
+	z-index: 1;
 	display: flex;
 	padding: 2rem 1rem;
 	justify-content: center;
-	flex-wrap: none;
 }
 .imgbox {
+	z-index: 2;
 	width: 10rem;
 	height: 10rem;
 	margin: 1rem;
@@ -158,6 +159,7 @@ html {
 
 /* CONTENT */
 .content {
+	z-index: 0;
 	animation: fadeInDown 0.5s;
 }
 .single > * {

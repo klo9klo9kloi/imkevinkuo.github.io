@@ -105,6 +105,7 @@ function showContent(sec, id) {
 	});
 }
 $(document).ready(function () {
+	
 	$(".imgbox").mouseleave(function() {
 		var sec = $(this).attr("mySection");
 		var id = $(this).attr("myID");
@@ -122,13 +123,6 @@ $(document).ready(function () {
 			var sec = $(this).attr("mySection");
 			var id = $(this).attr("myID") - 1;
 			showContent(sec, id);
-			$(this).css("opacity", 0.7);
-		}
-	});
-	
-	$(".imgbox").mouseup(function() {
-		if (!$(this).hasClass("nohover")) {
-			$(this).css("opacity", '');
 		}
 	});
 	
