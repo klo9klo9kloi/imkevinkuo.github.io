@@ -1,7 +1,7 @@
 var current = 0;
 var descs = [["Kevin Kuo"],
 			["Academics", "University of Maryland, College Park", "Team AIMAR", "Thomas Jefferson High School"],
-			["Projects", "AI/Parallel Computing", "Gait Recognition", "Elementals", "Cadence", "Web Automation"],
+			["Projects", "AI/Parallel Computing", "Gait Recognition", "Elementals", "Cadence", "Web Automation", "4 Year Planner"],
 			["Miscellaneous", "Track and Field", "Taiwan", "Music", "League of Legends"]];
 $(function() {
 	$.scrollify({
@@ -59,7 +59,7 @@ function activate(s) {
 		imgboxes.addClass("nohover");
 		setTimeout(function() {
 			imgboxes.removeClass("nohover");
-		}, imgboxes.length * 200 + 1000);
+		}, 1200);
 		$(".section").eq(s).find('h1').text(descs[s][0]);
 	}
 }
@@ -127,8 +127,9 @@ $(document).ready(function () {
 	});
 	
 	for (var s = 0; s < 4; s++) {
-		$(".section").eq(s).find('.row .imgbox').each(function(index) {
-			$(this).css("animation-delay", 0.2 + index*0.2 + "s");
+		var boxes = $(".section").eq(s).find('.row .imgbox');
+		boxes.each(function(index) {
+			$(this).css("animation-delay", index*(1/boxes.length) + "s");
 		});
 	}
 });
