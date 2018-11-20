@@ -129,7 +129,7 @@ $(document).ready(function () {
 	for (var s = 0; s < 4; s++) {
 		var boxes = $(".section").eq(s).find('.row .imgbox');
 		boxes.each(function(index) {
-			$(this).css("animation-delay", index*(1/boxes.length) + "s");
+			$(this).css("animation-delay", index*(1/(boxes.length+1)) + "s");
 		});
 	}
 });
