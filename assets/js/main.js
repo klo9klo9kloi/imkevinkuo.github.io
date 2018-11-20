@@ -1,7 +1,7 @@
 var current = 0;
 var descs = [["Kevin Kuo"],
 			["Academics", "University of Maryland, College Park", "Team AIMAR", "Thomas Jefferson High School"],
-			["Projects", "AI/Parallel Computing", "Gait Recognition", "Elementals", "Cadence", "kirilloid-oasis"],
+			["Projects", "AI/Parallel Computing", "Gait Recognition", "Elementals", "Cadence", "Web Automation"],
 			["Miscellaneous", "Track and Field", "Taiwan", "Music", "League of Legends"]];
 $(function() {
 	$.scrollify({
