@@ -1,8 +1,5 @@
 var NIGHT_MODE = 0;
-var skillvideo;
 var skilldesc;
-var SRC_SUFFIX = "showinfo=0&enablejsapi=1&version=3&playerapiid=ytplayer";
-var SRC_URLS = [];
 
 var SKILL_NAMES = ["Spearhead", "Sideswipe", "Axeheave", "Bladereap", 
 				   "Iron Will", "Smoldering Rage", "Gilded Resolve", "Tempered Fury",
@@ -166,6 +163,17 @@ var ROW_COLORS = [[200, 184, 150],
 				  [34, 153, 84],
 				  [100, 37, 35	],
 				  [230, 230, 230]];
+				  
+				  // Before page loads
+var videoHTML = "";
+for (var i = 0; i < SKILL_NAMES.length; i++) {
+	videoHTML += "<video class=\"hidden\" width=\"640\" height=\"360\" controls>"
+	videoHTML += "<source src=\"videos/" + SKILL_NAMES[i] + ".mp4\" type=\"video/mp4\">";
+	videoHTML += "</video>";
+}
+$(".vidbox").append(videoHTML);
+
+document.getElementsByClassName("vidbox")[0].innerHTML = videoHTML;
 $(document).ready(function () {
 	$(".star").click(function() {
 		if (!$(this).find("img").hasClass("out")) {
@@ -273,12 +281,10 @@ $(document).ready(function () {
 		displayModal(modal, $(this).attr("myID"));
 	});
 	/* Initialize modal content */
-	skillvideo = $(".skillvideo");
 	skilldesc = $(".skilldesc");
 });
 function showContent(id) {
 	$(".row.double").each(function(i) {
-		/* fill in the rest of the page */
 		if (i == id) {
 			$(this).removeClass("hidden");
 			$(this).find('*').addClass("active");
@@ -289,21 +295,27 @@ function showContent(id) {
 		}
 	});
 }
+function showVideo(id) {
+	$("video").each(function(i) {
+		if (i == id) {
+			$(this).removeClass("hidden");
+		}
+		else {
+			$(this).addClass("hidden");
+		}
+	});
+}
 function displayModal(modal, i) {
 	modal.classList.remove("hidden");
 	modal.classList.add("active");
 	/* Change text inside modal */
-	skillvideo.attr("src", SRC_URLS[i] + SRC_SUFFIX);
 	skilldesc.find("h2").text(SKILL_NAMES[i]);
 	skilldesc.find("p").text(SKILL_DESCS[i]);
+	showVideo(i);
 }
 function hideModal(modal) {
 	modal.classList.remove("active");
 	setTimeout(function() {
 		modal.classList.add("hidden");
 	}, 400);
-}
-/* swap it up */
-function disableVideo() {
-	$('#track')[0].contentWindow.postMessage('{"event":"command","func":"' + 'stopVideo' + '","args":""}', '*');
 }

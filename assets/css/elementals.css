@@ -200,7 +200,7 @@ img {
 iframe {
 	margin: 0;
 }
-.skillvideo {
+.vidbox {
 	flex: 0 0 640px;
 	border: 1px solid white;
 	margin-top: 2rem;
