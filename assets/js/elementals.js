@@ -167,7 +167,7 @@ var ROW_COLORS = [[200, 184, 150],
 				  // Before page loads
 var videoHTML = "";
 for (var i = 0; i < SKILL_NAMES.length; i++) {
-	videoHTML += "<video class=\"hidden\" width=\"640\" height=\"360\" controls>"
+	videoHTML += "<video class=\"hidden\" width=\"640\" height=\"360\" preload=\"none\" controls>"
 	videoHTML += "<source src=\"videos/" + SKILL_NAMES[i] + ".mp4\" type=\"video/mp4\">";
 	videoHTML += "</video>";
 }
