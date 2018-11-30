@@ -164,11 +164,18 @@ var ROW_COLORS = [[200, 184, 150],
 				  [100, 37, 35	],
 				  [230, 230, 230]];
 				  
-				  // Before page loads
+var VIDEO_LINKS = [	"1WgNB_7mh5yHU3zy6lFZM89r8Gc6YUGiP", "1G51BEAIdKbgkzuRwWaDM6THoovcQ1Sry", 
+					"1zk6E3MQ0Zyan1sG90oqnUGUUzUTaJQOF", "1Oce4b19S5Qk6y1wZG5zx-aFH41nTQBE6",
+					
+					"1hniZWN9DnE-D3lNwfDNnlCzzgd62XGBl", "1qrYk94mxgOV7-CK2QPLv9W3hhzhby8NP",
+					"", "1t2lSg-nnh_vgS0hkqEkm34mkC_R9xUaN", 
+					
+					"11Z3rQBY-sfn_HQn1eJajtxNFq3uU9oa_", "1y-WoFEobf-5WjWnT9__XOua7GJwF6j3j",
+					"1q-q2dDjFQCkTODDoE3qA5ykqjXzAAN-e", "14J_xpTZtspKzI7BYjtUp6wTKl_wXp_Qk"];
 var videoHTML = "";
 for (var i = 0; i < SKILL_NAMES.length; i++) {
-	videoHTML += "<video class=\"hidden\" width=\"640\" height=\"360\" preload=\"none\" controls>"
-	videoHTML += "<source src=\"videos/" + SKILL_NAMES[i] + ".mp4\" type=\"video/mp4\">";
+	videoHTML += "<video class=\"hidden\" width=\"640\" height=\"360\" preload=\"none\">"
+	videoHTML += "<source src=\"" + "https://drive.google.com/uc?export=download&id=" + VIDEO_LINKS[i] + "\" type=\"video/mp4\">";
 	videoHTML += "</video>";
 }
 $(".vidbox").append(videoHTML);
@@ -299,6 +306,7 @@ function showVideo(id) {
 	$("video").each(function(i) {
 		if (i == id) {
 			$(this).removeClass("hidden");
+			$(this)[0].play();
 		}
 		else {
 			$(this).addClass("hidden");
@@ -318,4 +326,5 @@ function hideModal(modal) {
 	setTimeout(function() {
 		modal.classList.add("hidden");
 	}, 400);
+	$("video").each(function () { this.pause() });
 }
