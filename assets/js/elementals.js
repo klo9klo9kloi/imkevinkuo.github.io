@@ -164,14 +164,41 @@ var ROW_COLORS = [[200, 184, 150],
 				  [100, 37, 35	],
 				  [230, 230, 230]];
 				  
-var VIDEO_LINKS = [	"1WgNB_7mh5yHU3zy6lFZM89r8Gc6YUGiP", "1G51BEAIdKbgkzuRwWaDM6THoovcQ1Sry", 
-					"1zk6E3MQ0Zyan1sG90oqnUGUUzUTaJQOF", "1Oce4b19S5Qk6y1wZG5zx-aFH41nTQBE6",
+var VIDEO_LINKS = [	"1lh3r3akaqVI3jt0ZgTXfssG3yJhjnrXT","19-afLAtUTezIiwa5-IDrYsgJwfwg-8sz",
+					"1bfLlO7G9uK1kjBsWMhGm7SzPVd-IDjrw","1RC8rydZz9EZCUZOHY0FHHq7FLrdCsBwH",
 					
-					"1hniZWN9DnE-D3lNwfDNnlCzzgd62XGBl", "1qrYk94mxgOV7-CK2QPLv9W3hhzhby8NP",
-					"", "1t2lSg-nnh_vgS0hkqEkm34mkC_R9xUaN", 
+					"1U-s5_Xq65-hoPp1Vv1basjH37C7ahLTu","1pmyl4S-SuO_On18w2STpar4MWTDmkzKI",
+					"1B6avFcbLagC5yyqRPVyHfLrD2qGU8YC6","1-JKpCw_BHosGrZhvlgX64mY-lMrXRWhd",
 					
-					"11Z3rQBY-sfn_HQn1eJajtxNFq3uU9oa_", "1y-WoFEobf-5WjWnT9__XOua7GJwF6j3j",
-					"1q-q2dDjFQCkTODDoE3qA5ykqjXzAAN-e", "14J_xpTZtspKzI7BYjtUp6wTKl_wXp_Qk"];
+					"1tZGOSxOQ1_zChRuaG1R9wcP8sPnGVUYr","1XYB-7s-NrkbqiX9tksIRcCjxJzKkkdX0",
+					"10C1Cg4HP4aYR-wfUXLtQAzlD7X0YGc7m","1XPgatpvAyjbEbcE2xhqZTdw5_5AsaOQv",
+					
+					"1CVrOmLRiex2PuSeesOYhXXG5JMI4YEEK","1p1pPzHhwSxYbvulMqagqeaZ4HQKDe_dt",
+					"1ZWxj5vOprWobkFyBN8VQaZfWNFTorE9v","1wuA34iAZ0aYQJpEFTI2ryScMzgFFzegV",
+					
+					"1ezO0cjAhcpV3lyGHVlcvK1NhSK_mLyzV","1titFOaifknMuNNFsQIby8jMYUuH4qFSt",
+					"1BCrQT4F3qlmi6t8WuxcR0Zv9npoEd7xk","1xAbY-Dmb3l8JaBVRjjUMvyyJ3DPc8GCA",
+					
+					"1tBh8Xov0wQJkhqQHTDyzYcCPjlUNQ-b6","10rL6qWZAIB1nqYkW_MHpjdfGLKl_74Dy",
+					"1KTTA5RkKOfNGzfubhMaDXjRMDxmQ1hS6","1pcpckRpNFmv_-Txq3IQcMp0_1gVklpit",
+					
+					"19Mqwc4A1Wb5oybvJMat6TTcwOhtaNVjG","1aBFcJBErkXUQA75syyIlZEgXgNM-gRfu",
+					"18H5hh9LhM3Fg02uoHgM0TiApoBQr6uLB","1zIruyQ5uaQrYcPPLLryVfnMalB28BXW9",
+					
+					"1DM1bXpDQL0hq3BoSfF1MQEOap1-K3pZ4","1f44vsCtpQUIB01e8mfFf05BE-ATGqIyS",
+					"1ph9b6zq6SikCOR_EbTeP24ODls7ptvq4","1QmOyK10UA48tXM8kSfgvVZxJHdktTWjv",
+					
+					"15tf3njveeMxCFfNmHSd-_UMuk3MYWimt", "19hECvN5p8K2_bGD2ckFmKVun0h_L7zAy", 
+					"1jlx2O1xOYXU6mplQu8yJWNF9asXwuaez", "12TwhFxwwW7aSk9XNOgNkyOqjsk9dY1Mp",
+					
+					"1BWNqR-miMhOS7a2Fj1JjyuuoFdAr_KtI", "1hydq6pSn-YGbElPsJX9BVzdrcYYylWGH",
+					"1Ax6-ys2iE6pS1-pTkBdk8xwN5n92UBhp", "1mY5p2z6yANFOXii8IANZS4i49HZ4wotK", 
+					
+					"1B0ir-XNXTnYTCn4YZAId98hCI2I-1pch","13nQqYGgZqJihVz0p6qHTx3Rh2lHAmnOv",
+					"1LtQiS9JahOOgd7-AFM9JEvorei8Y3LzP","1TyTvA3YvOb4juOCDP7z7lLZEz6ZB-XLg",
+					
+					"1lAkCNHbqewdqtBADQzpMnEACX_A_sXqe","1s6jXIUSb3iOnTpDS7FFIzMtMTelmSRjD",
+					"1DJlQDkCg904rTbsfBQrgWmrN_fqNDYl4","1uuICbQXkPN12sfIQqSLWvXFMZifj52jw"];
 var videoHTML = "";
 for (var i = 0; i < SKILL_NAMES.length; i++) {
 	videoHTML += "<video class=\"hidden\" width=\"640\" height=\"360\" preload=\"none\">"
