@@ -4,7 +4,7 @@ html {
 p, h1, h2 {
 	color: white;
 	margin: 0;
-	font-family: 'Merienda', cursive;
+	font-family: 'Merienda', "Palatino Linotype", "Book Antiqua", serif;
 }
 p {
 	font-size: 1.5rem;

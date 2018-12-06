@@ -47,9 +47,9 @@ var SKILL_DESCS = ["Thrust forward, dealing damage and Slowing all enemies in a 
 				   "Your next melee attack applies a bleed, dealing continuous damage and weakening the next healing effect on the target.",
 				   
 				   "Absorbs up to 3 magical (cold, ice, fire, light, dark, explosive) attacks. If all 3 blocks are used, gain a burst of Regeneration.",
-				   "Absorbs up to 3 magical attacks. If all 3 blocks are used, your next melee attack applies a random powerful hostile effect (either Hunger, Poison, Blind, or Slow).", 
+				   "Absorbs up to 3 magical attacks. If all 3 blocks are used, your next melee attack applies a random hostile effect (either Hunger, Poison, Blind, or Slow).", 
 				   "Absorbs up to 3 magical attacks. If all 3 blocks are used, gain a large burst of Speed.", 
-				   "Absorbs up to 3 magical attacks. If all 3 blocks are used, your next melee attack applies [Silence], placing all of your enemy's skills on a 20 second cooldown.",
+				   "Absorbs up to 3 magical attacks. If all 3 blocks are used, your next melee attack [Silences] the target for 6 seconds.",
 				   
 				   "Shoot a fireball that deals explosive damage and sets enemies on fire.", 
 				   "Unleashes a short-range flame attack that Burns enemies.", 
