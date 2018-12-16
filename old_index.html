@@ -1,36 +1,40 @@
 <!DOCTYPE html>
 <meta charset=utf-8>
-<html>
-<head>
-	<link rel="stylesheet" type="text/css" href="assets/css/main2.css">
-	<script src="assets/js/jquery-3.3.1.js"></script>
-	<script src="assets/js/main2.js"></script>
-</head>
-<body>
-	<div id="navbar">
-		<span class="navbutton" id="title">Kevin Kuo</span>
-		<span class="navbutton">Academics</span>
-		<span class="navbutton">Projects</span>
-		<span class="navbutton">About</span>
-	</div>
-	<div id="wrapper">
-		<div class="section">
-			<div class="content">
-				<p>Hi! My name is Kevin Kuo. I'm currently an undergraduate student at the University of Maryland, College Park. Most of my experience is in basic software dev/design and data science, but I'm trying to branch out into a lot of different topics to figure out what I like.</p>
-				<p>I'm currently building animations for this site. All of the info and links match the <a href="old_index.html">old site</a>, which you can switch to if you like colors and animations.</p>
-				<p>Click on any of the tabs above to learn more.</p>
+	<html>
+	<head>
+		<link href="https://fonts.googleapis.com/css?family=Merriweather" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="assets/css/main.css">
+		<script src="assets/js/jquery-3.3.1.js"></script>
+		<script src="assets/js/jquery.scrollify.js"></script>
+		<script src="assets/js/main.js"></script>
+	</head>
+    <body>
+	
+		<div id="home" class="section">
+		
+			<div class="banner active" id="banner0">
+				<h1>Kevin Kuo</h1>
 			</div>
-			<img src="images/index/tourtaiwan1.jpg" height="400" width="auto">
+			<div class="row imgs" desc="Kevin Kuo"></div>
+			<div style="animation: fadeInDown 2s; overflow: hidden; margin: 0vh 20vw 0vh 20vw;">
+				<p align="center">I'm from Arlington/Falls Church, Virginia and currently attending the University of Maryland, College Park.</p>
+			</div>
+			<div class="scroll"></div>
+			<div class="scroll"></div>
 		</div>
 		
-		<div class="section hidden">
-			<div class="carousel">
-				<div class="imgbox"><img src="images/index/umd.jpg"></div>
-				<div class="imgbox"><img src="images/index/aimar.jpg"></div>
-				<div class="imgbox"><img src="images/index/tjhsst.jpg"></div>
+		<div id="academics" class="section">
+		
+			<div class="banner" id="banner1">
+				<h1>Academics</h1>
 			</div>
-			<div class="subsection">
-			<h1>Academics</h1>
+			
+			<div class="row imgs" mySection=1 myID=0>
+				<span class="imgbox" mySection=1 myid=1><img src="images/index/umd.jpg"></span>
+				<span class="imgbox" mySection=1 myid=2><img src="images/index/aimar.jpg"></span>
+				<span class="imgbox" mySection=1 myid=3><img src="images/index/tjhsst.jpg"></span>
+			</div>
+			
 			<div class="content hidden">
 			<div class="row single"><p>I'm majoring in Computer Science and Mathematics at UMD. I'm a member of the Gemstone Honors College and TASA (Taiwanese-American Student Association).</p></div>
 			</div>
@@ -42,21 +46,24 @@
 			<div class="content hidden">
 			<div class="row single"><p>TJHSST (Thomas Jefferson High School for Science and Technology) is a magnet high school in Alexandria, Virginia. Outside of class, I ran on the track team and played violin for Symphonic and Pit Orchestra.</p></div>
 			</div>
-			</div>
+		
 		</div>
 		
-		<div class="section hidden">
-			<div class="carousel">
-				<div class="imgbox" mySection=2 myid=1><img src="images/index/chess.jpg"></div>
-				<div class="imgbox" mySection=2 myid=2><img src="images/index/gait.jpg"></div>
-				<div class="imgbox" mySection=2 myid=3><img src="images/index/elementals.jpg"></div>
-				<div class="imgbox" mySection=2 myid=4><img src="images/index/cadence.jpg"></div>
-				<div class="imgbox" mySection=2 myid=5><img src="images/index/oasis.jpg"></div>
-				<div class="imgbox" mySection=2 myid=6><img src="images/index/planner.jpg"></div>
+		<div id="projects" class="section">
+			
+			<div class="banner" id="banner2">
+				<h1>Projects</h1>
 			</div>
 			
-			<div class="subsection">
-			<h1>Projects</h1>
+			<div class="row imgs"  mySection=2 myid=0>
+				<span class="imgbox" mySection=2 myid=1><img src="images/index/chess.jpg"></span>
+				<span class="imgbox" mySection=2 myid=2><img src="images/index/gait.jpg"></span>
+				<span class="imgbox" mySection=2 myid=3><img src="images/index/elementals.jpg"></span>
+				<span class="imgbox" mySection=2 myid=4><img src="images/index/cadence.jpg"></span>
+				<span class="imgbox" mySection=2 myid=5><img src="images/index/oasis.jpg"></span>
+				<span class="imgbox" mySection=2 myid=6><img src="images/index/planner.jpg"></span>
+			</div>
+			
 			<div class="content hidden">
 			<div class="row single"><p>My <a href="https://github.com/imkevinkuo">Github</a> contains projects from high school Artificial Intelligence and Parallel Computing courses, as well as solutions to CodeSignal and foo.bar challenges.</p></div>
 			<p>Languages: C, C++, Python</p>
@@ -85,19 +92,22 @@
 			<div class="content hidden">
 			<div class="row single"><p>This <a href="https://goo.gl/Ua4hGs">spreadsheet</a> helps UMD CS/Math Gemstone students make 4-year academic plans.</p><p>Data on all Gen-Ed, CS, and Math courses are pulled from <a href="https://app.testudo.umd.edu/soc/">Testudo</a> using a Python script.</p></div>
 			<p>Languages: Python, Sheets</p>
-			</div>
-			</div>
+			</div>		
 		</div>
 		
-		<div class="section hidden">
-			<div class="carousel">
-				<div class="imgbox"><img src="images/index/trackrace.jpg"></div>
-				<div class="imgbox"><img src="images/index/tamkangkoi.jpg"></div>
-				<div class="imgbox"><img src="images/index/pit.jpg"></div>
+		<div id="misc" class="section">
+		
+			<div class="banner" id="banner3">
+				<h1>Miscellaneous</h1>
 			</div>
 			
-			<div class="subsection">
-			<h1>About</h1>
+			<div class="row imgs" mySection=3 myid=0>
+				<span class="imgbox" mySection=3 myid=1><img src="images/index/trackrace.jpg"></span>
+				<span class="imgbox" mySection=3 myid=2><img src="images/index/tamkangkoi.jpg"></span>
+				<span class="imgbox" mySection=3 myid=3><img src="images/index/pit.jpg"></span>
+				<span class="imgbox" mySection=3 myid=4><img src="images/index/ekko.jpg"></span>
+			</div>
+			
 			<div class="content hidden">
 			<div class="row single"><p>I was a captain for my high school track team and specialized in the 400m dash (and shorter races).</p></div>
 			</div>
@@ -109,8 +119,14 @@
 			<div class="content hidden">
 			<div class="row single"><p>I've been playing violin for 9 years. I've also transcribed a few pieces of music on <a href="https://musescore.com/user/113601">Musescore</a>.</p></div>
 			</div>
+			
+			<div class="content hidden">
+			<div class="row single">
+			<p>League of Legends is a MOBA-genre PC game. Here's two articles/analysis I did in the past.</p></div>
+			<div class="row double">
+			<p>Article: <a href="ekko.html">The Rise and Fall of Tank Ekko</a></p>
+			<p>Analysis: <a href="jarvan.html">Jarvan IV Itemization for Top Lane</a></p></div>
 			</div>
 		</div>
-	</div>
-</body>
-</html>
+    </body>
+	</html>
