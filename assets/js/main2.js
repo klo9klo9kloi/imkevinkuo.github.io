@@ -2,7 +2,7 @@ var inputAllowed = true;
 var descs = [["Kevin Kuo"],
 			["Academics", "University of Maryland, College Park", "Team AIMAR", "Thomas Jefferson High School"],
 			["Projects", "AI/Parallel Computing", "Gait Recognition", "Elementals", "Cadence", "Web Automation", "4 Year Planner"],
-			["Miscellaneous", "Track and Field", "Taiwan", "Music", "League of Legends"]];
+			["Miscellaneous", "Track and Field", "Taiwan", "Music"]];
 function showSection(s) {
 	if (s == 0) {
 		showContent(s, 0);
@@ -32,10 +32,13 @@ function showContent(sec, id) {
 }
 $(document).ready(function () {
 	
+	$(".carousel").mouseleave(function() {
+		var sec = $(".section").index($(this).parent());
+		$(".section").eq(sec).find('h1').text(descs[sec][0]);
+	})
 	$(".imgbox").mouseleave(function() {
 		var sec = $(".section").index($(this).parent().parent());
 		var id = $(this).parent().children(".imgbox").index($(this));
-		$(".section").eq(sec).find('h1').text(descs[sec][0]);
 		$(this).removeClass("active");
 	});
 	
