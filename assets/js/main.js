@@ -1,98 +1,24 @@
-var current = 0;
+var inputAllowed = true;
 var descs = [["Kevin Kuo"],
 			["Academics", "University of Maryland, College Park", "Team AIMAR", "Thomas Jefferson High School"],
 			["Projects", "AI/Parallel Computing", "Gait Recognition", "Elementals", "Cadence", "Web Automation", "4 Year Planner"],
-			["Miscellaneous", "Track and Field", "Taiwan", "Music", "League of Legends"]];
-$(function() {
-	$.scrollify({
-		section : ".section",
-		easing: "easeOutExpo",
-		scrollSpeed: 1200,
-		updateHash: true,
-		scrollbars: false,
-		afterResize: function() {
-			$.scrollify.update();
-			$.scrollify.instantMove(current);
-		},
-		before: function(i, panels) {
-			current = i;
-			for (var s = 0; s < 4; s++) {
-				if (s == i) {
-					activate(s);
-				}
-				else {
-					deactivate(s);
-				}
-			}
-			
-			$(".pagination .active").removeClass("active");
-			$(".pagination").find("li").eq(i).addClass("active");
-		},
-		afterRender:function() {
-			var pagination = "<ul class=\"pagination\">";
-			var activeClass = "";
-			$(".section").each(function(i) {
-				activeClass = "";
-				if(i===0) {
-					activeClass = "active";
-				}
-				pagination += "<li class=\"" + activeClass + "\"></li>";
-			});
-
-			pagination += "</ul>";
-
-			$("#home").append(pagination);
-
-			$(".pagination li").on("click",function() {
-				$.scrollify.move($("li").index($(this)));
-			});
+			["Miscellaneous", "Track and Field", "Taiwan", "Music"]];
+function showSection(s) {
+	if (s == 0) {
+		showContent(s, 0);
+	}
+	else {
+		showContent(s, -1);
+	}
+	/* need to also animate show/hide */
+	$(".section").each(function(i) {
+		if (i == s) {
+			$(this).removeClass("hidden");
+		}
+		else {
+			$(this).addClass("hidden");
 		}
 	});
-});
-function activate(s) {
-	if (s > 0) {
-		var imgboxes = $(".section").eq(s).find('.imgbox');
-		showContent(s, -1);
-		$(".section").eq(s).find('*').each(function(index) {
-			$(this).addClass("active");
-		});
-		imgboxes.addClass("nohover");
-		setTimeout(function() {
-			imgboxes.removeClass("nohover");
-		}, 1200);
-		$(".section").eq(s).find('h1').text(descs[s][0]);
-	}
-}
-function deactivate(s) {
-	$(".section").eq(s).find('*').removeClass("active");
-}
-function shadeBG() {
-	var s = $(this).scrollTop();
-	var sSize = $(document).height()/4;
-	var grey = [160, 160, 160];
-	var red = [244, 164, 164];
-	var blu = [128, 191, 255];
-	var grn = [64, 191, 128];
-	var rgb = [64, 191, 128];
-	if (s/sSize <= 1) {
-		var r = (s/sSize); // r: ratio. will range from 0 to 1
-		for (var i = 0; i < 3; i++) {
-			rgb[i] = grey[i] + (red[i]-grey[i])*r;
-		}
-	}
-	else if (s/sSize <= 2) {
-		var r = (s/sSize) - 1;
-		for (var i = 0; i < 3; i++) {
-			rgb[i] = red[i] + (blu[i]-red[i])*r;
-		}
-	}
-	else if (s/sSize <= 3) {
-		var r = (s/sSize) - 2;
-		for (var i = 0; i < 3; i++) {
-			rgb[i] = blu[i] + (grn[i]-blu[i])*r;
-		}
-	}
-	$("body").css('background-color', 'rgb(' + rgb[0] + ',' + rgb[1] + ',' + rgb[2] + ')');
 }
 function showContent(sec, id) {
 	$(".section").eq(sec).find('.content').each(function(i) {
@@ -106,33 +32,32 @@ function showContent(sec, id) {
 }
 $(document).ready(function () {
 	
-	$(".imgbox").mouseleave(function() {
-		var sec = $(this).attr("mySection");
-		var id = $(this).attr("myID");
+	$(".carousel").mouseleave(function() {
+		var sec = $(".section").index($(this).parent());
 		$(".section").eq(sec).find('h1').text(descs[sec][0]);
+	})
+	$(".imgbox").mouseleave(function() {
+		var sec = $(".section").index($(this).parent().parent());
+		var id = $(this).parent().children(".imgbox").index($(this));
+		$(this).removeClass("active");
 	});
 	
 	$(".imgbox").mouseenter(function() {
-		var sec = $(this).attr("mySection");
-		var id = $(this).attr("myID");
-		$(".section").eq(sec).find('h1').text(descs[sec][id]);
+		var sec = $(".section").index($(this).parent().parent());
+		var id = $(this).parent().children(".imgbox").index($(this));
+		$(".section").eq(sec).find('h1').text(descs[sec][id+1]);
+		$(this).addClass("active");
 	});
 	
 	$(".imgbox").mousedown(function() {
-		if (!$(this).hasClass("nohover")) {
-			var sec = $(this).attr("mySection");
-			var id = $(this).attr("myID") - 1;
-			showContent(sec, id);
-		}
+		var sec = $(".section").index($(this).parent().parent());
+		var id = $(this).parent().children(".imgbox").index($(this));
+		showContent(sec, id);
 	});
 	
-	for (var s = 0; s < 4; s++) {
-		var boxes = $(".section").eq(s).find('.row .imgbox');
-		boxes.each(function(index) {
-			$(this).css("animation-delay", index*(1/(boxes.length+1)) + "s");
-		});
-	}
-});
-$(document).scroll(function() {
-	shadeBG();
+	$(".navbutton").mousedown(function() {
+		if (inputAllowed) {
+			showSection($(".navbutton").index(this));
+		}
+	});
 });
