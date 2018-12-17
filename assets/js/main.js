@@ -1,8 +1,8 @@
 var inputAllowed = true;
-var descs = [["Kevin Kuo"],
+var descs = [[""],
 			["Academics", "University of Maryland, College Park", "Team AIMAR", "Thomas Jefferson High School"],
 			["Projects", "AI/Parallel Computing", "Gait Recognition", "Elementals", "Cadence", "Web Automation", "4 Year Planner"],
-			["Miscellaneous", "Track and Field", "Taiwan", "Music"]];
+			["About", "Track and Field", "Taiwan", "Music"]];
 function showSection(s) {
 	if (s == 0) {
 		showContent(s, 0);
@@ -32,14 +32,18 @@ function showContent(sec, id) {
 }
 $(document).ready(function () {
 	
-	$(".carousel").mouseleave(function() {
-		var sec = $(".section").index($(this).parent());
-		$(".section").eq(sec).find('h1').text(descs[sec][0]);
+	$(".carousel").mouseleave(function(e) {
+		if(e.relatedTarget) {
+			var sec = $(".section").index($(this).parent());
+			$(".section").eq(sec).find('h1').text(descs[sec][0]);
+		}
 	})
-	$(".imgbox").mouseleave(function() {
-		var sec = $(".section").index($(this).parent().parent());
-		var id = $(this).parent().children(".imgbox").index($(this));
-		$(this).removeClass("active");
+	$(".imgbox").mouseleave(function(e) {
+		if(e.relatedTarget) {
+			var sec = $(".section").index($(this).parent().parent());
+			var id = $(this).parent().children(".imgbox").index($(this));
+			$(this).removeClass("active");
+		}
 	});
 	
 	$(".imgbox").mouseenter(function() {
@@ -53,6 +57,11 @@ $(document).ready(function () {
 		var sec = $(".section").index($(this).parent().parent());
 		var id = $(this).parent().children(".imgbox").index($(this));
 		showContent(sec, id);
+		$(this).css("opacity", 0.7);
+	});
+	
+	$(".imgbox").mouseup(function() {
+		$(this).css("opacity", 1);
 	});
 	
 	$(".navbutton").mousedown(function() {
