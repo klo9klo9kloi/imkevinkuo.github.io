@@ -9,14 +9,46 @@ function showSection(s) {
 	}
 	else {
 		showContent(s, -1);
+		$(".section").eq(s).find('h1').each(function() {
+			$(this).text(" ");
+		})
 	}
-	/* need to also animate show/hide */
 	$(".section").each(function(i) {
+		var sec = $(this);
 		if (i == s) {
-			$(this).removeClass("hidden");
+			setTimeout(function() {
+				sec.removeClass("hidden");
+			}, 500);
+			if (s != 0) {
+				// Animate in
+				sec.find(".carousel").eq(0).find(".imgbox").each(function(i) {
+					$(this).css({"animation":"fadeInDown 0.50s", "animation-delay":(i*0.05)+"s", "animation-fill-mode":"both"});
+				});
+			}
 		}
 		else {
-			$(this).addClass("hidden");
+			if (i == 0) {
+				sec.find(".content").css({"animation":"fadeOutLeft 0.50s", "animation-fill-mode":"forwards"});
+				sec.find("#profile").css({"animation":"fadeOutRight 0.50s", "animation-fill-mode":"forwards"});
+				setTimeout(function() {
+					sec.addClass("hidden");
+					sec.find(".content").css({"animation":"", "animation-fill-mode":""});
+					sec.find("#profile").css({"animation":"", "animation-fill-mode":""});
+				}, 500);
+			}
+			else {// Animate out, then reset and hide section
+				sec.find(".carousel").eq(0).find(".imgbox").each(function(i) {
+					$(this).css({"animation":"fadeOutLeft 0.50s", "animation-delay":(i*0.05)+"s", "animation-fill-mode":"both"});
+				});
+				sec.find(".subsection").css({"animation":"fadeOutRight 0.50s", "animation-fill-mode":"both"});
+				setTimeout(function() {
+					sec.addClass("hidden");
+					sec.find(".carousel").eq(0).find(".imgbox").each(function(i) {
+						$(this).css({"animation": "", "animation-delay": "", "animation-fill-mode":""});
+					});
+					sec.find(".subsection").css({"animation": "", "animation-fill-mode":""});
+				}, 500);
+			}
 		}
 	});
 }
@@ -31,13 +63,6 @@ function showContent(sec, id) {
 	});
 }
 $(document).ready(function () {
-	
-	$(".carousel").mouseleave(function(e) {
-		if(e.relatedTarget) {
-			var sec = $(".section").index($(this).parent());
-			$(".section").eq(sec).find('h1').text(descs[sec][0]);
-		}
-	})
 	$(".imgbox").mouseleave(function(e) {
 		if(e.relatedTarget) {
 			var sec = $(".section").index($(this).parent().parent());
