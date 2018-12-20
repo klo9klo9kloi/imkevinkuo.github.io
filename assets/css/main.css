@@ -12,7 +12,8 @@ h1 {
 body {
 	padding: 0;
 	margin: 0;
-	overflow: scroll;
+	overflow-x: hidden;
+	overflow-y: scroll;
 	font-size: 1.5rem;
 }
 /* Navigation */
@@ -36,6 +37,7 @@ body {
 	color: white;
 	padding: 0.4em 0.4em 0.4em 0.4em;
 	cursor: pointer;
+	transition: background-color 0.2s;
 }
 
 .navbutton:hover {
