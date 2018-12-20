@@ -57,17 +57,6 @@ table {
 #beat {
 	width: 4rem;
 	height: 8rem;
-	animation: fade 1s infinite;
-	animation-play-state: paused;
-}
-@keyframes fade {
-	0% {
-		opacity: 0.5;
-	}
-	100% {
-		opacity: 1;
-	}
-	
 }
 .ripple {
   width: 0.1em;

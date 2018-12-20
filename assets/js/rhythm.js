@@ -1,9 +1,10 @@
-var recordingBPM = 0;
-var recordingNotes = 0;
+var recordingBPM = false;
+var recordingNotes = false;
 
 var bpm = 0;
 var interval = 0;
-var beating;
+var beatOn = false;
+var tick = new Audio('assets/tick.mp3');
 
 var taps = [];
 var NOTE_TYPES = [4, 3, 2.5, 2, 1.5, 1, 0.75, 0.5, 0.25, 0.33, 0.66];
@@ -14,7 +15,7 @@ var task;
 
 $(document).ready(function () {
 	$("#bpm").click(bpmButton);
-	$("#beat").click(resetBeat);
+	$("#beat").click(toggleBeat);
 	$("#notate").click(notesButton);
 	/* Open and close modal */
 	$("#help").click(function() {
@@ -24,20 +25,27 @@ $(document).ready(function () {
 		hideModal();
 	};
 });
-function resetBeat() {
-	if (recordingBPM == 0 && recordingNotes == 0 && interval > 0) {
-		$("#beat").css("animation-name", "none");
-		$("#beat").outerHeight();
-		$("#beat").css("animation-name", "fade");
-		startBeat();
+function toggleBeat() {
+	if (beatOn) {
+		beatOn = false;
+		$("#beat").css("opacity", 0.5);
+	}
+	else if (!recordingBPM && !recordingNotes && interval > 0) {
+		beatOn = true;
+		flashBeat();
 	}
 }
-function startBeat() {
-	clearInterval(beating);
-	beating = setInterval(function() {
-		var audio = new Audio('assets/tick.mp3');
-		audio.play();
-	}, interval);
+function flashBeat() {
+	if (beatOn) {
+		tick.play();
+		if ($("#beat").css("opacity") == 1) {
+			$("#beat").css("opacity", 0.5);
+		}
+		else {
+			$("#beat").css("opacity", 1);
+		}
+		setTimeout(function() {flashBeat();}, interval);
+	}
 }
 function hideModal() {
 	if ($(".modal").css("opacity") == "1") {
@@ -58,23 +66,20 @@ function createRipple() {
 	}, 2000); 
 }
 function bpmButton() {
-	if (recordingNotes == 1) {
+	if (recordingNotes) {
 		$("#bpm").text("Finish notating before resetting BPM.");
 	}
-	else if (recordingBPM == 1) {
+	else if (recordingBPM) {
 		if (interval > 0) {
-			recordingBPM = 0;
+			recordingBPM = false;
 			$(window).off("keydown touchstart");
 			$("#bpm").html("BPM: " + bpm + "<br>Click to record new BPM.");
-			$("#beat").css("animation-play-state", "running");
-			$("#beat").css("animation-duration", interval + "ms");
-			startBeat();
+			toggleBeat();
 		}
 	}
-	else if (recordingBPM == 0) {
+	else {
 		recordingBPM = 1;
-		clearInterval(beating);
-		$("#beat").css("animation-play-state", "paused");
+		if (beatOn) {toggleBeat();}
 		$("#bpm").text("Tap spacebar to the beat of your music.");
 		var lastTap = 0;
 		var intervalSum = 0; // intervalSum/totalTaps = averageInterval
@@ -99,21 +104,21 @@ function bpmButton() {
 }
 
 function stopNotating() {
-	recordingNotes = 0;
+	recordingNotes = false;
 	$(window).off("keydown touchstart");
 	$("#notate").html("Done! <br>Click to record new rhythm.");
 	parseTaps();
 }
 function notesButton(e) {
-	if (recordingBPM == 1) {
+	if (recordingBPM) {
 		$("#notate").html("Finish setting BPM first.");
 	}
-	else if (recordingNotes == 1) {
+	else if (recordingNotes) {
 		clearTimeout(task);
 		taps.push(e.timeStamp);
 		stopNotating();
 	}
-	else if (recordingNotes == 0) {
+	else {
 		if (bpm > 0) {
 			recordingNotes = 1;
 			taps = [];
