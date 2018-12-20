@@ -37,6 +37,7 @@ function toggleBeat() {
 }
 function flashBeat() {
 	if (beatOn) {
+		setTimeout(function() {flashBeat();}, interval-2);
 		tick.play();
 		if ($("#beat").css("opacity") == 1) {
 			$("#beat").css("opacity", 0.5);
@@ -44,7 +45,6 @@ function flashBeat() {
 		else {
 			$("#beat").css("opacity", 1);
 		}
-		setTimeout(function() {flashBeat();}, interval);
 	}
 }
 function hideModal() {
