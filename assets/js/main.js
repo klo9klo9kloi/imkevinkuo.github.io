@@ -39,12 +39,14 @@ function showSection(s) {
 		newSection.removeClass("hidden");
 	}, 500);
 	if (s != 0) {
-		newSection.find(".carousel").eq(0).find(".imgbox").each(function(i) {
-			$(this).css({"animation":"fadeInDown 0.50s", "animation-delay":(i*0.05)+"s", "animation-fill-mode":"both"});
-		});
+		setTimeout(function() {
+			newSection.find(".carousel").eq(0).find(".imgbox").each(function(i) {
+				$(this).css({"animation":"fadeInDown 0.50s", "animation-delay":(i*0.05)+"s", "animation-fill-mode":"both"});
+			});
+		}, 500);
 		setTimeout(function() {
 			newSection.find(".carousel").eq(0).find(".imgbox").css({"animation":"", "animation-delay":"", "animation-fill-mode":""});
-		}, 500);
+		}, 1000);
 	}
 	currentSection = s;
 }

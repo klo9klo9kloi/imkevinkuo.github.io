@@ -77,7 +77,6 @@ body {
 	
 	overflow: hidden;
 	transition: width 0.4s;
-	animation: fadeInDown 0.4s;
 	
 	cursor: pointer;
 	user-select: none;
