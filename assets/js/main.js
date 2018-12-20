@@ -4,10 +4,7 @@ var descs = [[""],
 			["Projects", "AI/Parallel Computing", "Gait Recognition", "Elementals", "Cadence", "Web Automation", "4 Year Planner"],
 			["About", "Track and Field", "Taiwan", "Music"]];
 function showSection(s) {
-	if (s == 0) {
-		showContent(s, 0);
-	}
-	else {
+	if (s > 0) {
 		showContent(s, -1);
 		$(".section").eq(s).find('h1').each(function() {
 			$(this).text(" ");
@@ -15,25 +12,29 @@ function showSection(s) {
 	}
 	$(".section").each(function(i) {
 		var sec = $(this);
-		if (i == s) {
+		if (i == s) { // Display this one
 			setTimeout(function() {
 				sec.removeClass("hidden");
 			}, 500);
 			if (s != 0) {
-				// Animate in
 				sec.find(".carousel").eq(0).find(".imgbox").each(function(i) {
 					$(this).css({"animation":"fadeInDown 0.50s", "animation-delay":(i*0.05)+"s", "animation-fill-mode":"both"});
 				});
 			}
 		}
-		else {
+		else { // Hide
 			if (i == 0) {
-				sec.find(".content").css({"animation":"fadeOutLeft 0.50s", "animation-fill-mode":"forwards"});
+				sec.find("#intro").css({"animation":"fadeOutLeft 0.50s", "animation-fill-mode":"forwards"});
 				sec.find("#profile").css({"animation":"fadeOutRight 0.50s", "animation-fill-mode":"forwards"});
+				sec.find("#info > p").each(function(i) {
+					var d = i*0.05;
+					$(this).css({"animation":"fadeOutUp " + (0.5-d) + "s", "animation-delay": d+"s", "animation-fill-mode":"both"});
+				});
 				setTimeout(function() {
 					sec.addClass("hidden");
-					sec.find(".content").css({"animation":"", "animation-fill-mode":""});
+					sec.find("#intro").css({"animation":"", "animation-fill-mode":""});
 					sec.find("#profile").css({"animation":"", "animation-fill-mode":""});
+					sec.find("#info > p").css({"animation":"", "animation-delay": "", "animation-fill-mode":""});
 				}, 500);
 			}
 			else {// Animate out, then reset and hide section
