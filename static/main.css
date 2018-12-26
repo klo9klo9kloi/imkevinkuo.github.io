@@ -56,7 +56,6 @@ body {
 .sembox, .newbox {
 	flex: 0 0 16rem;
 	margin: 1rem 1rem;
-	overflow: hidden;
 }
 
 .newsem {
@@ -107,6 +106,10 @@ body {
 	float: right;
 }
 
+.courseinput {
+	position: relative;
+}
+
 input[type=text] {
 	background-color: lightgray;
 	height: 1.5rem;
@@ -114,12 +117,12 @@ input[type=text] {
 	border: none;
 	border-radius: 0;
 	width: 15rem;
-	z-index: -1;
 	font-size: 1.5rem;
 	outline: none;
 }
 
 .options {
+	z-index: 2;
 	position: absolute;
 	margin: 0.2rem 0 0 0;
 	width: 34rem;

@@ -5,7 +5,9 @@ var testudoLink = "https://app.testudo.umd.edu/soc/search?courseId=";
 var testudoAttr = "			&sectionId=&termId=201901&_openSectionsOnly=on&creditCompare=&credits=&courseLevelFilter=ALL&instructor=&_facetoface=on&_blended=on&_online=on&courseStartCompare=&courseStartHour=&courseStartMin=&courseStartAM=&courseEndHour=&courseEndMin=&courseEndAM=&teachingCenter=ALL&_classDay1=on&_classDay2=on&_classDay3=on&_classDay4=on&_classDay5=on";
 var activeInput = null;
 var options = null;
-var depts = ["CMSC", "MATH", "AMSC", "STAT", "xd", "xd", "xd", "more xd", "xd", "xd", "xd", "more xd"];
+var depts = ["AASP", "AAST", "ANGR", "AMSC", "AMST", "ANSC", "ANTH", "AOSC", "ARAB", "ARCH", "AREC", "ARHU"];
+var courses = ["CMSC101", "CMSC102", "CMSC103", "CMSC104", "CMSC105", "CMSC106", "CMSC107", "CMSC108", "CMSC109", "CMSC901", "CMSC999"];
+var selectedOption = false;
 
 // INPUT NEEDS AUTOCOMPLETE - SHOW FULL COURSE NAME
 
@@ -15,15 +17,19 @@ var depts = ["CMSC", "MATH", "AMSC", "STAT", "xd", "xd", "xd", "more xd", "xd", 
 // COURSE INFO
 // GRADUATION REQUIREMENTS
 
+function insertNewSem() {
+	newSem = createSem();
+	newSem.insertBefore($(".newbox"));
+	$('.main').animate({
+		scrollLeft: $(".newsem").offset().left
+	});
+}
 function createSem() {
 	var newHeader = $("<div/>")
 		.attr("class", "semheader")
 		.text("Credits: 0")
-		.mouseenter(function() {
-			moveIndicator($(this));
-		})
 		.prepend(createDelButton())
-		.append(createCredits());
+		.append(createCredits(0));
 	var newSem = $("<div/>")
 		.attr("class", "sembox")
 		.mouseenter(function() {
@@ -42,26 +48,18 @@ function createSem() {
 	return newSem;
 }
 
-function createCourseForm() {
-	return $("<input/>")
-		.attr("type", "text")
-		.attr("placeholder", "Add course...")
-		.keydown(function(e) {
-			if(e.keyCode == 13) {
-				newCourse = createCourse($(this).val());
-				if (newCourse != null) {
-					insertCourseAfter($(this).parent(), newCourse);
-					closeOptions();
-					activeInput.blur();
-					activeInput = null;
-				}
-			}
-			else {
-				deptOptions()
-			}
-		});
+function insertNewCourse(name, semIndex) {
+	var cinput = $(".courseinput").eq(semIndex);
+	newCourse = createCourse(name);
+	if (newCourse != null) {
+		moveCourseTo(cinput, newCourse);
+		closeOptions();
+		if (activeInput != null) {
+			activeInput.blur();
+			activeInput = null;
+		}
+	}
 }
-
 function createCourse(txt) {
 	if (txt == "") { // Need some backend checks
 		return null;	
@@ -88,7 +86,7 @@ function createDelButton() {
 			if (p.attr("class") == "course") {
 				p.remove();
 			}
-			else {
+			else { // header parent -> sembox delete
 				p.parent().remove();
 			}
 		});
@@ -100,44 +98,96 @@ function createCredits(i) {
 		.text(i);
 }
 
-function moveIndicator(elem) {
-	if (dragCourse != null) {
-		if (objHover != null) {
-			objHover.css({"border-bottom":""});
-		}
-		if (elem.attr("class") == "sembox") {
-			if (objHover == null) {
-				objHover = elem.children("input, .course").last();
+function createCourseForm() {
+	var input = $("<input/>")
+		.attr("type", "text")
+		.attr("placeholder", "Select department...")
+		.mouseenter(function() {
+			moveIndicator($(this));
+		})
+		.focusin(function(e) {
+			if (activeInput == null) {
+				activeInput = $(this);
+				openOptions();
 			}
-		}
-		else {
-			objHover = elem;
-		}
-		objHover.css({"border-bottom":"2px black solid"});
+		})
+		.focusout(function(e) {
+			console.log("lost focus");
+			if (!selectedOption) { // we clicked outside, not on an option
+				console.log("activeinput is now null");
+				closeOptions();
+				activeInput = null;
+			}
+			else {
+				console.log("selected an option, return focus");
+			}
+		})
+		.keydown(function(e) {
+			if(e.keyCode == 13) {
+				insertNewCourse($(this).val(), $("input").index($(this)))
+				$(this).val("");
+			}
+			else {
+				deptOptions()
+			}
+		});
+	return $("<div/>").attr("class", "courseinput").append(input);
+}
+
+function openOptions() {
+	options = $("<div/>").attr("class", "options");
+	activeInput.after(options);
+	deptOptions();
+}
+
+function closeOptions() {
+	if (activeInput != null && options != null) {
+		activeInput.val("");
+		options.remove();
+		options = null;
 	}
 }
 
-function releaseCourse() {
-	if (dragCourse != null) {
-		if (objHover == null) {
-			courseInfo(dragCourse.text().slice(1,-1));
+function deptOptions() {
+	if (options != null) {
+		for (var i = 0; i < depts.length; i++) {
+			var txtoption = $("<div/>")
+				.text(depts[i] + " - desc")
+				.attr("class", "option")
+				.attr("id", depts[i])
+				.mousedown(function() {
+					selectedOption = true;
+					closeOptions();
+					activeInput.val($(this).attr("id"));
+					setTimeout(function(){
+						activeInput.get(0).focus();
+						selectedOption = false;
+					}, 1);
+					courseOptions();
+				})
+			options.append(txtoption);
 		}
-		else {
-			insertCourseAfter(objHover, dragCourse);
-			objHover.css({"border-bottom":""});
-		}
-		dragCourse.css({"opacity":""});
-		dragCourse = null;
-		objHover = null;
 	}
 }
 
-function insertCourseAfter(before, course) {
-	if (before.parent().children(".course").length == 9) {
-		alert("10 courses a semester? You cray!");
-	}
-	else {
-		course.insertAfter(before);
+function courseOptions() {
+	options = $("<div/>").attr("class", "options");
+	activeInput.after(options);
+	for (var i = 0; i < courses.length; i++) {
+		var txtoption = $("<div/>")
+			.text(courses[i] + " - desc")
+			.attr("class", "option")
+			.attr("id", courses[i])
+			.mousedown(function() {
+				selectedOption = true;
+				closeOptions();
+				activeInput.val($(this).attr("id"));
+				setTimeout(function(){
+					activeInput.get(0).focus();
+					selectedOption = false;
+				}, 1);
+			})
+		options.append(txtoption);
 	}
 }
 
@@ -179,123 +229,62 @@ function httpGetAsync(theUrl, callback, backup) {
     xmlHttp.send(null);
 }
 
-function openOptions() {
-	options = $("<div/>").attr("class", "options");
-	activeInput.after(options);
-	deptOptions();
-}
-
-function closeOptions() {
-	activeInput.val("");
-	options.remove();
-	options = null;
-}
-
-function deptOptions() {
-	if (options != null) {
-		options.children().remove();
-		for (var i = 0; i < depts.length; i++) {
-			var txtoption = $("<div/>")
-				.text(depts[i])
-				.attr("class", "option")
-				.mousedown(function() {
-					closeOptions();
-					activeInput.val($(this).text());
-					console.log(activeInput);
-					setTimeout(function(){
-						activeInput.get(0).focus();
-					}, 1);
-					courseOptions();
-				})
-			options.append(txtoption);
-		}
+function moveCourseTo(before, course) {
+	if (before.parent().children(".course").length == 9) {
+		alert("10 courses a semester? nonono");
+	}
+	else {
+		course.insertAfter(before);
 	}
 }
 
-function courseOptions() {
-	console.log("showing courses");
+function moveIndicator(elem) {
+	if (dragCourse != null) {
+		if (objHover != null) {
+			objHover.css({"border-bottom":""});
+		}
+		if (elem.attr("class") == "sembox") {
+			if (objHover == null) {
+				objHover = elem.children("input, .course").last();
+			}
+		}
+		else {
+			objHover = elem;
+		}
+		objHover.css({"border-bottom":"2px black solid"});
+	}
+}
+
+function releaseCourse() {
+	if (dragCourse != null) {
+		if (objHover == null) {
+			courseInfo(dragCourse.text().slice(1,-1));
+		}
+		else {
+			moveCourseTo(objHover, dragCourse);
+			objHover.css({"border-bottom":""});
+		}
+		dragCourse.css({"opacity":""});
+		dragCourse = null;
+		objHover = null;
+	}
 }
 
 $(document).ready(function () {
+	// Initialize stuff for testing
+	var init = [["CMSC131", "MATH140", "ENGL101", "ENES210", "GEMS100"], ["CMSC132", "MATH141", "idk", "xd", "GEMS102"]];
+	for (var i = 0; i < init.length; i++) {
+		insertNewSem();
+		for (var j = 0; j < init[i].length; j++) {
+			insertNewCourse(init[i][j], i);
+		}
+	}
 	//
-	// Add new sem
+	// Make everything work
 	$(".newsem").click(function() {
-		newSem = createSem();
-		newSem.insertBefore($(this).parent());
-		$('.main').animate({
-			scrollLeft: $(".newsem").offset().left
-		});
+		insertNewSem();
 	});
-	//
-	// Course dragging
-	// REMOVE LATER
-	$(".course").mousedown(function() {
-		$(this).css({"opacity":0.5});
-		dragCourse = $(this);
-	})
 	$(document).mouseup(function() {
 		releaseCourse();
 	})
-	//
-	// Course new placement
-	// REMOVE LATER
-	$(".sembox, .course, input").mouseenter(function() {
-		moveIndicator($(this));
-	});
-	// Initialization
-	// REMOVE LATER
-	$(".semheader, .course")
-		.prepend(createDelButton())
-		.append(createCredits(0));
-	$(".sembox").mouseleave(function(e) {
-		if(e.relatedTarget) {
-			if (objHover != null) {
-				objHover.css({"border-bottom":""});
-			}
-			objHover = null;
-		}
-	});
-	//
-	// Remove sem/course
-	// REMOVE LATER
-	$(".delete").click(function() {
-		var p = $(this).parent();
-		if (p.attr("class") == "course") {
-			p.remove();
-		}
-		else {
-			p.parent().remove();
-		}
-	});
-	//
-	// Course form
-	// REMOVE LATER
-	$("input").keydown(function(e) {
-		// check data, show autocomplete
-		if(e.keyCode == 13) {
-			newCourse = createCourse($(this).val());
-			if (newCourse != null) {
-				insertCourseAfter($(this).parent(), newCourse);
-				closeOptions();
-				activeInput.blur();
-				activeInput = null;
-			}
-		}
-		else {
-			deptOptions()
-		}
-	});
-	$("input").focusin(function(e) {
-		if (activeInput == null) {
-			activeInput = $(this);
-			openOptions();
-		}
-	});
-	$("input").focusout(function(e) {
-		if (options != null) { // we clicked outside, not on an option
-			console.log("lost focus");
-			closeOptions();
-			activeInput = null;
-		}
-	});
 });
