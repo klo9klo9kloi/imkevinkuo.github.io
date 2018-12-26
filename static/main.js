@@ -50,9 +50,14 @@ function createCourseForm() {
 			if(e.keyCode == 13) {
 				newCourse = createCourse($(this).val());
 				if (newCourse != null) {
-					newCourse.insertBefore($(this));
-					$(this).val("");
+					insertCourseAfter($(this).parent(), newCourse);
+					closeOptions();
+					activeInput.blur();
+					activeInput = null;
 				}
+			}
+			else {
+				deptOptions()
 			}
 		});
 }
