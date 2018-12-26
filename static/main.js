@@ -27,7 +27,7 @@ function insertNewSem() {
 function createSem() {
 	var newHeader = $("<div/>")
 		.attr("class", "semheader")
-		.text("Credits: 0")
+		.text("Sem. Credits")
 		.prepend(createDelButton())
 		.append(createCredits(0));
 	var newSem = $("<div/>")
@@ -106,20 +106,16 @@ function createCourseForm() {
 			moveIndicator($(this));
 		})
 		.focusin(function(e) {
-			if (activeInput == null) {
+			if (activeInput == null || selectedOption) {
 				activeInput = $(this);
 				openOptions();
+				displayOptions($(this).val().toUpperCase());
 			}
 		})
 		.focusout(function(e) {
-			console.log("lost focus");
 			if (!selectedOption) { // we clicked outside, not on an option
-				console.log("activeinput is now null");
 				closeOptions();
 				activeInput = null;
-			}
-			else {
-				console.log("selected an option, return focus");
 			}
 		})
 		.keydown(function(e) {
@@ -127,9 +123,9 @@ function createCourseForm() {
 				insertNewCourse($(this).val(), $("input").index($(this)))
 				$(this).val("");
 			}
-			else {
-				deptOptions()
-			}
+		})
+		.on('input', function() {
+			displayOptions($(this).val().toUpperCase());
 		});
 	return $("<div/>").attr("class", "courseinput").append(input);
 }
@@ -137,7 +133,6 @@ function createCourseForm() {
 function openOptions() {
 	options = $("<div/>").attr("class", "options");
 	activeInput.after(options);
-	deptOptions();
 }
 
 function closeOptions() {
@@ -148,14 +143,28 @@ function closeOptions() {
 	}
 }
 
-function deptOptions() {
-	if (options != null) {
-		for (var i = 0; i < depts.length; i++) {
+function displayOptions(query) {
+	var optionList = null;
+	if (query.length >= 7) {
+		return;
+	}
+	else if (query.length >= 4) {
+		optionList = courses;
+	}
+	else {
+		optionList = depts;
+	}
+	options.empty();
+	var count = 0;
+	for (var i = 0; i < optionList.length; i++) {
+		if (optionList[i].startsWith(query)) {
+			count++;
 			var txtoption = $("<div/>")
-				.text(depts[i] + " - desc")
+				.text(optionList[i])
 				.attr("class", "option")
-				.attr("id", depts[i])
+				.attr("id", optionList[i])
 				.mousedown(function() {
+					console.log("selected option: " + $(this).attr("id"));
 					selectedOption = true;
 					closeOptions();
 					activeInput.val($(this).attr("id"));
@@ -163,33 +172,15 @@ function deptOptions() {
 						activeInput.get(0).focus();
 						selectedOption = false;
 					}, 1);
-					courseOptions();
 				})
 			options.append(txtoption);
 		}
 	}
+	options.animate({
+		height: 1.77*count + "rem"
+	}, 300);
 }
 
-function courseOptions() {
-	options = $("<div/>").attr("class", "options");
-	activeInput.after(options);
-	for (var i = 0; i < courses.length; i++) {
-		var txtoption = $("<div/>")
-			.text(courses[i] + " - desc")
-			.attr("class", "option")
-			.attr("id", courses[i])
-			.mousedown(function() {
-				selectedOption = true;
-				closeOptions();
-				activeInput.val($(this).attr("id"));
-				setTimeout(function(){
-					activeInput.get(0).focus();
-					selectedOption = false;
-				}, 1);
-			})
-		options.append(txtoption);
-	}
-}
 
 function courseInfo(courseId) {
 	if (currentCourse != courseId) {
@@ -231,7 +222,7 @@ function httpGetAsync(theUrl, callback, backup) {
 
 function moveCourseTo(before, course) {
 	if (before.parent().children(".course").length == 9) {
-		alert("10 courses a semester? nonono");
+		alert("10 courses a semester is a bit much");
 	}
 	else {
 		course.insertAfter(before);
@@ -242,6 +233,7 @@ function moveIndicator(elem) {
 	if (dragCourse != null) {
 		if (objHover != null) {
 			objHover.css({"border-bottom":""});
+			objHover.css({"border-radius":"0.5rem"});
 		}
 		if (elem.attr("class") == "sembox") {
 			if (objHover == null) {
@@ -252,6 +244,7 @@ function moveIndicator(elem) {
 			objHover = elem;
 		}
 		objHover.css({"border-bottom":"2px black solid"});
+		objHover.css({"border-radius":"0.5rem 0.5rem 0 0"});
 	}
 }
 
@@ -263,6 +256,7 @@ function releaseCourse() {
 		else {
 			moveCourseTo(objHover, dragCourse);
 			objHover.css({"border-bottom":""});
+			objHover.css({"border-radius":"0.5rem"});
 		}
 		dragCourse.css({"opacity":""});
 		dragCourse = null;
