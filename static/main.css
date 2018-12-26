@@ -1,0 +1,159 @@
+html {
+	font-size: 1em;
+}
+body {
+	margin: 0;
+	padding: 0;
+	font-family: "Lato", sans-serif;
+	overflow: hidden;
+}
+
+.sidebar {
+	display: flex;
+	padding: 1rem 0rem;
+	width: 100%;
+	height: 30vh;
+	z-index: 1;
+	background: #eee;
+}
+
+.sidebar p {
+	margin: 1rem;
+}
+
+#coursebox {
+	flex: 0 0 40%;
+	overflow: hidden;
+	padding: 0 1rem;
+}
+
+#coursetitle {
+	display: flex;
+	align-items: center;
+}
+
+#courseid {
+	font-size: 1.5rem;
+}
+
+#coursename {
+	font-size: 1rem;
+}
+
+#coursedesc {
+	font-size: 1rem;
+}
+
+.main {
+	display: flex;
+	padding: 1rem 1rem;
+	font-size: 1.5rem;
+	user-select: none;
+	height: 62vh;
+	overflow-x: scroll;
+}
+
+.sembox, .newbox {
+	flex: 0 0 16rem;
+	margin: 1rem 1rem;
+	overflow: hidden;
+}
+
+.newsem {
+	cursor: pointer;
+	font-size: 3rem;
+	margin: 0 0.5rem;
+	text-align: center;
+	color: green;
+	position: relative;
+	top: -0.3rem;
+}
+
+.newsem:hover {
+	color: lightgreen;
+}
+
+.delete {
+	float: left;
+	padding: 0 0.5rem;
+}
+.delete:hover {
+	color: white;
+}
+
+.semheader {
+	text-align: left;
+	background-color: darkgray;
+	height: 1.5rem;
+	padding: .5rem 0;
+	margin: 2px 0;
+	border-radius: 1rem 1rem 0 0;
+}
+
+.course {
+	background-color: lightgray;
+	height: 1.5rem;
+	padding: .5rem 0;
+	margin: 2px 0;
+	border-radius: 0;
+}
+
+.course:hover {
+	background-color: silver;
+}
+
+.credits {
+	padding: 0 0.5rem;
+	float: right;
+}
+
+input[type=text] {
+	background-color: lightgray;
+	height: 1.5rem;
+	padding: .5rem .5rem;
+	border: none;
+	border-radius: 0;
+	width: 15rem;
+	z-index: -1;
+	font-size: 1.5rem;
+	outline: none;
+}
+
+.options {
+	position: absolute;
+	margin: 0.2rem 0 0 0;
+	width: 34rem;
+	height: 16rem;
+	border: 1px black solid;
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+.option {
+	width: 34rem;
+	background-color: white;
+}
+
+.option:hover {
+	background-color: lightblue;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
