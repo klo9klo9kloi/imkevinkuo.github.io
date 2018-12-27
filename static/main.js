@@ -5,7 +5,7 @@ var testudoLink = "https://app.testudo.umd.edu/soc/search?courseId=";
 var testudoAttr = "			&sectionId=&termId=201901&_openSectionsOnly=on&creditCompare=&credits=&courseLevelFilter=ALL&instructor=&_facetoface=on&_blended=on&_online=on&courseStartCompare=&courseStartHour=&courseStartMin=&courseStartAM=&courseEndHour=&courseEndMin=&courseEndAM=&teachingCenter=ALL&_classDay1=on&_classDay2=on&_classDay3=on&_classDay4=on&_classDay5=on";
 var activeInput = null;
 var options = null;
-var depts = ["AASP", "AAST", "ANGR", "AMSC", "AMST", "ANSC", "ANTH", "AOSC", "ARAB", "ARCH", "AREC", "ARHU"];
+var depts = ["AASP", "AAST", "ANGR", "AMSC", "AMST", "ANSC", "ANTH", "AOSC", "ARAB", "ARCH", "AREC", "ARHU", "CMSC"];
 var courses = ["CMSC101", "CMSC102", "CMSC103", "CMSC104", "CMSC105", "CMSC106", "CMSC107", "CMSC108", "CMSC109", "CMSC901", "CMSC999"];
 var selectedOption = false;
 
@@ -53,10 +53,8 @@ function insertNewCourse(name, semIndex) {
 	newCourse = createCourse(name);
 	if (newCourse != null) {
 		moveCourseTo(cinput, newCourse);
-		closeOptions();
 		if (activeInput != null) {
-			activeInput.blur();
-			activeInput = null;
+			activeInput.blur(); // automatically triggers closeOptions();
 		}
 	}
 }
@@ -89,6 +87,13 @@ function createDelButton() {
 			else { // header parent -> sembox delete
 				p.parent().remove();
 			}
+		})
+		.mousedown(function(e) {
+			$(this).css("color", "red");
+			e.stopPropagation();
+		})
+		.mouseleave(function(e) {
+			$(this).css("color", "");
 		});
 }
 
@@ -106,7 +111,7 @@ function createCourseForm() {
 			moveIndicator($(this));
 		})
 		.focusin(function(e) {
-			if (activeInput == null || selectedOption) {
+			if (activeInput == null) { // don't trigger again after selection dept
 				activeInput = $(this);
 				openOptions();
 				displayOptions($(this).val().toUpperCase());
@@ -115,13 +120,14 @@ function createCourseForm() {
 		.focusout(function(e) {
 			if (!selectedOption) { // we clicked outside, not on an option
 				closeOptions();
-				activeInput = null;
 			}
 		})
 		.keydown(function(e) {
 			if(e.keyCode == 13) {
-				insertNewCourse($(this).val(), $("input").index($(this)))
-				$(this).val("");
+				if (options != null) {
+					insertNewCourse($(this).val(), $("input").index($(this)))
+					$(this).val("");
+				}
 			}
 		})
 		.on('input', function() {
@@ -136,26 +142,24 @@ function openOptions() {
 }
 
 function closeOptions() {
-	if (activeInput != null && options != null) {
-		activeInput.val("");
-		options.remove();
-		options = null;
-	}
+	activeInput.val("");
+	options.remove();
+	options = null;
+	activeInput = null;
 }
 
 function displayOptions(query) {
 	var optionList = null;
-	if (query.length >= 7) {
-		return;
-	}
-	else if (query.length >= 4) {
-		optionList = courses;
-	}
-	else {
-		optionList = depts;
-	}
-	options.empty();
 	var count = 0;
+	options.empty();
+	if (query.length <= 7) {
+		if (query.length >= 4) {
+			optionList = courses;
+		}
+		else {
+			optionList = depts;
+		}
+	}
 	for (var i = 0; i < optionList.length; i++) {
 		if (optionList[i].startsWith(query)) {
 			count++;
@@ -166,19 +170,25 @@ function displayOptions(query) {
 				.mousedown(function() {
 					console.log("selected option: " + $(this).attr("id"));
 					selectedOption = true;
-					closeOptions();
+					displayOptions($(this).attr("id"));
 					activeInput.val($(this).attr("id"));
 					setTimeout(function(){
-						activeInput.get(0).focus();
+						activeInput.focus();
 						selectedOption = false;
 					}, 1);
 				})
 			options.append(txtoption);
 		}
 	}
+	if (count == 0) {
+		count = 1;
+	}
+	if (count > 9) {
+		count = 9;
+	}
 	options.animate({
-		height: 1.77*count + "rem"
-	}, 300);
+		height: 1.77*count + "rem",
+	}, 200);
 }
 
 
@@ -221,7 +231,7 @@ function httpGetAsync(theUrl, callback, backup) {
 }
 
 function moveCourseTo(before, course) {
-	if (before.parent().children(".course").length == 9) {
+	if (before.parent().children(".course").length >= 9) {
 		alert("10 courses a semester is a bit much");
 	}
 	else {

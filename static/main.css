@@ -9,6 +9,7 @@ body {
 }
 
 .sidebar {
+	overflow: hidden;
 	display: flex;
 	padding: 1rem 0rem;
 	width: 100%;
@@ -56,6 +57,7 @@ body {
 .sembox, .newbox {
 	flex: 0 0 16rem;
 	margin: 1rem 1rem;
+	animation: fillRight 0.5s;
 }
 
 .newsem {
@@ -77,7 +79,7 @@ body {
 	padding: 0 0.5rem;
 }
 .delete:hover {
-	color: white;
+	color: maroon;
 }
 
 .semheader {
@@ -112,13 +114,13 @@ body {
 
 input[type=text] {
 	background-color: lightgray;
+	font-size: 1.5rem;
 	height: 1.5rem;
-	padding: .5rem .5rem;
+	width: 15rem;
+	padding: 0.5rem 0.5rem;
+	outline: none;
 	border: none;
 	border-radius: 0.5rem;
-	width: 15rem;
-	font-size: 1.5rem;
-	outline: none;
 }
 
 input:focus {
@@ -130,17 +132,17 @@ input:focus {
 	background-color: darkgray;
 	position: absolute;
 	margin: 0;
-	padding: 0 0.2rem;
-	width: 15.6rem;
+	padding: 0;
+	width: 16rem;
 	max-height: 16rem;
 	height: 0;
-	overflow-y: scroll;
+	overflow-y: scroll !important;
 	overflow-x: hidden;
-	border-radius: 0 0 0.5rem 0.5rem;
+	border-radius: 0 0 0 0.5rem;
 }
 
 .option {
-	width: 34rem;
+	padding: 0 0 0 0.5rem;
 }
 
 .option:hover {
@@ -165,4 +167,9 @@ input:focus {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555; 
+}
+
+@keyframes fillRight {
+	from {width: 0rem;}
+	to {width: 16rem;}
 }
