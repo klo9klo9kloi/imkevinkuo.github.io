@@ -37,9 +37,6 @@ function createSem() {
 		})
 		.mouseleave(function(e) {
 			if(e.relatedTarget) {
-				if (objHover != null) {
-					objHover.css({"border-bottom":""});
-				}
 				objHover = null;
 			}
 		})
@@ -65,7 +62,8 @@ function createCourse(txt) {
 	return $("<div/>")
 		.attr("class", "course")
 		.text(txt)
-		.mouseenter(function() {
+		.mouseenter(function(e) {
+			e.stopPropagation(e);
 			moveIndicator($(this));
 		})
 		.mousedown(function() {
@@ -107,9 +105,6 @@ function createCourseForm() {
 	var input = $("<input/>")
 		.attr("type", "text")
 		.attr("placeholder", "Select department...")
-		.mouseenter(function() {
-			moveIndicator($(this));
-		})
 		.focusin(function(e) {
 			if (activeInput == null) { // don't trigger again after selection dept
 				activeInput = $(this);
@@ -133,7 +128,13 @@ function createCourseForm() {
 		.on('input', function() {
 			displayOptions($(this).val().toUpperCase());
 		});
-	return $("<div/>").attr("class", "courseinput").append(input);
+	return $("<div/>")
+		.attr("class", "courseinput")
+		.mouseenter(function(e) {
+			e.stopPropagation(e);
+			moveIndicator($(this));
+		})
+		.append(input);
 }
 
 function openOptions() {
@@ -241,20 +242,17 @@ function moveCourseTo(before, course) {
 
 function moveIndicator(elem) {
 	if (dragCourse != null) {
-		if (objHover != null) {
-			objHover.css({"border-bottom":""});
-			objHover.css({"border-radius":"0.5rem"});
-		}
+		var sembox = elem;
 		if (elem.attr("class") == "sembox") {
-			if (objHover == null) {
-				objHover = elem.children("input, .course").last();
-			}
+			objHover = elem.children("input, .course").last();
 		}
 		else {
+			sembox = elem.parent();
 			objHover = elem;
 		}
-		objHover.css({"border-bottom":"2px black solid"});
-		objHover.css({"border-radius":"0.5rem 0.5rem 0 0"});
+		if (sembox.children(".course").length < 9) {
+			dragCourse.insertAfter(objHover);
+		}
 	}
 }
 
@@ -263,12 +261,7 @@ function releaseCourse() {
 		if (objHover == null) {
 			courseInfo(dragCourse.text().slice(1,-1));
 		}
-		else {
-			moveCourseTo(objHover, dragCourse);
-			objHover.css({"border-bottom":""});
-			objHover.css({"border-radius":"0.5rem"});
-		}
-		dragCourse.css({"opacity":""});
+		dragCourse.removeAttr("style");
 		dragCourse = null;
 		objHover = null;
 	}
