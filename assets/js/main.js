@@ -1,5 +1,5 @@
 var inputAllowed = true;
-var currentSection = 0;
+var currentSection = -1;
 var descs = [[""],
 			["Academics", "University of Maryland, College Park", "Thomas Jefferson High School", "CodeSignal"],
 			["Projects", "Gait Recognition", "Team AIMAR", "AI/Parallel Computing", "Elementals", "Cadence", "Web Automation", "4 Year Planner"],
@@ -8,28 +8,22 @@ function showSection(s) {
 	if (s == currentSection) {return;}
 	var oldSection = $(".section").eq(currentSection);
 	if (currentSection == 0) {
-		oldSection.find("#intro").css({"animation":"fadeOutLeft 0.50s", "animation-fill-mode":"forwards"});
-		oldSection.find("#profile").css({"animation":"fadeOutRight 0.50s", "animation-fill-mode":"forwards"});
-		oldSection.find("#info > p").each(function(i) {
-			$(this).css({"animation":"fadeOutUp 0.35s", "animation-delay": i*0.05+"s", "animation-fill-mode":"both"});
-		});
+		$("#profile").css({"animation":"fadeOut 0.5s"});
+		$("#info > p").css({"animation":"fadeOut 0.5s"});
 		setTimeout(function() {
 			oldSection.addClass("hidden");
-			oldSection.find("#intro").css({"animation":"", "animation-fill-mode":""});
-			oldSection.find("#profile").css({"animation":"", "animation-fill-mode":""});
-			oldSection.find("#info > p").css({"animation":"", "animation-delay": "", "animation-fill-mode":""});
-		}, 500);
+		}, 300);
 	}
 	else {// Animate out, then reset and hide section
 		oldSection.find(".carousel").eq(0).find(".imgbox").each(function(i) {
-			$(this).css({"animation":"fadeOutLeft 0.50s", "animation-delay":(i*0.05)+"s", "animation-fill-mode":"both"});
+			$(this).css({"animation":"fadeOutLeft 0.30s", "animation-delay":(i*0.05)+"s", "animation-fill-mode":"both"});
 		});
-		oldSection.find(".subsection").css({"animation":"fadeOutRight 0.50s", "animation-fill-mode":"both"});
+		oldSection.find(".subsection").css({"animation":"fadeOutRight 0.30s", "animation-fill-mode":"both"});
 		setTimeout(function() {
 			oldSection.addClass("hidden");
 			oldSection.find(".carousel").eq(0).find(".imgbox").css({"animation": "", "animation-delay": "", "animation-fill-mode":""});
 			oldSection.find(".subsection").css({"animation": "", "animation-fill-mode":""});
-		}, 500);
+		}, 300);
 	}
 	//
 	var newSection = $(".section").eq(s);
@@ -37,16 +31,23 @@ function showSection(s) {
 	newSection.find('h1').text(" ");
 	setTimeout(function() {
 		newSection.removeClass("hidden");
-	}, 500);
-	if (s != 0) {
+	}, 300);
+	console.log(s);
+	if (s == 0) {
+		$("#profile").css({"animation":"fadeIn 0.3s", "animation-fill-mode":"both"});
+		$("#info > p").each(function(i) {
+			$(this).css({"animation": "fadeInDown 0.3s", "animation-delay": i*0.05+"s", "animation-fill-mode":"both"});
+		});
+	}
+	else {
 		setTimeout(function() {
 			newSection.find(".carousel").eq(0).find(".imgbox").each(function(i) {
-				$(this).css({"animation":"fadeInDown 0.50s", "animation-delay":(i*0.05)+"s", "animation-fill-mode":"both"});
+				$(this).css({"animation":"fadeInDown 0.30s", "animation-delay":(i*0.05)+"s", "animation-fill-mode":"both"});
 			});
-		}, 500);
+		}, 300);
 		setTimeout(function() {
 			newSection.find(".carousel").eq(0).find(".imgbox").css({"animation":"", "animation-delay":"", "animation-fill-mode":""});
-		}, 1000);
+		}, 700);
 	}
 	currentSection = s;
 }
@@ -60,7 +61,7 @@ function showContent(sec, id) {
 		}
 	});
 }
-$(document).ready(function () {
+$(document).ready(function () {	
 	$(".imgbox").mouseleave(function(e) {
 		if(e.relatedTarget) {
 			var sec = $(".section").index($(this).parent().parent());
@@ -102,4 +103,5 @@ $(document).ready(function () {
 			$(this).css("opacity", "");
 		}
 	});
+	showSection(0);
 });

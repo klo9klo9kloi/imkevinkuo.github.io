@@ -18,6 +18,8 @@ body {
 }
 /* Navigation */
 #navbar  {
+	display: flex;
+	justify-content: center;
 	position: fixed;
 	top: 0;
 	z-index: 10000;
@@ -31,7 +33,6 @@ body {
 }
 #title {
 	color: lightgrey;
-	margin-left: 4em;
 }
 .navbutton {
 	color: white;
@@ -76,7 +77,7 @@ body {
 	box-shadow: 4px 4px 2px grey;
 	
 	overflow: hidden;
-	transition: width 0.4s;
+	transition: width 0.3s;
 	
 	cursor: pointer;
 	user-select: none;
@@ -86,7 +87,7 @@ body {
 	height: 100%;
 	width: 20rem;
 	transform: translateX(-25.58%);
-	transition: transform 0.4s;
+	transition: transform 0.3s;
 }
 .imgbox.active {
 	width: 20rem;
@@ -94,18 +95,24 @@ body {
 .imgbox.active > img {
 	transform: translateX(0%);
 }
-#intro {
-	animation: fadeInLeft 0.5s;
-	margin: 2rem 2rem 0 2rem;
+#start {
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
 }
 #info {
-	animation: fadeInDown 0.5s;
 	flex: 0 0 12rem;
-	margin: 2rem 0 0 0;
 }
+
+#info > p {
+	animation: fadeInDown 0.5s;
+	animation-fill-mode: both;
+}
+
 #profile {
-	animation: fadeInRight 0.5s;
-	margin: 1rem 0 0 0;
+	animation: fadeIn 0.5s;
+	margin: 2rem 0 0 0;
+	animation-fill-mode: both;
 }
 /* CONTENT */
 /* just have this scroll with page*/

@@ -259,8 +259,7 @@ iframe {
     font-weight: bold;
 	user-select: none;
 }
-.close:hover,
-.close:focus {
+.close:hover, .close:focus {
     color: black;
     cursor: pointer;
 }
