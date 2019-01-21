@@ -12,6 +12,8 @@ function showSection(s) {
 		$("#info > p").css({"animation":"fadeOut 0.5s"});
 		setTimeout(function() {
 			oldSection.addClass("hidden");
+			$("#profile").css({"animation":""});
+			$("#info > p").css({"animation":""});
 		}, 300);
 	}
 	else {// Animate out, then reset and hide section
@@ -32,11 +34,9 @@ function showSection(s) {
 	setTimeout(function() {
 		newSection.removeClass("hidden");
 	}, 300);
-	console.log(s);
 	if (s == 0) {
-		$("#profile").css({"animation":"fadeIn 0.3s", "animation-fill-mode":"both"});
 		$("#info > p").each(function(i) {
-			$(this).css({"animation": "fadeInDown 0.3s", "animation-delay": i*0.05+"s", "animation-fill-mode":"both"});
+			$(this).css({"animation-delay": i*0.05+"s"});
 		});
 	}
 	else {
