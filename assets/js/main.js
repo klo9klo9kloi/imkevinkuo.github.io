@@ -2,7 +2,7 @@ var inputAllowed = true;
 var currentSection = -1;
 var descs = [[""],
 			["Academics", "University of Maryland, College Park", "Thomas Jefferson High School", "CodeSignal"],
-			["Projects", "Gait Recognition", "Team AIMAR", "AI/Parallel Computing", "Elementals", "Cadence", "Web Automation", "4 Year Planner"],
+			["Projects", "Gait Recognition", "Team AIMAR", "AI/Parallel Computing", "UMD Planner", "Elementals", "Cadence", "Web Automation", "4 Year Planner"],
 			["About", "Track and Field", "Taiwan", "Music"]];
 function showSection(s) {
 	if (s == currentSection) {return;}
