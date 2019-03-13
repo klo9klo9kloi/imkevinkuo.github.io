@@ -1,0 +1,23 @@
+html {
+	font-size: 1em;
+}
+p {
+	margin: 1rem;
+}
+.tile {
+	display: flex;
+	align-items: center;
+}
+.box {
+	border: 1px black solid;
+	width: 14rem;
+	margin: 1rem;
+	padding: 1rem;
+}
+.box:hover {
+	background-color: lightgrey;
+	cursor: pointer;
+}
+.hidden {
+	display: none;
+}

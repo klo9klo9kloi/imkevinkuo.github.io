@@ -1,8 +1,9 @@
 var inputAllowed = true;
 var currentSection = -1;
+var currHeader = "";
 var descs = [[""],
 			["Academics", "University of Maryland, College Park", "Thomas Jefferson High School", "CodeSignal"],
-			["Projects", "Gait Recognition", "Team AIMAR", "AI/Parallel Computing", "UMD Planner", "Elementals", "Cadence", "Web Automation", "4 Year Planner"]];
+			["Projects", "Gait Recognition", "Team AIMAR", "AI/Parallel Computing", "UMD Planner", "Elementals", "Cadence", "Travian Tools", "4 Year Planner"]];
 function showSection(s) {
 	if (s == currentSection) {return;}
 	var oldSection = $(".section").eq(currentSection);
@@ -19,7 +20,7 @@ function showSection(s) {
 		oldSection.find(".carousel").eq(0).find(".imgbox").each(function(i) {
 			$(this).css({"animation":"fadeOutLeft 0.30s", "animation-delay":(i*0.05)+"s", "animation-fill-mode":"both"});
 		});
-		oldSection.find(".subsection").css({"animation":"fadeOutRight 0.30s", "animation-fill-mode":"both"});
+		oldSection.find(".subsection").css({"animation":"fadeOutRight 0.40s", "animation-fill-mode":"both"});
 		setTimeout(function() {
 			oldSection.addClass("hidden");
 			oldSection.find(".carousel").eq(0).find(".imgbox").css({"animation": "", "animation-delay": "", "animation-fill-mode":""});
@@ -29,7 +30,7 @@ function showSection(s) {
 	//
 	var newSection = $(".section").eq(s);
 	showContent(s, -1);
-	newSection.find('h1').text(" ");
+	newSection.find('h1').text(descs[s][0]);
 	setTimeout(function() {
 		newSection.removeClass("hidden");
 	}, 300);
@@ -43,14 +44,17 @@ function showSection(s) {
 			newSection.find(".carousel").eq(0).find(".imgbox").each(function(i) {
 				$(this).css({"animation":"fadeInDown 0.30s", "animation-delay":(i*0.05)+"s", "animation-fill-mode":"both"});
 			});
+			newSection.find(".subsection").css({"animation":"fadeInRight 0.40s", "animation-fill-mode":"both"});
 		}, 300);
 		setTimeout(function() {
 			newSection.find(".carousel").eq(0).find(".imgbox").css({"animation":"", "animation-delay":"", "animation-fill-mode":""});
+			newSection.find(".subsection").css({"animation": "", "animation-fill-mode":""});
 		}, 700);
 	}
 	currentSection = s;
 }
 function showContent(sec, id) {
+	currHeader = descs[sec][id+1];
 	$(".section").eq(sec).find('.content').each(function(i) {
 		if (i == id) {
 			$(this).removeClass("hidden");
@@ -67,6 +71,7 @@ $(document).ready(function () {
 			var id = $(this).parent().children(".imgbox").index($(this));
 			$(this).removeClass("active");
 			$(this).css("opacity", "");
+			$(".section").eq(sec).find('h1').text(currHeader);
 		}
 	});
 	
