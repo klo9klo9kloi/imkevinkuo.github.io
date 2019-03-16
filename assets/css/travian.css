@@ -4,13 +4,29 @@ html {
 p {
 	margin: 1rem;
 }
+#wrapper {
+	display: flex;
+	max-height: 48rem;
+}
+#builds {
+	flex: 0 0 35%;
+	overflow-y: scroll;
+	min-height: 48rem;
+}
+#structs {
+	flex: 0 0 65%;
+	display: flex;
+	flex-wrap: wrap;
+	align-content: flex-start;
+}
 .tile {
 	display: flex;
 	align-items: center;
 }
-.box {
+.box, .infobox {
 	border: 1px black solid;
 	width: 14rem;
+	height: 1rem;
 	margin: 1rem;
 	padding: 1rem;
 }
