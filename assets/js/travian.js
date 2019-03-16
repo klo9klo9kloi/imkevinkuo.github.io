@@ -181,8 +181,14 @@ function updateList() {
 			}
 		}
 		else {
-			if (!(name in structs) || lvs[0] != data[structs[name][structs[name].length - 1]][2][0]+1) {
+			if (!(name in structs)) {
 				display = false;
+			}
+			else {
+				var ups = data[structs[name][structs[name].length - 1]][2];
+				if (lvs[0] != ups[ups.length-1]+1) {
+					display = false
+				}
 			}
 		}
 		if (display) {
