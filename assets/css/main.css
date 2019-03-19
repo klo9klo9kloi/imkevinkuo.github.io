@@ -76,6 +76,7 @@ body {
 	margin: 1rem;
 	border: 2px solid black;
 	box-shadow: 4px 4px 2px grey;
+	border-radius: 1rem;
 	
 	overflow: hidden;
 	transition: width 0.3s;
@@ -115,6 +116,10 @@ body {
 	animation: fadeIn 0.5s;
 	margin: 2rem 0 0 0;
 	animation-fill-mode: both;
+}
+#profile > img {
+	border-radius: 1rem;
+	box-shadow: 2px 3px lightgrey;
 }
 /* CONTENT */
 /* just have this scroll with page*/
