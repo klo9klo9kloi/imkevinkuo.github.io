@@ -3,7 +3,7 @@ var currentSection = -1;
 var currHeader = "";
 var descs = [[""],
 			["Academics", "University of Maryland, College Park", "Thomas Jefferson High School", "CodeSignal"],
-			["Projects", "Gait Recognition", "Team AIMAR", "AI/Parallel Computing", "UMD Planner", "Elementals", "Cadence", "Travian Tools", "4 Year Planner"]];
+			["Projects", "Gait Recognition", "Team AIMAR", "AI/Parallel Computing", "Interment Data Analysis", "UMD Planner", "Elementals", "Cadence", "Travian Tools", "4 Year Planner"]];
 function showSection(s) {
 	if (s == currentSection) {return;}
 	var oldSection = $(".section").eq(currentSection);
