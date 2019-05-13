@@ -1,0 +1,449 @@
+---
+title: "interment"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE)
+library(rvest)
+library(tidyr)
+library(dplyr)
+library(readr)
+library(magrittr)
+library(stringr)
+library(ggplot2)
+library(tidyverse)
+library(broom)
+library(knitr)
+
+```
+
+In this project, we will be looking at cemetery data from interment.net.
+
+<h2>Data Scraping</h2>
+
+The site structure of internment.net lets users view cemetery records from all over the world.
+
+Starting from the <a href="http://www.interment.net/us/md/">Maryland page</a>, our goal is to define a few functions that will allow us to retrieve all of the <a href="http://www.interment.net/data/us/md/allegany/rocky-gap-veterans-cemetery-records-a-c.htm">lowest-level cemetery pages</a> in Maryland.
+
+The cemetery pages containing the actual data (birth and death dates of individuals buried in the cemeteries) are nested inside country, state, and county sub-pages. Additionally, some of these cemetery webpages may contain "surname" sub-pages that list the individuals in a certain surname range (e.g. A-C), rather than directly listing all the names.
+
+For example, note the differences between <a href="http://www.interment.net/data/us/md/anne_arundel/cedar_hill.htm">Cedar Hill Cemetery</a> and <a href="http://www.interment.net/data/us/md/anne_arundel/annapolis/index.htm">Annapolis National Cemetery.</a>
+
+```{r link_scraping_functions}
+
+base_url <- "http://www.interment.net/us/md/"
+index <- "index.htm"
+
+get_county_links <- function() {
+  paste(base_url, index, sep="") %>%
+    read_html() %>%
+    html_nodes("table") %>%
+    .[2] %>%
+    html_nodes("a") %>%
+    {cbind(paste(base_url, xml_attr(., "href"), sep=""), 
+           xml_text(.))} %>%
+    .[.[,2] != " ",]
+}
+
+get_cemetery_links <- function(url) {
+  url %>%
+    read_html() %>%
+    html_node("#main-content ul") %>%
+    html_nodes("a") %>%
+    {cbind(paste(url, "/../", xml_attr(., "href"), sep=""), 
+           xml_text(.))}
+}
+
+# Input cemetery page, get data pages
+# If cemetery page does not have inner surname links, return the url
+get_data_links <- function(url) {
+  node = url %>%
+    read_html() %>%
+    html_nodes("#main-content a") %>%
+    .[grepl("Surname", as.character(.))]
+  if (length(node) >= 1) {
+    return(
+      node %>% 
+      xml_attr("href") %>%
+      map(function(surname_url) { # do if link begins with ../.., else paste onto url, removing index.htm from end
+        if (startsWith(surname_url, "..")) {
+          return(paste(url, surname_url, sep=""))
+        }
+        else {
+          return(paste(url, "/../", surname_url, sep=""))
+        }
+      }))
+  }
+  return(list(url))
+}
+
+```
+
+As we crawl through websites, we keep track of which county each cemetery is located in, which will be useful for our data analysis later on.
+
+Note that each link in the data_urls table displays a list of deceased individuals.
+
+```{r scrape_links} 
+
+bad <- c("Garrett", "Somerset") # these two don't have any links
+
+county_urls <- get_county_links() %>% .[!.[,2] %in% bad,]
+county_urls[,2] <- county_urls[,2] %>% strsplit("\\s+") %>% sapply(function(x) paste(x, collapse=''))
+
+cemetery_urls <- county_urls %>% 
+  apply(1, function(x) cbind(get_cemetery_links(x[1]), x[2])) %>%
+  {do.call(rbind, .)}
+
+data_urls <- cemetery_urls %>% 
+  apply(1, function(x) cbind(get_data_links(x[1]), x[2], x[3])) %>%
+  {do.call(rbind, .)} %>%
+  unlist() %>%
+  matrix(ncol=3)
+
+```
+
+For a visualization of what is going on, we are essentially transforming each of these tables into the one below, by looking at each site's inner links.
+```{r}
+
+# cleans df text, only for demonstration purposes in this section
+clean_text <- function(df, col) {
+  df[col] <- lapply(df[col], as.character)
+  df[col] <- df[[col]] %>% strsplit("\\s") %>% 
+    map_chr(function(v) paste(v[v != ""], collapse=' '))
+  return(df)
+}
+
+sample_1 = county_urls[1:2,] %>% as.data.frame()
+sample_1[1] = sample_1[1] %>% map(function(x) {
+  paste("<a href=\"", x, "\">Link</a>", sep='')
+})
+kable(sample_1)
+
+sample_2 <- cemetery_urls[1:7,] %>% as.data.frame() %>% clean_text(2)
+sample_2[1] = sample_2[1] %>% map(function(x) {
+  paste("<a href=\"", x, "\">Link</a>", sep='')
+})
+kable(sample_2)
+
+sample_3 <- data_urls[1:18,] %>% as.data.frame() %>% clean_text(2)
+sample_3[1] = sample_3[1] %>% map(function(x) {
+  paste("<a href=\"", x, "\">Link</a>", sep='')
+})
+kable(sample_3)
+
+```
+
+With our list of links, we can now parse the text information on each of these pages and build our dataset.
+
+```{r data_scraping_functions}
+
+# takes a page with name/birth/death data and extract info
+# returns a 2d vector of [name, birth, death] char info
+get_data <- function(url) {
+  data_nodes <- url %>% 
+    read_html() %>%
+    html_nodes("blockquote")
+  if (length(data_nodes) != 1) { # handle this later
+    #print(paste("Multiple blockquote elements", url))
+    return(NULL)
+  }
+  else {
+    data_mat <- data_nodes %>%
+      as.character() %>%
+      strsplit("\\s*<br>\\s*") %>%
+      .[[1]] %>%
+      str_match("(.*)b\\..*(\\d{4}).*d\\.[\\s\\S]*?(\\d{4})") %>%
+      .[, 2:length(.[1, ]), drop=FALSE] %>%
+      na.omit
+    if (nrow(data_mat) == 0) {
+      return(NULL)
+    }
+    return(data_mat)
+  }
+}
+
+```
+
+<h2>Data Cleaning</h2>
+
+Once we execute our data scraping functions, we can take a look at the resulting data.
+
+```{r scrape_data}
+
+data <- data_urls %>% 
+  apply(1, function(x) {
+    d <- get_data(x[1])
+    if (!is.null(d)) {
+      cbind(d, x[2], x[3])
+    }
+  }) %>%
+  {do.call(rbind, .)} %>%
+  unlist() %>%
+  matrix(ncol=5) %>%
+  data.frame()
+
+names(data) <- c("name", "birth", "death", "cemetery", "county")
+kable(head(data))
+
+```
+
+Let's do some cleanup for the text formatting and also calculate the age of each person at death.
+
+```{r calc_age}
+
+life_df = data.frame(data)
+
+life_df[1] <- lapply(life_df[1], as.character)
+life_df[1] <- life_df[,1] %>% 
+  str_match("(?:<b>)?(.*)(?:</b>,)+?") %>% 
+  .[,2]
+
+life_df[2:3] <- lapply(life_df[2:3], as.character)
+life_df[2:3] <- lapply(life_df[2:3], as.numeric)
+life_df$age <- life_df$death - life_df$birth
+
+life_df[4] <- lapply(life_df[4], as.character)
+life_df[4] <- life_df[[4]] %>% strsplit("\\s") %>% map_chr(function(v) paste(v[v != ""], collapse=' '))
+
+```
+
+At a quick glance, we see that not all of the data on interment.net is correct.
+
+Some people are labeled with death dates that precede their birth dates, and some birth/death dates only have three digits.
+
+```{r show_outliers}
+
+life_df[order(life_df$age),] %>% head(n=5) %>% kable()
+life_df[order(life_df$age),] %>% tail(n=5) %>% kable()
+
+```
+
+While we can assume these values are typos from whoever entered in the data, there are too many cases to consider to attempt fixing the data. 
+
+Therefore, we will just remove all obviously wrong values. First, we filter out all individuals who have a death date preceding their birth date (those with negative age). We then filter out all values that are greater than the upper quartile by 1.5 times the inter-quartile range.
+
+The plots below show the distribution of data points before and after filtering out these erroneous values.
+
+```{r}
+
+life_df <- filter(life_df, birth > 1500, death > 1500, age >= 0)
+outliers <- boxplot(life_df$age)$out
+
+```
+
+We don't remove the "low" outliers because young ages are still valid if they are greater than or equal to zero years.
+
+```{r}
+
+life_df <- filter(life_df, !(age %in% outliers[outliers > 100]))
+boxplot(life_df$age)
+
+```
+
+
+<h2>Exploratory Data Analysis</h2>
+
+Now that we have cleaned up our data, let's take a look at how many data points we have for each county.
+
+```{r count_counties}
+
+count_df <- life_df %>% group_by(county) %>% summarize(count=n())
+kable(count_df)
+
+```
+
+For the purposes of this project, we will only be looking at counties that have more than 3000 data points.
+```{r filter_counties}
+
+count_df <- count_df[count_df$count > 3000,]
+
+life_df <- life_df %>% 
+  filter(county %in% count_df[,1][[1]])
+
+```
+
+We can also take a look at what time periods our deaths are distributed across, which will give us a good idea of which time periods we should be using data analysis on.
+
+In summary, we should be looking at years after 1900, where most of the data is concentrated.
+
+```{r year_distribution}
+
+life_df %>% ggplot(mapping=aes(x=death)) + geom_histogram(binwidth=1)
+
+```
+
+<h2>Hypothesis Testing</h2>
+
+Let's try to answer the question "is the average life expectancy of people who died before 1950 statistically significantly higher than that of people who died after 1950?"
+
+We'll start by taking a look at Baltimore City in particular. Below are plots of the distribution of age of death, for individuals who died before and after 1950.
+
+```{r balt_surv}
+
+life_df %>% 
+  filter(county=="BaltimoreCity") %>%
+  ggplot(mapping=aes(x=age, fill=death > 1950)) +   
+  geom_density(alpha=0.2) + xlim(0,120) + 
+  labs(title="Baltimore City Distribution of Age of Death") +
+  scale_fill_discrete(name=NULL,
+                      labels=c("Before 1950",
+                               "After 1950"))
+
+```
+
+If we assume the average age of death comes from a normal distribution*, we can test our hypothesis with a t-test, which compares two sample means/distributions.
+
+*The distribution of life expectancy does not exactly fit a normal distribution. Logically, we expect small spikes around 0 and 20-30 years of age, where childbirth complications increase the rate of death. If we were to improve on this analysis, we would attempt to find a best fit distribution to our data and use an appropriate test to compare our sample means.
+
+```{r balt_ttest}
+
+pre_1950 <- life_df %>% 
+  filter(county=="BaltimoreCity", death < 1950) %>% 
+  {.$age}
+
+post_1950 <- life_df %>% 
+  filter(county=="BaltimoreCity", death >= 1950) %>% 
+  {.$age}
+
+t.test(pre_1950, post_1950)
+```
+
+The result of the t-test gives us a p-value of 2.2e-16, which is lower than the critical value of 0.05. This means we reject the null hypothesis that life expectancy is the same before and after 1950.
+
+We leave it as an exercise to the reader to perform t-tests for the other counties and see if the same observations hold.
+
+<h2>Regression</h2>
+
+One of the things we are interested in when looking at life expectancy is the <b>survivorship curve</b> of a population. We can generate a survivorship curves for each county by counting the number of individuals that live to a certain age.
+
+```{r}
+surv_df <- count_df['county'][[1]] %>% 
+  map(function(cty) {
+    life_df_a = filter(life_df, county == cty)
+    age_col = c(0:120)
+    alive_col = map(age_col, function(x) sum(life_df_a$age >= x))
+    aa_cols = cbind(age_col, alive_col) %>% data.frame()
+    names(aa_cols) = c("age", "alive")
+    aa_cols[1:2] = lapply(aa_cols[1:2], as.numeric)
+    return(list(cty,aa_cols))
+  })
+
+```
+
+
+For example, here is the survivorship curve for Baltimore City, across all recorded individuals.
+
+The x-axis shows age in years, while the y-axis shows the number of individuals who live up to and beyond that age.
+
+```{r wash_plot}
+balt_city = surv_df[[3]]
+g <- ggplot(balt_city[[2]], mapping=aes(x=age, y=alive)) + 
+  geom_point() + 
+  labs(title="Baltimore City Survivorship")
+plot(g)
+
+```
+
+Since our counties have different populations, it is useful to normalize the survivorship curve by dividing the y-values by the total population. This gives us a similar plot, where the y-axis now shows the <b>percentage</b> of individuals in the population who live up to a specified age.
+```{r}
+
+surv_df_norm <- surv_df %>% 
+  map(function(tup) {
+    tup[[2]][,2] = tup[[2]][,2]/tup[[2]][,2][1]
+    new_df = cbind(tup[[2]],tup[[1]])
+    names(new_df) = c("age", "alive", "county")
+    return(new_df)
+  }) %>%
+  {do.call("rbind", .)}
+
+```
+
+Now that all of our curves are normalized to the same y-range, we can plot them all on the same graph.
+
+```{r all_plot}
+
+g <- ggplot(surv_df_norm, mapping=aes(x=age, y=alive, color=county)) + 
+  geom_point(size=1) + 
+  labs(y="% alive", title="Normalized Survivorship Curves")
+plot(g)
+
+```
+
+Let's use regression techniques to see if there are statistically significant differences in the survivorship curves between different counties.
+
+First, we fit a logistic curve to all of the survivorship curve points, without regard for county.
+
+```{r curve_fitting}
+
+glm_fit <- glm(alive ~ age, data = surv_df_norm, family = quasibinomial)
+glm_fit %>% tidy() %>% kable(digits=4)
+
+ggplot(surv_df_norm, aes(x=age, y=alive)) + 
+  geom_point() + 
+  geom_smooth(method = "glm",
+              method.args = list(family=quasibinomial),
+              formula = y ~ x) +
+  labs(title="Survivorship Logistic Fit")
+
+```
+
+To analyze the accuracy of our model, we plot the residuals of our model vs. year and county.
+
+```{r}
+
+surv_aug <- augment(glm_fit) %>% mutate(county=surv_df_norm$county)
+
+surv_aug %>% ggplot(aes(x=age, y=.resid)) + geom_point() + labs(title="Residual vs. Year", x="year", y="residual") + ylim(-.8, .8)
+
+```
+
+When looking at residuals vs. year, we see that our residuals are centered around zero, but there the spread is non-constant as year increases.
+
+Intuition tells us this is due to different survivorship curves across counties, so we also plot the residuals vs county.
+
+```{r}
+
+surv_aug %>% ggplot(aes(x=county, y=.resid)) + geom_violin() + labs(title="Residual vs. County", x="county", y="residual") + ylim(-.8, .8)
+
+```
+
+Since we are seeing a great deal of variation between counties, we can improve our model by adding another variable for the county.
+
+```{r curve_fitting_2}
+
+glm_fit_2 <- glm(alive ~ age*county, data = surv_df_norm, family = quasibinomial)
+
+glm_fit_2 %>% tidy() %>% kable(digits=4)
+
+surv_aug_2 <- augment(glm_fit_2) %>% mutate(county=surv_df_norm$county)
+
+surv_aug_2 %>% ggplot(aes(x=age, y=.resid)) + geom_point() + labs(title="Residual vs. Year", x="year", y="residual") + ylim(-.8, .8)
+
+surv_aug_2 %>% ggplot(aes(x=county, y=.resid)) + geom_violin() + labs(title="Residual vs. County", x="county", y="residual") + ylim(-.8, .8)
+
+```
+
+Our residual vs. year plot still shows a large amount of variation, but the residual values have noticably decreased in both plots, and the residuals vs. county plot is now more centered around zero.
+
+To quantify these differences, we run a Chi-square test to compare our two logistic models. We get a p-value of 2.2e-16, which tell us we have a statistically significant reduction in the residual sum of squares between models.
+
+```{r}
+
+anova(glm_fit, glm_fit_2, test="Chisq")
+
+```
+
+
+In summary, the cemetery data at interment.net provides us with a list of individuals, their birth and death dates, and the cemetery they are buried in. We can use this data to look different interactions between life expectancy, county, and time period. 
+
+In this project, we focused on many steps. 
+First, we scraped the data in a systematic manner, by first fetching all inner-sublinks from county-to-graveyard and potentially graveyard-to-surname-slice, then parsed the text data on all these links.
+
+In analyzing our data, we specficially asked if there was a statistically significant difference between life expectancy before vs. after 1950 in Baltimore City. 
+
+Finally, we transformed the data to show survivorship curves for each county, built two different models to fit those logistic curves, and compared the accuracy between them with a Chi-square test.
