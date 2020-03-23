@@ -86,6 +86,7 @@ img {
 }
 /* Line */
 .line {
+	margin: 0 10%;
     height: 1px;
     background: black;
     background: -webkit-gradient(linear, 0 0, 100% 0, from(black), to(black), color-stop(50%, white));
@@ -101,7 +102,7 @@ img {
 	}
 	100% {
 		visibility: visible;
-		width: 100%;
+		width: 80%;
 	}
 }
 /* CONTENT CONTAINS DESCBOX AND SKILLBOX */
