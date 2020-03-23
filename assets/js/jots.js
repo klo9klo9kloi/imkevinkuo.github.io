@@ -1,5 +1,6 @@
 var NIGHT_MODE = 0;
 var skilldesc;
+var tooltip;
 
 var SKILL_NAMES = ["Spearhead", "Sideswipe", "Axeheave", "Bladereap", 
 				   "Iron Will", "Smoldering Rage", "Gilded Resolve", "Tempered Fury",
@@ -150,6 +151,7 @@ var SKILL_DESCS = ["Thrust forward, dealing damage and Slowing all enemies in a 
 				   "Cleanse yourself of  all negative potion effects and ignite everyone around you.", 
 				   "Conjure a dome of flame that forces away those who touch it.", 
 				   "Conjure a shield of fire that burns attackers and nearby projectiles."];
+				   
 /* Skillbox colors */
 var BACK_COLORS = [[100, 70, 66],
 				   [120, 37, 35],
@@ -284,21 +286,24 @@ $(document).ready(function () {
 		}
 	});
 	/* Skill icons */
+	tooltip = $("#tooltip");
 	$(".skillicon").each(function(index) {
 		$(this).attr("myID", index);
-		$(this).append("<span><p>" + SKILL_NAMES[index] + "</p></span>");
+		$(this).hover(
+			function() {
+				tooltip.text(SKILL_NAMES[$(this).attr("myID")]);
+				tooltip.css("display", "inline");
+			}, function() {
+				tooltip.css("display", "none");
+			}
+		);
 	});
-	
-	/* Tooltips */
-	var tooltips = document.querySelectorAll('.skillicon span');
 
 	window.onmousemove = function(event) {
 		var x = (event.clientX + 16) + 'px',
-			y = (event.clientY - 16) + 'px';
-		for (var i = 0; i < tooltips.length; i++) {
-			tooltips[i].style.top = y;
-			tooltips[i].style.left = x;
-		}
+			y = (event.clientY - 32) + 'px';
+		tooltip.css("top", y);
+		tooltip.css("left", x);
 	};
 	
 	/* Open and close modal */

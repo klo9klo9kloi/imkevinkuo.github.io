@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+	<html>
+	<head>
+		<link href="https://fonts.googleapis.com/css?family=Merienda" rel="stylesheet">
+		<link rel="stylesheet" type="text/css" href="https://fontlibrary.org/face/minecraftia"/>		
+		<link rel="stylesheet" type="text/css" href="assets/css/jots.css">
+		<link rel="icon" type="image/png" href="images/jots/duelist/prismarineshard.png">
+		<script src="assets/js/jquery-3.3.1.js"></script>
+		<title>jots</title>
+	</head>
+    <body>
+	
+		<!-- MODAL -->
+		<div id="myModal" class="modal hidden">
+			<div class="modal-content">
+				<span class="close">&times;</span>
+				<div class="skilldesc">
+					<h2>Skill Name</h2>
+					<p>Description</p>
+				</div>
+				<div class="vidbox">
+				</div>
+			</div>
+		</div>
+		
+		<script src="assets/js/jots.js"></script>
+		
+		<!-- PAGE START -->
+		<div class="star">
+			<img class="active" id="moon" src="images/jots/moon.png">
+			<img class="hidden" id="sun" src="images/jots/sun.png">
+		</div>
+		<p id="tooltip"></p>
+		<div class="row" id="title"><h1>Judgement of the Sun</h1></div>
+		
+		<div class="row" style="flex-wrap: wrap; padding-left: 20%; padding-right: 20%;">
+		<span class="classicon"><img src="images/jots/ironsword.png"></span>
+		<span class="classicon"><img src="images/jots/blazepowder.png"></span>
+		<span class="classicon"><img src="images/jots/feather.png"></span>
+		<span class="classicon"><img src="images/jots/clay.png"></span>
+		<span class="classicon"><img src="images/jots/bone.png"></span>
+		<span class="classicon"><img src="images/jots/glowstonedust.png"></span>
+		</div>
+		<div class="line"></div>
+		
+		<div class="row double" id="start">
+			<h1>Click an icon to view faction information.</h1>
+		</div>
+
+		<!-- DESCS -->
+		<div class="row double hidden";>
+		<div>
+			<div class="descbox">
+				<p>Duelists | Fera</p>
+				<div class="row">
+					<p>The Duelists are a faction of weapon-worshippers; a people of relentless ambition and conquest. Their dogmatic and miltaristic culture begets hostility towards other races, all forms of magic, and any shred of disobedience - a culture that pits them against enemies on all sides.</p>
+					<div class="model"><img src="images/jots/models/duelist.gif"></div>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div class="skillbox">
+				<div class="row">
+					<div class="skillicon"><img src="images/jots/duelist/ironshovel.png"></div>
+					<div class="skillicon"><img src="images/jots/duelist/ironpick.png"></div>
+					<div class="skillicon"><img src="images/jots/duelist/ironaxe.png"></div>
+					<div class="skillicon"><img src="images/jots/duelist/ironhoe.png"></div>
+				</div>
+				
+				<div class="row">
+					<div class="skillicon"><img src="images/jots/duelist/ironingot.png"></div>
+					<div class="skillicon"><img src="images/jots/duelist/brick.png"></div>
+					<div class="skillicon"><img src="images/jots/duelist/goldingot.png"></div>
+					<div class="skillicon"><img src="images/jots/duelist/netherbrick.png"></div>
+				</div>
+				
+				<div class="row">
+					<div class="skillicon"><img src="images/jots/duelist/poppedchorusfruit.png"></div>
+					<div class="skillicon"><img src="images/jots/duelist/rottenflesh.png"></div>
+					<div class="skillicon"><img src="images/jots/duelist/shulkershell.png"></div>
+					<div class="skillicon"><img src="images/jots/duelist/beetrootsoup.png"></div>
+				</div>
+				
+				<div class="row">
+					<div class="skillicon"><img src="images/jots/duelist/cyandye.png"></div>
+					<div class="skillicon"><img src="images/jots/duelist/diamondsword.png"></div>
+					<div class="skillicon"><img src="images/jots/duelist/prismarinecrystals.png"></div>
+					<div class="skillicon"><img src="images/jots/duelist/prismarineshard.png"></div>
+				</div>
+			</div>
+		</div>
+		</div>
+		
+		<div class="row double hidden";>
+		<div>
+			<div class="descbox">
+				<p>Raiders | Freeport</p>
+				<div class="row">
+					<p>The Raiders of Freeport share two traits: their aptitute for magic and hatred for the Duelists. Their alliance is an unsteady one, but putting up a united front is the only way to survive.</p>
+					<div class="model"><img src="images/jots/models/raider.gif"></div>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div class="skillbox">
+				<div class="row">
+					<div class="skillicon"><img src="images/jots/raider/firecharge.png"></div>
+					<div class="skillicon"><img src="images/jots/raider/blazepowder.png"></div>
+					<div class="skillicon"><img src="images/jots/raider/redstonerepeater.png"></div>
+					<div class="skillicon"><img src="images/jots/raider/orangedye.png"></div>
+				</div>
+				
+				<div class="row">
+					<div class="skillicon"><img src="images/jots/raider/redpotion.png"></div>
+					<div class="skillicon"><img src="images/jots/raider/greypotion.png"></div>
+					<div class="skillicon"><img src="images/jots/raider/bluepotion.png"></div>
+					<div class="skillicon"><img src="images/jots/raider/greenpotion.png"></div>
+				</div>
+				
+				<div class="row">
+					<div class="skillicon"><img src="images/jots/raider/leatherboots.png"></div>
+					<div class="skillicon"><img src="images/jots/raider/rosered.png"></div>
+					<div class="skillicon"><img src="images/jots/raider/beetroot.png"></div>
+					<div class="skillicon"><img src="images/jots/raider/firework.png"></div>
+				</div>
+				
+				<div class="row">
+					<div class="skillicon"><img src="images/jots/raider/tripwirehook.png"></div>
+					<div class="skillicon"><img src="images/jots/raider/blazerod.png"></div>
+					<div class="skillicon"><img src="images/jots/raider/deadbush.png"></div>
+					<div class="skillicon"><img src="images/jots/raider/nametag.png"></div>
+				</div>
+			</div>
+		</div>
+		</div>
+		
+		<div class="row double hidden";>
+		<div>
+			<div class="descbox">
+				<p>Assassins | Levi</p>
+				<div class="row">
+					<p>As the Levians grew resentful of their second-class status to the Ferrans, they looked to Freeport for inspiration. The Assassins do not love magic, but understand it is necessary to win the freedoms Levians so desperately desire.</p>
+					<div class="model"><img src="images/jots/models/assassin.gif"></div>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div class="skillbox">
+				<div class="row">
+					<div class="skillicon"><img src="images/jots/assassin/netherquartz.png"></div>
+					<div class="skillicon"><img src="images/jots/assassin/string.png"></div>
+					<div class="skillicon"><img src="images/jots/assassin/arrow.png"></div>
+					<div class="skillicon"><img src="images/jots/assassin/fireworkstar.png"></div>
+				</div>
+				
+				<div class="row">
+					<div class="skillicon"><img src="images/jots/assassin/feather.png"></div>
+					<div class="skillicon"><img src="images/jots/assassin/lightgraydye.png"></div>
+					<div class="skillicon"><img src="images/jots/assassin/hopper.png"></div>
+					<div class="skillicon"><img src="images/jots/assassin/netherstar.png"></div>
+				</div>
+				
+				<div class="row">
+					<div class="skillicon"><img src="images/jots/assassin/humanhead.png"></div>
+					<div class="skillicon"><img src="images/jots/assassin/zombiehead.png"></div>
+					<div class="skillicon"><img src="images/jots/assassin/skeletonhead.png"></div>
+					<div class="skillicon"><img src="images/jots/assassin/creeperhead.png"></div>
+				</div>
+				
+				<div class="row">
+					<div class="skillicon"><img src="images/jots/assassin/enderpearl.png"></div>
+					<div class="skillicon"><img src="images/jots/assassin/compass.png"></div>
+					<div class="skillicon"><img src="images/jots/assassin/lead.png"></div>
+					<div class="skillicon"><img src="images/jots/assassin/glassbottle.png"></div>
+				</div>
+			</div>
+		</div>
+		</div>
+		
+		<div class="row double hidden";>
+		<div>
+			<div class="descbox">
+				<p>Guardians | Kosmos </p>
+				<div class="row">
+					<p>Despite the Duelists' seething hatred of magic, they are unable to breach the Guardians' last stronghold: Kosmos. Inside the forbidden city, the Guardians tirelessly prepare for their final battle, knowing the wars around them only feed a greater evil.</p>
+					<div class="model"><img src="images/jots/models/guardian.gif"></div>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div class="skillbox">
+				<div class="row">
+					<div class="skillicon"><img src="images/jots/guardian/rabbithide.png"></div>
+					<div class="skillicon"><img src="images/jots/guardian/blazeegg.png"></div>
+					<div class="skillicon"><img src="images/jots/guardian/goldenhorsearmor.png"></div>
+					<div class="skillicon"><img src="images/jots/guardian/diamondhorsearmor.png"></div>
+				</div>
+				
+				<div class="row">
+					<div class="skillicon"><img src="images/jots/guardian/cactusgreen.png"></div>
+					<div class="skillicon"><img src="images/jots/guardian/expbottle.png"></div>
+					<div class="skillicon"><img src="images/jots/guardian/emerald.png"></div>
+					<div class="skillicon"><img src="images/jots/guardian/limeglass.png"></div>
+				</div>
+				
+				<div class="row">
+					<div class="skillicon"><img src="images/jots/guardian/wheatseeds.png"></div>
+					<div class="skillicon"><img src="images/jots/guardian/pumpkinseeds.png"></div>
+					<div class="skillicon"><img src="images/jots/guardian/melonseeds.png"></div>
+					<div class="skillicon"><img src="images/jots/guardian/beetrootseeds.png"></div>
+				</div>
+				
+				<div class="row">
+					<div class="skillicon"><img src="images/jots/guardian/goldmelon.png"></div>
+					<div class="skillicon"><img src="images/jots/guardian/sulfur.png"></div>
+					<div class="skillicon"><img src="images/jots/guardian/wheat.png"></div>
+					<div class="skillicon"><img src="images/jots/guardian/rosebush.png"></div>
+				</div>
+			</div>
+		</div>
+		</div>
+		
+		<div class="row double hidden";>
+		<div>
+			<div class="descbox">
+				<p>Witherknights | Umber</p>
+				<div class="row">
+					<p>The Witherknights once ruled the depths of the Nether, the skies of the Aether, and every land inbetween. After their empire crumbled in a disastrous violet blaze, they were slowly lost to history. But now, ancient magics stir, and the Witherknights have awakened once more.</p>
+					<div class="model"><img src="images/jots/models/witherknight.gif"></div>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div class="skillbox">
+				<div class="row">
+					<div class="skillicon"><img src="images/jots/witherknight/slimeblock.png"></div>
+					<div class="skillicon"><img src="images/jots/witherknight/mossstone.png"></div>
+					<div class="skillicon"><img src="images/jots/witherknight/tnt.png"></div>
+					<div class="skillicon"><img src="images/jots/witherknight/blackglass.png"></div>
+				</div>
+				
+				<div class="row">
+					<div class="skillicon"><img src="images/jots/witherknight/witherhead.png"></div>
+					<div class="skillicon"><img src="images/jots/witherknight/ironhorsearmor.png"></div>
+					<div class="skillicon"><img src="images/jots/witherknight/blackegg.png"></div>
+					<div class="skillicon"><img src="images/jots/witherknight/record11.png"></div>
+				</div>
+				
+				<div class="row">
+					<div class="skillicon"><img src="images/jots/witherknight/shears.png"></div>
+					<div class="skillicon"><img src="images/jots/witherknight/eyeofender.png"></div>
+					<div class="skillicon"><img src="images/jots/witherknight/bonemeal.png"></div>
+					<div class="skillicon"><img src="images/jots/witherknight/endcrystal.png"></div>
+				</div>
+				
+				<div class="row">
+					<div class="skillicon"><img src="images/jots/witherknight/endportalframe.png"></div>
+					<div class="skillicon"><img src="images/jots/witherknight/netherquartzore.png"></div>
+					<div class="skillicon"><img src="images/jots/witherknight/ironbars.png"></div>
+					<div class="skillicon"><img src="images/jots/witherknight/endgateway.png"></div>
+				</div>
+			</div>
+		</div>
+		</div>
+		
+		<div class="row double hidden";>
+		<div>
+			<div class="descbox">
+				<p>Paladins | Aether</p>
+				<div class="row">
+					<p>Arda breathed life into the world and handpicked the Paladins to lead it. But the greatest Paladins grew discontent with eternal servitude. They slaughtered their own brethren, overthrew Arda, and named themselves Witherknights. Now, Arda's spirit lives on, building power, gaining followers, and hatching her ultimate revenge.</p>
+					<div class="model"><img src="images/jots/models/paladin.gif"></div>
+				</div>
+			</div>
+		</div>
+		<div>
+			<div class="skillbox">
+				<div class="row">
+					<div class="skillicon"><img src="images/jots/paladin/goldboots.png"></div>
+					<div class="skillicon"><img src="images/jots/paladin/goldaxe.png"></div>
+					<div class="skillicon"><img src="images/jots/paladin/goldapple.png"></div>
+					<div class="skillicon"><img src="images/jots/paladin/totem.png"></div>
+				</div>
+				
+				<div class="row">
+					<div class="skillicon"><img src="images/jots/paladin/glowstonedust.png"></div>
+					<div class="skillicon"><img src="images/jots/paladin/goldcarrot.png"></div>
+					<div class="skillicon"><img src="images/jots/paladin/yellowdye.png"></div>
+					<div class="skillicon"><img src="images/jots/paladin/sunflower.png"></div>
+				</div>
+				
+				<div class="row">
+					<div class="skillicon"><img src="images/jots/paladin/snowball.png"></div>
+					<div class="skillicon"><img src="images/jots/paladin/ice.png"></div>
+					<div class="skillicon"><img src="images/jots/paladin/lightbluedye.png"></div>
+					<div class="skillicon"><img src="images/jots/paladin/lapislazuli.png"></div>
+				</div>
+				
+				<div class="row">
+					<div class="skillicon"><img src="images/jots/paladin/pinkdye.png"></div>
+					<div class="skillicon"><img src="images/jots/paladin/magentadye.png"></div>
+					<div class="skillicon"><img src="images/jots/paladin/magmacream.png"></div>
+					<div class="skillicon"><img src="images/jots/paladin/redstonedust.png"></div>
+				</div>
+			</div>
+		</div>
+		</div>
+    </body>
+	</html>

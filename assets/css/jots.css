@@ -5,16 +5,21 @@ p, h1, h2 {
 	color: white;
 	margin: 0;
 	font-family: 'Merienda', "Palatino Linotype", "Book Antiqua", serif;
+	transition: color 0.5s;
 }
 p {
 	font-size: 1.5rem;
 	text-align: left;
 }
-span p {
+#tooltip {
 	font-size: 1.2rem;
 	font-family: 'MinecraftiaRegular';
 	background-color: rgba(0,0,0,0.6);
 	padding: 0.2rem 0.5rem;
+	user-select: none;
+	display: none;
+	position: fixed;
+	z-index: 10;
 }
 h1 {
 	text-align: center;
@@ -185,15 +190,6 @@ img {
 .skillicon:hover img {
 	-webkit-filter: drop-shadow(1px 1px 0 white) drop-shadow(-1px -1px 0 white);
 	filter: drop-shadow(1px 1px 0 white) drop-shadow(-1px -1px 0 white);
-}
-.skillicon span {
-	display: none;
-}
-.skillicon:hover span {
-	user-select: none;
-	display: block;
-	position: fixed;
-	overflow: hidden;
 }
 
 /* SKILL POP UP MODULE - MODAL HAS A IFRAME AND A SKILLDESC > H2 AND P */
