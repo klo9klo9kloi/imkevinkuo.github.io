@@ -10,7 +10,7 @@ body {
 	overflow-x: hidden;
 }
 
-p, h1, h2 {
+p, h1, h2, h3 {
 	color: black;
 	margin: 0;
 }
@@ -54,6 +54,10 @@ a {
 	border-bottom: beige 12px inset;
 }
 
+.navbutton:active {
+	opacity: 0.8;
+}
+
 /* Body */
 #wrapper {
 	background-color: whitesmoke;
@@ -63,24 +67,46 @@ a {
 
 #wrapper-inner {
 	margin: 4rem 20% 0 20%;
-	padding: 2rem 5% 0 5%;
+	padding: 0 5%;
 	background-color: linen;
 }
 
-.section-x {
-	display: flex;
+#home {
 	flex-direction: row;
-	height: calc(100vh - 6rem);
-}
-
-.section-y {
-	display: flex;
-	flex-direction: column;
-	height: calc(100vh - 6rem);
 }
 
 #home-desc > * {
 	margin-bottom: 1rem;
+}
+
+@media only screen and (max-width: 1200px) {
+	#navbar {
+		padding: 0 5%;
+		width: 90%;
+	}
+	#wrapper-inner {
+		margin: 4rem 0% 0 0%;
+	}
+}
+
+@media only screen and (max-width: 800px) {	
+	#home {
+		flex-direction: column;
+	}
+}
+
+.section {
+	padding: 2rem 0 0 0;
+	display: flex;
+	height: calc(100vh - 6rem);
+}
+
+.section-y {
+	flex-direction: column;
+}
+
+.section-x {
+	flex-direction: row;
 }
 
 a > i {
@@ -113,6 +139,10 @@ a > i:hover {
 #info {
 	display: flex;
 	justify-content: center;
+}
+
+.blogpost > h2, .blogpost > p {
+	margin: 1rem 0;
 }
 
 .hidden {
@@ -196,21 +226,4 @@ a > i:hover {
 @keyframes fadeInRight {
   from {opacity: 0;transform: translate3d(3rem, 0, 0);}
   to {opacity: 1;transform: translate3d(0, 0, 0);}
-}
-
-@media only screen and (max-width: 800px) {
-	#navbar {
-		padding: 0 5%;
-		width: 90%;
-	}
-	
-	#wrapper {
-		margin: 4rem 0 0 0;
-	}
-}
-
-@media only screen and (max-width: 600px) {	
-	#wrapper-inner {
-		flex-direction: column;
-	}
 }
