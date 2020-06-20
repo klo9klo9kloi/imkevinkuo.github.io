@@ -4,16 +4,20 @@ html {
 p, h1, h2 {
 	color: white;
 	margin: 0;
-	font-family: 'Merienda', "Palatino Linotype", "Book Antiqua", serif;
+	font-family: 'Minecraftia', "Book Antiqua", serif;
 	transition: color 0.5s;
 }
 p {
-	font-size: 1.5rem;
+	font-size: 1.3rem;
 	text-align: left;
+}
+@font-face {
+    font-family: "Minecraftia";
+    src: url("Minecraftia.ttf");
 }
 #tooltip {
 	font-size: 1.2rem;
-	font-family: 'MinecraftiaRegular';
+	font-family: 'Minecraftia';
 	background-color: rgba(0,0,0,0.6);
 	padding: 0.2rem 0.5rem;
 	user-select: none;
@@ -193,19 +197,20 @@ img {
 	filter: drop-shadow(1px 1px 0 white) drop-shadow(-1px -1px 0 white);
 }
 
-/* SKILL POP UP MODULE - MODAL HAS A IFRAME AND A SKILLDESC > H2 AND P */
-iframe {
-	margin: 0;
-}
-.vidbox {
+/* Skill description/video pop-up */
+#vidbox {
 	flex: 0 0 640px;
 	border: 1px solid white;
-	margin-top: 2rem;
+	margin: 2rem;
 	background-color: black;
+}
+video {
+	transition: opacity .5s;
+	opacity: 0;
 }
 .skilldesc {
 	flex: 0 0 320px;
-	margin: 3vh 3vw;
+	margin: 2rem;
 }
 .skilldesc p {
 	text-align: left;
