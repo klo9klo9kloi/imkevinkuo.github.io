@@ -4,7 +4,26 @@ var converter = new showdown.Converter()
 var LATEST_POST = 0;
 var blog = null;
 
-function insertBlogPost(i){
+function getPosts() {
+	// Get number of posts
+	$.ajax({
+		type: "GET",
+		url: BLOG_REPO + "latest_post.txt",
+		async: false,
+		dataType: "text",
+		success: function(data) {
+			LATEST_POST = parseInt(data);
+		}
+	});
+	
+	getPostLoop(LATEST_POST);
+}
+
+function getPostLoop(i) {
+	if (i < 0) {
+		return;
+	}
+	
 	$.ajax({
 		type: "GET",
 		url: BLOG_REPO + i + ".md",
@@ -14,22 +33,12 @@ function insertBlogPost(i){
 			var blogpost = document.createElement('div');
 			blogpost.classList.add("blogpost");
 			blogpost.innerHTML = html;
-			blog.appendChild(blogpost);
+			blog.appendChild(blogpost, blog.firstChild);
+			
+			getPostLoop(i-1);
 		}
 	});
 }
-
-function getLatestPost() {
-	$.ajax({
-		type: "GET",
-		url: BLOG_REPO + "latest_post.txt",
-		async: false,
-		dataType: "text",
-		success: function(data) {
-			LATEST_POST = parseInt(data);
-		}		
-	});
-}	
 
 $( document ).ready(function() {
     // HTML Anchor Smooth Scroll
@@ -52,7 +61,5 @@ $( document ).ready(function() {
 	
 	// Create blog posts
 	blog = document.getElementById('blog');
-	for (var i = LATEST_POST; i >= 0; i--) {
-		insertBlogPost(i);
-	}
+	getPosts();
 });
