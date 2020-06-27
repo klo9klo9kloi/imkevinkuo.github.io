@@ -40,6 +40,7 @@ function getPostLoop(i) {
 	});
 }
 
+
 $( document ).ready(function() {
     // HTML Anchor Smooth Scroll
 	$(document).on('click', 'a[href^="#"]', function (event) {
@@ -62,4 +63,21 @@ $( document ).ready(function() {
 	// Create blog posts
 	blog = document.getElementById('blog');
 	getPosts();
+	
+	// Project description
+	$(".project-list > .imgbox").each(function(i) {
+		$(this).on("click", function(event) {
+			$("#project-menu").addClass('showdesc');
+			$(".project-desc").eq(i).removeClass("hidden");
+			$(".project-desc").each(function(j) {
+				if (i != j) {
+					$(this).addClass("hidden");
+				}
+			});
+		});
+	});
+	
+	$(".back").on("click", function(event) {
+		$('#project-menu').removeClass('showdesc');
+	})
 });
